@@ -8,6 +8,7 @@ r{
 	"/mixer/groups.scd".loadRelative;
 	"/mixer/mixer.scd".loadRelative;
 	"/mixer/instruments.scd".loadRelative;
+	"/mixer/woodblock triggers.scd".loadRelative;
 	"/mixer/loopers.scd".loadRelative;
 
 	s.sync;
