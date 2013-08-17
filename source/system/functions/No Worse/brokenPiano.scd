@@ -39,7 +39,7 @@ prm
 	},
 
 	killGroups: { | self |
-		self.blockGroup.kill;
+		self.blockGroup.free;
 		self;
 	},
 
