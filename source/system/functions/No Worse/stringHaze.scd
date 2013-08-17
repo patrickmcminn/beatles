@@ -7,10 +7,11 @@ prm
 ~worse.stringHaze = (
 
 	state: 0,
+	playState: 0,
 	muteState: 0,
 	output: ~mixer.s3,
 	atk: 3.0,
-	rel: 15.0
+	rel: 15.0,
 
 
 	spawn: { | self |
@@ -77,16 +78,23 @@ prm
 		self;
 	},
 
-	makeGran: { | self |
+	toggleGran: { | self |
+		if( self.playState == 0, { self.playGran; }, { self.stopGran; });
+		self;
+	},
+
+	playGran: { | self |
 		self.gran = Synth.before(self.fader, \freezePlayerSus2, [\buffer, self.buffer, \out, self.faderBus, \amp, 1,
 			\atk, self.atk, \rel, self.rel,
 			\trigRate, 25, \grainDurLo, 0.0001, \grainDurHi, 0.3,
 			\rateLo, 0.95, \rateHi, 1.05, \cutoff, 2500]);
+		self.playState = 1;
 		self;
 	},
 
-	killGran: { | self |
+	stopGran: { | self |
 		self.gran.set(\gate, 0);
+		self.playState = 0;
 		self;
 	},
 

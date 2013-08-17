@@ -163,7 +163,7 @@ prm
 		self;
 	},
 
-	vampToggle: { | self |
+	toggleVamp: { | self |
 		if( self.playState == 0, { self.playVamp; }, { self.stopVamp; });
 		self;
 	},

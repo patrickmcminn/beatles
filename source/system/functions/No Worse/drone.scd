@@ -4,9 +4,10 @@ drone.scd
 prm
 */
 
-~template = (
+~worse.drone = (
 
 	state: 0,
+	playState: 0,
 	muteState: 0,
 	output: ~mixer.s3,
 
@@ -74,13 +75,22 @@ prm
 		self;
 	},
 
-	makeGran: { | self |
-		self.gran = Synth(\freezePlayerSus2, [\buffer, ~tanpura, \amp, 0.5, \posLo, 0.1, \posHi, 0.3, \rel, 15]);
+	toggleGran: { | self |
+		if( self.playState == 0, { self.playGran; }, { self.stopGran; });
 		self;
 	},
 
-	killGran: { |self |
-		self.gran.free;
+	playGran: { | self |
+		self.gran = Synth(\freezePlayerSus2, [\buffer, self.buffer, \out, self.faderBus,
+			\amp, 0.5, \posLo, 0.1, \posHi, 0.3, \rel, 15]);
+		self.playState = 1;
+
+		self;
+	},
+
+	stopGran: { |self |
+		self.gran.set(\gate, 0);
+		self.playState = 0;
 		self;
 	},
 
