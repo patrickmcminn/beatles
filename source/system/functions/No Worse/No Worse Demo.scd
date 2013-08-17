@@ -65,8 +65,7 @@ SynthDef(\freezePlayerSus2, {
 	Buffer.read(s, ~path ++ "Broken4.aif"),
 	Buffer.read(s, ~path ++ "Broken5.aif"),
 	Buffer.read(s, ~path ++ "Broken6.aif"),
-	Buffer.read(s, ~path ++ "Broken7.aif"),
-	Buffer.read(s, ~path ++ "Broken8.aif"),
+
 	Buffer.read(s, ~path ++ "Broken9.aif")
 ];
 
@@ -151,7 +150,6 @@ Pbindef(\c6,
 );
 
 
-
 (
 Pbindef(\g5).play(~tempo);
 Pbindef(\g6).play(~tempo);
@@ -165,6 +163,8 @@ Pbindef(\c6).play(~tempo);
 )
 
 ~drone = Synth(\freezePlayerSus2, [\buffer, ~tanpura, \amp, 0.005, \posLo, 0.1, \posHi, 0.3, \rel, 15]);
+
+s.meter
 
 
 (

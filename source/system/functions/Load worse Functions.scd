@@ -6,3 +6,7 @@ prm
 
 ~worse = ( );
 
+"/No Worse/stringHaze.scd".loadRelative;
+"/No Worse/drone.scd".loadRelative;
+"/No Worse/brokenPiano.scd".loadRelative;
+"/No Worse/pianoVamp.scd".loadRelative;
