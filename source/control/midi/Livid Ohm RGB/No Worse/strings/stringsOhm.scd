@@ -33,7 +33,7 @@ prm
 			case
 
 			{ id == \stringsVol } { if ( val == 1, { self.makeVol; }) }
-			{ id == \playGran } { if ( val == 1, { self.makePlayGranMIDI; } ) }
+			{ id == \stringsPlayGran } { if ( val == 1, { self.makePlayGranMIDI; } ) }
 			{ id == \stringDials } { if ( val == 1, { self.makeDials; }); }
 
 		}, \restoreOhmWorse, ~scLang);
@@ -100,7 +100,7 @@ prm
 		~ohm.turnBlue(self.playGran);
 		~restoreOhm.worse.page.put(self.playGran, \blue);
 		self.makePlayGranMIDI;
-		~restoreOhm.worse.playGran = 1;
+		~restoreOhm.worse.stringsPlayGran = 1;
 		self;
 	},
 
@@ -108,12 +108,12 @@ prm
 		~ohm.turnOff(self.playGran);
 		~restoreOhm.worse.page.put(self.playGran, \off);
 		self.killPlayGranMIDI;
-		~restoreOhm.worse.playGran = 0;
+		~restoreOhm.worse.stringsPlayGran = 0;
 		self;
 	},
 
 	makePlayGranMIDI: { | self |
-		MIDIdef.noteOn(\playGran, {
+		MIDIdef.noteOn(\stringsPlayGran, {
 			~worse.stringHaze.toggleGran;
 			~scLang.sendMsg(\worseControl, \stringsToggleGran, ~worse.stringHaze.playState);
 		}, self.playGran);
@@ -121,7 +121,7 @@ prm
 	},
 
 	killPlayGranMIDI: { | self |
-		MIDIdef(\playGran).free;
+		MIDIdef(\stringsPlayGran).free;
 		self;
 	},
 
