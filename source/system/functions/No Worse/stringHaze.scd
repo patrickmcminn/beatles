@@ -12,6 +12,10 @@ prm
 	output: ~mixer.s3,
 	atk: 3.0,
 	rel: 15.0,
+	trigRate: 1,
+	durLo: 0.0001,
+	durHi: 0.3,
+	cutoff: 2500,
 
 
 	spawn: { | self |
@@ -86,8 +90,8 @@ prm
 	playGran: { | self |
 		self.gran = Synth.before(self.fader, \freezePlayerSus2, [\buffer, self.buffer, \out, self.faderBus, \amp, 1,
 			\atk, self.atk, \rel, self.rel,
-			\trigRate, 25, \grainDurLo, 0.0001, \grainDurHi, 0.3,
-			\rateLo, 0.95, \rateHi, 1.05, \cutoff, 2500]);
+			\trigRate, self.trigRate, \grainDurLo, self.durLo, \grainDurHi, self.durHi,
+			\rateLo, 0.95, \rateHi, 1.05, \cutoff, self.cutoff]);
 		self.playState = 1;
 		self;
 	},
