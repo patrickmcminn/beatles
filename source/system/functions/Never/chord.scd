@@ -63,28 +63,33 @@ prm
 	},
 
 	makeBusses: { | self |
+		self.panBus = Bus.audio;
 		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
 	killBusses: { | self |
+		self.panBus.free;
 		self.faderBus.free;
 		self;
 	},
 
 	makeSynths: { | self |
+		self.pan = Synth(\pan, [\in, self.panBus, \out, self.faderBus], ~group.fx, \addToTail);
 		self.fader = Synth(\stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp], ~group.fx, \addToTail);
 		self;
 	},
 
 	killSynths: { | self |
+		self.pan.free;
 		self.fader.free;
 		self;
 	},
 
 	playChord: { | self |
-		self.chord = Synth(\playBuf, [\bufName, self.fullChordBuf, \sustain, self.fullChordBuf.numFrames/s.sampleRate],
-			self.pianoGroup, \addToTail);
+		self.chord = Synth(\playBuf,
+			[\out, self.panBus, \bufName, self.fullChordBuf, \sustain, self.fullChordBuf.numFrames/s.sampleRate],
+			self.pan, \addBefore);
 		self;
 	},
 
@@ -96,13 +101,13 @@ prm
 	granulateChord: { | self |
 		self.chordGran = Array.fill(8, { | i |
 			Synth.tail(self.pianoGroup, \freezePlayerSus2,
-				[\buffer, self.chordBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0.05, \posHi, 0.9,
-					\grainDurLo, 0.1, \grainDurHi, 1.5, \trigRate, 12]);
+				[\buffer, self.chordBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0, \posHi, 0.7,
+					\grainDurLo, 0.1, \grainDurHi, 0.5, \trigRate, 12]);
 		});
 		self.shiftChordGran = Array.fill(8, { | i |
 			Synth.tail(self.pianoGroup, \freezePlayerSus2,
-				[\buffer, self.chordShiftBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0.05, \posHi, 0.9,
-					\grainDurLo, 0.1, \grainDurHi, 1.5, \trigRate, 12]);
+				[\buffer, self.chordShiftBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0, \posHi, 0.7,
+					\grainDurLo, 0.1, \grainDurHi, 0.5, \trigRate, 12]);
 		});
 		self.playState = 1;
 		self;
