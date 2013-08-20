@@ -10,6 +10,7 @@ prm
 try
 {
 	"/Livid Ohm RGB/ohmInit.scd".loadRelative;
+	"/Livid Ohm RGB/loadStructural.scd".loadRelative;
 	"/Livid Ohm RGB/beatlesOhm.scd".loadRelative;
 
 	"/Livid Ohm RGB/ohmStartup.scd".loadRelative;
