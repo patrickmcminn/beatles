@@ -7,3 +7,4 @@ prm
 ~lucy = ( );
 
 "/lucy/texture.scd".loadRelative;
+"/lucy/taiko.scd".loadRelative;

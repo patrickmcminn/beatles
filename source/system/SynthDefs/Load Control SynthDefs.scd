@@ -11,5 +11,6 @@ prm
 "/Control SynthDefs/demandRand7.scd".loadRelative;
 "/Control SynthDefs/lfSin.scd".loadRelative;
 "/Control SynthDefs/noiseControl0.scd".loadRelative;
+"/Control SynthDefs/noiseControl2.scd".loadRelative;
 "/Control SynthDefs/randTrig.scd".loadRelative;
 "/Control SynthDefs/lightFreezeTr.scd".loadRelative;
