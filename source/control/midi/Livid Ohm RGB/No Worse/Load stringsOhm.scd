@@ -5,4 +5,4 @@ prm
 */
 
 "/strings/stringsOhm.scd".loadRelative;
-"/drone/droneOhm.scd".loadRelative;
+

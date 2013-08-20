@@ -39,7 +39,7 @@ prm
 		}, \restoreOhmWorse, ~scLang);
 
 		self;
-	}
+	},
 
 	spawn: { | self, val |
 		if( val == 1, { self.init; }, { self.kill; });
