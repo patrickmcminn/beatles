@@ -4,5 +4,11 @@ Load stringsOhm.scd
 prm
 */
 
-"/strings/stringsOhm.scd".loadRelative;
+{
+	s.sync;
+	"/strings/stringsOhm.scd".loadRelative;
+
+	s.sync;
+	~worseOhm.strings.makeOSC;
+}.fork;
 

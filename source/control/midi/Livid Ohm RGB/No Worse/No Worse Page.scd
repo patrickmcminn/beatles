@@ -19,8 +19,8 @@ vamp = 3;
 	// string granulation:
 	~ohm.turnPurple(strings);
 	MIDIdef.noteOn(\strings, {
-		~worse.strings.spawn;
-		~scLang.sendMsg(\worseControl, \stringsTop, ~worse.strings.state);
+		~worse.stringHaze.spawn;
+		~scLang.sendMsg(\worseControl, \stringsTop, ~worse.stringHaze.state);
 	}, strings);
 
 	// tanpura drone:
@@ -40,13 +40,13 @@ vamp = 3;
 	// vamp:
 	~ohm.turnBlue(vamp);
 	MIDIdef.noteOn(\vamp, {
-		~worse.vamp.spawn;
-		~scLang.sendMsg(\worseControl, \vampTop, ~worse.vamp.state);
+		~worse.pianoVamp.spawn;
+		~scLang.sendMsg(\worseControl, \pianoVampTop, ~worse.pianoVamp.state);
 	}, vamp);
 
-	~restoreOhm.light.keysValuesDo({ | name, state |  ~scLang.sendMsg(\restoreOhmLight, name, state); });
+	~restoreOhm.worse.keysValuesDo({ | name, state |  ~scLang.sendMsg(\restoreOhmWorse, name, state); });
 
-	~restoreOhm.light.page.do({ | color, note |
+	~restoreOhm.worse.page.do({ | color, note |
 		case
 		{ color == \off } { ~ohm.turnOff(note); }
 		{ color == \blue } { ~ohm.turnBlue(note); }

@@ -7,7 +7,7 @@ prm
 ~worseOhm.strings = (
 
 	main: 0,
-	playGran: 7,
+	playGran: 8,
 
 	trigRateTop: 17,
 	durLoTop: 16,
@@ -142,7 +142,7 @@ prm
 
 	makeVol: { | self |
 		MIDIdef.cc(\stringsVol, { | val |
-			var amp = val.linlin(0, 127, 0, -2.dbamp);
+			var amp = val.linlin(0, 127, 0, 5.dbamp);
 			~worse.stringHaze.fader.set(\amp, amp);
 		}, self.vol);
 		~restoreOhm.worse.stringsVol = 1;
@@ -176,7 +176,7 @@ prm
 
 	makeTrigRate: { | self |
 		MIDIdef.cc(\stringsTrigRate, { | val |
-			var rate = val.linlin(0, 127, 1.0, 35.0);
+			var rate = val.linlin(0, 127, 1.0, 100.0);
 			~worse.stringHaze.trigRate = rate;
 			if( ~worse.stringHaze.playState == 1, { ~worse.stringHaze.gran.set(\trigRate, rate); });
 		}, self.trigRateTop);
@@ -190,7 +190,7 @@ prm
 
 	makeDurLo: { | self |
 		MIDIdef.cc(\stringsDurLo, { | val |
-			var dur = val.linlin(0, 127, 0.000005, 0.01);
+			var dur = val.linlin(0, 127, 0.00005, 0.1);
 			~worse.stringHaze.durLo = dur;
 			if( ~worse.stringHaze.playState ==1, { ~worse.stringHaze.gran.set(\grainDurLo, dur); });
 		}, self.durLoTop);

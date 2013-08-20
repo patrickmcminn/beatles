@@ -82,7 +82,7 @@ prm
 
 	playGran: { | self |
 		self.gran = Synth(\freezePlayerSus2, [\buffer, self.buffer, \out, self.faderBus,
-			\amp, 0.5, \posLo, 0.1, \posHi, 0.3, \rel, 15]);
+			\amp, 0.5, \posLo, 0.1, \posHi, 0.3, \rel, 15, \cutoff, 3000]);
 		self.playState = 1;
 
 		self;

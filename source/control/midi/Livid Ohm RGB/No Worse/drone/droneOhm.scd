@@ -7,7 +7,7 @@ prm
 ~worseOhm.drone = (
 
 	main: 1,
-	playGran: 8,
+	playGran: 9,
 
 	vol: 15,
 
@@ -33,7 +33,7 @@ prm
 		}, \restoreOhmWorse, ~scLang);
 
 		self;
-	}
+	},
 
 	spawn: { | self, val |
 		if( val == 1, { self.init; }, { self.kill; });

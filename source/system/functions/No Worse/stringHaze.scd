@@ -90,7 +90,7 @@ prm
 	playGran: { | self |
 		self.gran = Synth.before(self.fader, \freezePlayerSus2, [\buffer, self.buffer, \out, self.faderBus, \amp, 1,
 			\atk, self.atk, \rel, self.rel,
-			\trigRate, self.trigRate, \grainDurLo, self.durLo, \grainDurHi, self.durHi,
+			\trigRate, self.trigRate, \grainDurLo, self.durLo, \grainDurHi, self.durHi, \posLo, 0.1, \posHi, 0.8,
 			\rateLo, 0.95, \rateHi, 1.05, \cutoff, self.cutoff]);
 		self.playState = 1;
 		self;

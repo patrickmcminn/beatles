@@ -8,6 +8,7 @@ prm
 
 	state: 0,
 	muteState: 0,
+	blockState: 0,
 	output: ~mixer.s2,
 
 	spawn: { | self |
@@ -49,7 +50,7 @@ prm
 			Buffer.read(s, path ++ "Broken1.aif"),
 			Buffer.read(s, path ++ "Broken2.aif"),
 			Buffer.read(s, path ++ "Broken3.aif"),
-			Buffer.read(s, path ++ "Broken7.aif"),
+			Buffer.read(s, path ++ "Broken6.aif"),
 			Buffer.read(s, path ++ "Broken8.aif")
 		];
 		self;
@@ -80,6 +81,11 @@ prm
 		self;
 	},
 
+	toggleBlocks: { | self |
+		if( self.blockState == 0, { self.makeBlocks; }, { self.killBlocks; });
+		self;
+	},
+
 	makeBlocks: { | self |
 
 		OSCdef(\worseBlock1, { | msg |
@@ -87,8 +93,8 @@ prm
 			Synth.tail(self.blockGroup, \playBufStereo,
 				[
 					\out, self.faderBus,
-					\bufName, [~brokenBuf[0], ~brokenBuf[0], ~brokenBuf[0], ~brokenBuf[1], ~brokenBuf[2]].choose,
-					\amp, amp * 1.5,
+					\bufName, [self.buffer[0], self.buffer[0],self.buffer[0], self.buffer[1], self.buffer[2]].choose,
+					\amp, amp * 4,
 					\pan, rrand(-0.2, 0.2)
 				]);
 		}, \block1);
@@ -98,7 +104,8 @@ prm
 			Synth.tail(self.blockGroup,\playBufStereo,
 				[
 					\out, self.faderBus,
-					\bufName, ~brokenBuf[6], \amp, amp* 2.2,
+					\bufName, self.buffer[3],
+					\amp, amp* 5,
 					\pan, rrand(-0.2, 0.2)
 				]);
 		}, \block2);
@@ -106,13 +113,15 @@ prm
 		OSCdef(\worseBlock3, { | msg |
 			var amp = msg.at(3);
 			Synth.tail(self.blockGroup, \playBufStereo,
-					[
-						\out, self.faderBus,
-						\bufName, ~brokenBuf[7], \amp, amp* 2.2,
-						\pan, rrand(-0.1, 0.1);
+				[
+					\out, self.faderBus,
+					\bufName, self.buffer[4],
+					\amp, amp* 2,
+					\pan, rrand(-0.1, 0.1);
 					]);
 		}, \block3);
 
+		self.blockState = 1;
 		self;
 	},
 
@@ -120,6 +129,7 @@ prm
 		OSCdef(\worseBlock1).free;
 		OSCdef(\worseBlock2).free;
 		OSCdef(\worseBlock3).free;
+		self.blockState = 0;
 		self;
 	},
 
