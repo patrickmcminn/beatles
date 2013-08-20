@@ -10,6 +10,7 @@ prm
 	muteState: 0,
 	playState: 0,
 	output: ~mixer.s2,
+	trigRate: 3.1,
 
 	spawn: { | self |
 		if( self.state == 0, { self.init; }, { self.kill; });
@@ -112,7 +113,7 @@ prm
 			[
 				\buffer, self.buffer, \amp, 0.05, \out, self.phaserBus, \rateLo, -0.6, \rateHi, -0.6,
 				\cutoff, self.cutoffBus.asMap, \tremRate, self.tremRateBus.asMap, \tremDepth, self.tremDepthBus.asMap,
-				\grainDurLo, 1.3, \grainDurhi, 1.6, \trigRate, 3.1, \env, self.envBus.asMap
+				\grainDurLo, 1.3, \grainDurhi, 1.6, \trigRate, self.trigRate, \env, self.envBus.asMap
 			]
 		);
 		self.playState = 1;

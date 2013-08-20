@@ -93,12 +93,14 @@ prm
 
 	makeBlocks: { | self |
 
+		var ampMul = 2;
+
 		OSCdef(\lucyBlock1, { | msg |
 			var amp = msg.at(3);
 			Synth.tail(self.blockGroup, \playBufStereo,
 				[
 					\out, self.phaserBus, \bufName, self.buffer[0],
-					\amp, amp * 3,
+					\amp, amp * ampMul,
 					\pan, -0.5,
 					\sustain, self.buffer[0].numFrames
 				]
@@ -110,7 +112,7 @@ prm
 			Synth.tail(self.blockGroup, \playBufStereo,
 				[
 					\out, self.phaserBus, \bufName, self.buffer[1],
-					\amp, amp * 3,
+					\amp, amp * ampMul,
 					\pan, 0,
 					\sustain, self.buffer[1].numFrames
 				]
@@ -122,7 +124,7 @@ prm
 			Synth.tail(self.blockGroup, \playBufStereo,
 				[
 					\out, self.phaserBus, \bufName, self.buffer[2],
-					\amp, amp * 3,
+					\amp, amp * ampMul,
 					\pan, 0.5,
 					\sustain, self.buffer[2].numFrames
 				]

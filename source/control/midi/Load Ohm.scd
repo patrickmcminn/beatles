@@ -14,6 +14,7 @@ try
 	"/Livid Ohm RGB/loadStructural.scd".loadRelative;
 	"/Livid Ohm RGB/loadStructural.scd".loadRelative;
 	"/Livid Ohm RGB/topPage.scd".loadRelative;
+	"/Livid Ohm RGB/Load LucyOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load noWorseOhm.scd".loadRelative;
 
 
