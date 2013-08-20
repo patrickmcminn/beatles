@@ -16,3 +16,4 @@ prm
 	"/No Worse/Load droneOhm.scd".loadRelative;
 	"/No Worse/Load brokenPianoOhm.scd".loadRelative;
 	"/No Worse/Load vampOhm.scd".loadRelative;
+}.fork;

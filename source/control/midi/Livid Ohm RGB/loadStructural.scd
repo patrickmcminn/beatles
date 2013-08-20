@@ -8,4 +8,4 @@ prm
 "/structural/structurePage.scd".loadRelative;
 "/structural/changer.scd".loadRelative;
 "/structural/looper.scd".loadRelative;
-"/structural/momentary.scd".loadRelative;
+//"/structural/momentary.scd".loadRelative;

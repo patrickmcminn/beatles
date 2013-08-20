@@ -46,11 +46,11 @@ prm
 	makeBuffers: { | self |
 		var path = "/Users/patrickmcminn/Documents/Music/Current Work/Patrick McMinn/Great Noise Ensemble/Beatles Concert/Beatles/data/No Worse/";
 		self.buffer = [
-			Buffer.read(s, ~path ++ "Broken1.aif"),
-			Buffer.read(s, ~path ++ "Broken2.aif"),
-			Buffer.read(s, ~path ++ "Broken3.aif"),
-			Buffer.read(s, ~path ++ "Broken7.aif"),
-			Buffer.read(s, ~path ++ "Broken8.aif")
+			Buffer.read(s, path ++ "Broken1.aif"),
+			Buffer.read(s, path ++ "Broken2.aif"),
+			Buffer.read(s, path ++ "Broken3.aif"),
+			Buffer.read(s, path ++ "Broken7.aif"),
+			Buffer.read(s, path ++ "Broken8.aif")
 		];
 		self;
 	},

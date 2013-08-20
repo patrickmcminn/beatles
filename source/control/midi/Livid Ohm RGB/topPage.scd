@@ -38,7 +38,7 @@ never = 13;
 	MIDIdef.noteOn(\lucyPage, { ~page.lucy.top; }, lucy);
 
 	// 4. No Worse:
-	~ohm.turnRed(worse);
+	~ohm.turnWhite(worse);
 	MIDIdef.noteOn(\worsePage, { ~page.worse.top; }, worse);
 
 	// 5. Where it Will Go:
