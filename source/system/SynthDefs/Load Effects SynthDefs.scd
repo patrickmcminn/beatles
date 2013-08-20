@@ -33,3 +33,4 @@ prm
 "/Effects SynthDefs/huge.scd".loadRelative;
 "/Effects SynthDefs/slapDist.scd".loadRelative;
 "/Effects SynthDefs/bufferGranAmp.scd".loadRelative;
+"/Effects SynthDefs/variPhaserStereo.scd".loadRelative;
