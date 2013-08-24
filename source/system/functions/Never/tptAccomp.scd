@@ -16,20 +16,34 @@ prm
 	},
 
 	init: { | self |
-		self.makeGroups;
+		self.makeClock;
 		self.makeBuffers;
 		self.makeBusses;
+		self.makePatterns;
 		self.makeSynths;
+		self.makeGroups;
 		self.state = 1;
 		self;
 	},
 
 	kill: { | self |
-		self.killGroups;
+		self.killClock;
 		self.killBuffers;
 		self.killBusses;
 		self.killSynths;
+		self.killGroups;
+		self.killPatterns;
 		self.state = 0;
+		self;
+	},
+
+	makeClock: { | self |
+		self.tempoClock = TempoClock.new(140/60);
+		self;
+	},
+
+	killClock: { | self |
+		self.tempoClock.clear;
 		self;
 	},
 
@@ -73,8 +87,58 @@ prm
 		self;
 	},
 
+	makePatterns: { | self |
+		Pbindef(\neverTpt,
+			\instrument, \freezePlayerSus2,
+			\group, self.playGroup,
+			\addAction, \addToTail,
+			\out, self.faderBus,
+			\amp, 1,
+			\atk, 0.01,
+			\rel, 0.01,
+			\cutoff, 4000,
+			\buffer, Pseq([
+				self.buffer[0], self.buffer[1], self.buffer[2], self.buffer[3],
+				self.buffer[4], self.buffer[5], self.buffer[6], self.buffer[7],
+				self.buffer[8]], inf),
+			\dur, Pseq([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.2, 1.2], inf) + Pwhite(-0.001, 0.001),
+		);
+		self;
+	},
+
+	destroyPatterns: { | self |
+		Pbindef(\neverTpt,
+			\rateLo, Pwhite(0.05, 100),
+			\rateHi, Pwhite(0.05, 100)
+		);
+		self;
+	},
+
+	resetPatterns: { | self |
+		Pbindef(\nevertpt,
+			\rateLo, 1,
+			\rateHi, 1
+		);
+		self;
+	},
+
+	killPatterns: { | self |
+			Pbindef(\neverTpt).clear;
+		self;
+	},
+
 	recordTpt: { | self, num |
 		Synth.tail(~group.fx, \recordBuf, [\in, ~inst.mute, \bufName, self.buffer[num]]);
+		self;
+	},
+
+	playPatterns: { | self |
+		Pbindef(\neverTpt).play(self.tempoClock, quant: 0);
+		self;
+	},
+
+	stopPatterns: { | self |
+		Pbindef(\neverTpt).stop(self.tempoClock, quant: 0);
 		self;
 	},
 
