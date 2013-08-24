@@ -111,7 +111,7 @@ prm
 	playGran: { | self |
 		self.gran = Synth.tail(self.granGroup, \freezePlayerSus2,
 			[
-				\buffer, self.buffer, \amp, 0.05, \out, self.phaserBus, \rateLo, -0.6, \rateHi, -0.6,
+				\buffer, self.buffer, \amp, 0.1, \out, self.phaserBus, \rateLo, -0.6, \rateHi, -0.6,
 				\cutoff, self.cutoffBus.asMap, \tremRate, self.tremRateBus.asMap, \tremDepth, self.tremDepthBus.asMap,
 				\grainDurLo, 1.3, \grainDurhi, 1.6, \trigRate, self.trigRate, \env, self.envBus.asMap
 			]

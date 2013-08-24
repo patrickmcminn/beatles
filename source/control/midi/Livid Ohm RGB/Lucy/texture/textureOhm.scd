@@ -83,11 +83,11 @@ prm
 		if( val == 1,
 			{
 				~ohm.turnWhite(self.main);
-				~restoreOhm.worse.page.put(self.main, \white);
+				~restoreOhm.lucy.page.put(self.main, \white);
 			},
 			{
 				~ohm.turnRed(self.main);
-				~restoreOhm.worse.page.put(self.main, \red);
+				~restoreOhm.lucy.page.put(self.main, \red);
 			}
 		);
 		self;
@@ -139,7 +139,7 @@ prm
 
 	makeVol: { | self |
 		MIDIdef.cc(\textureVol, { | val |
-			var amp = val.linlin(0, 127, 0, -2.dbamp);
+			var amp = val.linlin(0, 127, 0, 2.dbamp);
 			~lucy.texture.fader.set(\amp, amp);
 		}, self.vol);
 		~restoreOhm.lucy.textureVol = 1;
@@ -149,7 +149,7 @@ prm
 
 	killVol: { | self |
 		MIDIdef(\textureVol).free;
-		~restoreOhm.texture.stringsVol = 0;
+		~restoreOhm.lucy.textureVol = 0;
 		self;
 	},
 

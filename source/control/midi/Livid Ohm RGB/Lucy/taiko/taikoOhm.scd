@@ -4,7 +4,7 @@ taikoOhm.scd
 prm
 */
 
-~lucy.taikoOhm = (
+~lucyOhm.taiko = (
 
 	main: 1,
 	blocks: 9,

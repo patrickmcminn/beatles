@@ -6,7 +6,7 @@ prm
 
 {
 	s.sync;
-	"/texture/textureOhm".loadRelative;
+	"/texture/textureOhm.scd".loadRelative;
 
 	s.sync;
 	~lucyOhm.texture.makeOSC;

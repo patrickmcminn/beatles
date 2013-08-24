@@ -38,7 +38,7 @@ SynthDef(\freezePlayerSus2, {
 	trem = SinOsc.ar(tremRate).range((1-tremDepth), 1);
 	filter = LPF.ar(granulation, cutoff);
 	envelope = EnvGen.ar(Env.adsr(atk, dec, sus, rel), gate, doneAction: 2);
-	sig = filter * env;
+	sig = filter * envelope;
 	sig = sig * trem;
 	sig = sig * amp;
 	sig = Out.ar(out, sig);

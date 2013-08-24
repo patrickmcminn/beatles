@@ -12,6 +12,6 @@ prm
 
 	s.sync;
 	"/Lucy/Lucy Page.scd".loadRelative;
-	"/Lucy/Load textureOhm.scd".loadRelative
+	"/Lucy/Load textureOhm.scd".loadRelative;
 	"/Lucy/Load taikoOhm.scd".loadRelative;
 }.fork;

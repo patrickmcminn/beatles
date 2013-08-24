@@ -34,7 +34,7 @@ never = 13;
 	MIDIdef.noteOn(\billyPage, { ~page.billy.top; }, billy);
 
 	// 3. Lucy:
-	~ohm.turnRed(lucy);
+	~ohm.turnBlue(lucy);
 	MIDIdef.noteOn(\lucyPage, { ~page.lucy.top; }, lucy);
 
 	// 4. No Worse:

@@ -6,7 +6,7 @@ prm
 
 {
 	s.sync;
-	"/taiko/taikoOhm".loadRelative;
+	"/taiko/taikoOhm.scd".loadRelative;
 
 	s.sync;
 	~lucyOhm.taiko.makeOSC;
