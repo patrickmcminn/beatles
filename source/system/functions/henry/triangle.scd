@@ -1,11 +1,10 @@
 /*
 Sunday, August 25th 2013
-plane from Las Vegas to Baltimore
-toyPiano.scd
+triangle.scd
 prm
 */
 
-~henry.toyPiano = (
+~henry.triange = (
 
 	state: 0,
 	muteState: 0,
@@ -56,28 +55,29 @@ prm
 	},
 
 	makeBusses: { | self |
-		self.compressorBus = Bus.audio;
-		self.faderBus = Bus.audio;
+		self.granBus = Bus.audio;
+		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
 	killBusses: { | self |
-		self.compressorBus.free;
-		self.faderbus.free;
+		self.granBus.free;
+		self.faderBus.free;
 		self;
 	},
 
 	makeSynths: { | self |
-		self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.compressorBus, \amp, 1]);
-		self.compressor = Synth.tail(~group.fx, \compressor, [\in, self.compressorBus, \out, self.faderBus,
-			\atk, 0.1, \rel, 0.48, \thresh, -21.8.dbamp, \ratio, 3, \makeup, 6.dbamp, \amp, 1]);
-		self.fader = Synth.tail(~group.fx, \pan, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
+		self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.granBus, \amp, 1]);
+		self.gran = Synth.tail(~group.fx, \granulator, [\in, self.granBus, \out, self.faderBus, \amp, 1,
+			\env, ~grainBufs.rexpodec, \mix, 0.7, \bufLength, 1.5,
+			\rate, 1, \rateOffset, 0.1, \grainDur, 0.05, \grainDurOffset, 0.03, \trigRate, 32]);
+		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
 		self;
 	},
 
 	killSynths: { | self |
 		self.inFader.free;
-		self.compressor.free;
+		self.gran.free;
 		self.fader.free;
 		self;
 	},

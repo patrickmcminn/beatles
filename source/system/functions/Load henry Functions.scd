@@ -7,3 +7,4 @@ prm
 ~henry = ( );
 
 "/henry/toyPiano.scd".loadRelative;
+"/henry/triangle.scd".loadRelative;
