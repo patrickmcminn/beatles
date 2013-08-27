@@ -57,27 +57,33 @@ prm
 
 	makeBusses: { | self |
 		self.compressorBus = Bus.audio;
-		self.faderBus = Bus.audio;
+		self.shiftBus = Bus.audio;
+		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
 	killBusses: { | self |
 		self.compressorBus.free;
+		self.shiftBus.free;
 		self.faderbus.free;
 		self;
 	},
 
 	makeSynths: { | self |
 		self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.compressorBus, \amp, 1]);
-		self.compressor = Synth.tail(~group.fx, \compressor, [\in, self.compressorBus, \out, self.faderBus,
+		self.compressor = Synth.tail(~group.fx, \compressor, [\in, self.compressorBus, \out, self.shiftBus,
 			\atk, 0.1, \rel, 0.48, \thresh, -21.8.dbamp, \ratio, 3, \makeup, 6.dbamp, \amp, 1]);
-		self.fader = Synth.tail(~group.fx, \pan, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
+		self.multiShift = Synth.tail(~group.fx, \multiShift, [\in, self.shiftBus, \out, self.faderBus, \amp, 1,
+			\shiftArray1, #[0, -5, 7, 2], \shiftArray2, #[0, 12, -12, 7], \shiftArray3, #[0, 2, -2, 5],
+			\shiftArray4, #[0, -0.9, 1.1, 1.5], \shiftFreq, 12, \shiftKind, 1]);
+		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
 		self;
 	},
 
 	killSynths: { | self |
 		self.inFader.free;
 		self.compressor.free;
+		self.multiShift.free;
 		self.fader.free;
 		self;
 	},

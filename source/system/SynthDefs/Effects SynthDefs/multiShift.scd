@@ -18,6 +18,7 @@ SynthDef(\multiShift, {
 	var shift1, shift2, shift3, shift4;
 	var sum, filter, sig;
 
+
 	input = In.ar(in);
 
 
@@ -43,5 +44,3 @@ SynthDef(\multiShift, {
 	sig = Pan2.ar(sig, pan);
 	sig = Out.ar(out, sig);
 }).add;
-
-		
