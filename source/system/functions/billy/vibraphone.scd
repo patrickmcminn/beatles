@@ -196,11 +196,11 @@ prm
 	granulateOrig: { | self |
 		self.granOrig1 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 1, \rateHi, 1,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.granOrig2 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 0.5, \rateHi, 0.5,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.origState = 1;
 		self;
@@ -216,11 +216,11 @@ prm
 	granulateC: { | self |
 		self.granC1 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 1.2, \rateHi, 1.2,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.granC2 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 0.6, \rateHi, 0.6,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.cState = 1;
 		self;
@@ -236,11 +236,11 @@ prm
 	granulateD: { | self |
 		self.granD1 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 1.35, \rateHi, 1.35,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.granD2 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 0.675, \rateHi, 0.675,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.dState = 1;
 		self;
@@ -256,11 +256,11 @@ prm
 	granulateE: { | self |
 		self.granE1 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 1.5, \rateHi, 1.5,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.granE2 = Synth.tail(self.granGroup, \freezePlayerSus2, [\buffer, self.buffer, \out, self.granFaderBus,
 			\trigRate, 30, \grainDurLo, 0.3, \grainDurHi, 0.65, \rateLo, 0.75, \rateHi, 0.75,
-			\atk, self.atk, \rel, self.rel
+			\atk, self.atk, \rel, self.rel, \amp, 0.2
 		]);
 		self.eState = 1;
 		self;

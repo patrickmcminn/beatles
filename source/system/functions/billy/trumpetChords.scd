@@ -22,6 +22,7 @@ prm
 		self.makeBusses;
 		self.makeSynths;
 		self.makeGroups;
+		self.makePatterns;
 		self.state = 1;
 		self;
 	},
@@ -31,6 +32,7 @@ prm
 		self.killBusses;
 		self.killSynths;
 		self.killGroups;
+		self.killPatterns;
 		self.state = 0;
 		self;
 	},
@@ -70,7 +72,7 @@ prm
 	makeSynths: { | self |
 		self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.verbBus, \amp, 1]);
 		self.verb = Synth.tail(~group.fx, \convReverb, [\in, self.verbBus, \out, self.faderBus,
-			\buffer, ~impulse[\cathedral1], \mix, 0.5]);
+			\buffer, ~impulse[\cathedral1], \mix, 0.3]);
 		self.fader = Synth.tail(~group.fx, \pan, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
 		self;
 	},
@@ -91,12 +93,13 @@ prm
 			\buffer, [self.buffer[0], self.buffer[1], self.buffer[2], self.buffer[3], self.buffer[4], self.buffer[5]],
 			\atk, 0.05,
 			\rel, 0.05,
+			\trigRate, 25,
 			\legato, 1,
-			\amp, 0.7,
-			\dur, Pseq([4, 4*(8/9), 8*(5/4)], inf),
-			\rateLo, Pseq([4, 8/9, 5/4], inf),
+			\amp, 0.15,
+			\dur, Pseq([4, 4*(8/9), 8*(4/5)], inf),
+			\rateLo, Pseq([0.5, 9/16, 5/8], inf),
 			\rateHi, Pkey(\rateLo),
-			\cutoff, 3000,
+			\cutoff, 1000,
 			\env, ~grainBufs.gabWide
 		);
 		self;
