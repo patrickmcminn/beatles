@@ -6,7 +6,6 @@ prm
 
 ~henry.harmonica = (
 	state: 0,
-	melodyState: 0,
 	gestureState: 0,
 	muteState: 0,
 	input: ~inst.mic,
@@ -173,20 +172,9 @@ prm
 		self;
 	},
 
-	toggleMelody: { | self |
-		if( self.melodyState == 0, { self.playMelody; }, { self.stopMelody; });
-		self;
-	},
-
 	playMelody: { | self |
 		Pbindef(\harmonicaMelody).play(self.tempoClock);
 		self.melodyState = 1;
-		self;
-	},
-
-	stopMelody: { | self |
-		Pbindef(\harmonicaMelody).stop;
-		self.melodyState = 0;
 		self;
 	},
 

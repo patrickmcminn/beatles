@@ -4,31 +4,34 @@ triangleOhm.scd
 prm
 */
 
-~henryOhm.triangle = (
+~henryOhm.bells = (
 
-	main: 5,
-	toggle: 13,
+	main: 0,
+	record: 8,
+	playArray: [1, 9, 17, 25, 2, 10, 18, 26],
 
-	vol: 14,
+	vol: 15,
 
 	makeOSC: { | self |
-		OSCdef(\henryTriangleOhm, { | msg |
+		OSCdef(\henryBellsOhm, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-			{ id == \triangleTop } { self.spawn(val); }
-			{ id == \triangleToggle } { self.toggleOhm(val); }
+			{ id == \bellsTop } { self.spawn(val); }
+			{ id == \bellsRecord } { self.recordOhm(val); }
+			{ id == \bellsPlay } { self.playOhm(val); }
 		}, \henryControl, ~scLang);
 
-		OSCdef(\henryTriangleOhmRestore, { | msg |
+		OSCdef(\henryBellsOhmRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
 
-			{ id == \triangleVol } { if ( val == 1, { self.makeVol; }) }
-			{ id == \triangleToggle} { if ( val == 1, { self.makeToggleMIDI; } ) }
+			{ id == \bellsVol } { if ( val == 1, { self.makeVol; }) }
+			{ id == \bellsRecord } { if ( val == 1, { self.makeRecordMIDI; } ) }
+			{ id == \bellsPlay } { if ( val == 1, { self.makePlayMIDI; } ) }
 
 		}, \restoreOhmHenry, ~scLang);
 

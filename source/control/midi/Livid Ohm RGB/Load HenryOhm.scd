@@ -13,7 +13,7 @@ prm
 	s.sync;
 	"/Henry/Henry Page.scd".loadRelative;
 	"/Henry/Load triangleOhm.scd".loadRelative;
-	"/Henry/Load toyPianoOhm.scd".loadRelative;
+	// "/Henry/Load toyPianoOhm.scd".loadRelative;
 	"/Henry/Load bellsOhm.scd".loadRelative;
 	"/Henry/Load harmonicaOhm.scd".loadRelative;
 }.fork;
