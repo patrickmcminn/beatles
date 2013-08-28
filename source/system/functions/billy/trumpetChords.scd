@@ -8,6 +8,7 @@ prm
 
 	state: 0,
 	muteState: 0,
+	playState: 0,
 	input: ~inst.mic,
 	output: ~mixer.s1,
 
@@ -17,60 +18,111 @@ prm
 	},
 
 	init: { | self |
-		self.makeGroups;
 		self.makeBuffers;
 		self.makeBusses;
 		self.makeSynths;
+		self.makeGroups;
 		self.state = 1;
 		self;
 	},
 
 	kill: { | self |
-		self.killGroups;
 		self.killBuffers;
 		self.killBusses;
 		self.killSynths;
+		self.killGroups;
 		self.state = 0;
 		self;
 	},
 
 	makeGroups: { | self |
-
+		self.playGroup = Group.new(self.verb, \addBefore);
 		self;
 	},
 
 	killGroups: { | self |
-
+		self.playGroup.free;
 		self;
 	},
 
 	makeBuffers: { | self |
-
+		self.buffer = Buffer.allocConsecutive(6, s, s.sampleRate * 0.5, 1);
 		self;
 	},
 
 	killBuffers: { | self |
-
+		self.buffer.do({ | i | i.free; });
 		self;
 	},
 
 	makeBusses: { | self |
-
+		self.verbBus = Bus.audio;
+		self.faderBus = Bus.audio;
 		self;
 	},
 
 	killBusses: { | self |
-
+		self.verbBus.free;
+		self.faderBus.free;
 		self;
 	},
 
 	makeSynths: { | self |
-
+		self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.verbBus, \amp, 1]);
+		self.verb = Synth.tail(~group.fx, \convReverb, [\in, self.verbBus, \out, self.faderBus,
+			\buffer, ~impulse[\cathedral1], \mix, 0.5]);
+		self.fader = Synth.tail(~group.fx, \pan, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
 		self;
 	},
 
 	killSynths: { | self |
+		self.inFader.free;
+		self.verb.free;
+		self.fader.free;
+		self;
+	},
 
+	makePatterns: { | self |
+		Pbindef(\billyChords,
+			\instrument, \freezePlayerSus2,
+			\group, self.playGroup,
+			\addAction, \addToTail,
+			\out, self.verbBus,
+			\buffer, [self.buffer[0], self.buffer[1], self.buffer[2], self.buffer[3], self.buffer[4], self.buffer[5]],
+			\atk, 0.05,
+			\rel, 0.05,
+			\legato, 1,
+			\amp, 0.7,
+			\dur, Pseq([4, 4*(8/9), 8*(5/4)], inf),
+			\rateLo, Pseq([4, 8/9, 5/4], inf),
+			\rateHi, Pkey(\rateLo),
+			\cutoff, 3000,
+			\env, ~grainBufs.gabWide
+		);
+		self;
+	},
+
+	togglePattern: { | self |
+		if ( self.playState == 0, { self.playPattern; }, { self.stopPattern; });
+		self;
+	},
+
+	playPattern: { | self |
+		if( ~billy.transport.state == 1, {
+			Pbindef(\billyChords).play(~billy.transport.tempoClock);
+			self.playState = 1;
+		});
+		self;
+	},
+
+	stopPattern: { | self |
+		Pbindef(\billyChords).stop;
+		self.playState = 0;
+		self;
+	},
+
+	recordTpt: { | self, buf |
+		Synth.tail(~group.fx, \recordBuf, [\in, self.input, \bufName, self.buffer[buf]]);
 		self;
 	},
 
@@ -117,5 +169,3 @@ prm
 	},
 
 );
-
-)
