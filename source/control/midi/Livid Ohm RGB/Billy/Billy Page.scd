@@ -9,7 +9,7 @@ var transport, vibraphone, trumpetChords, bassline;
 transport = 0;
 vibraphone = 1;
 trumpetChords = 3;
-bassline = 5;
+bassline = 6;
 
 
 ~page.billy = ( );

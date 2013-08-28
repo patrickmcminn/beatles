@@ -7,7 +7,7 @@ prm
 ~billy.trumpetChords = (
 
 	state: 0,
-	muteState: 0,
+	muteState: 1,
 	playState: 0,
 	input: ~inst.mic,
 	output: ~mixer.s1,
@@ -129,7 +129,7 @@ prm
 		self;
 	},
 
-	muteToggle: { | self |
+	toggleMute: { | self |
 		if( self.muteState == 1, { self.mute; }, { self.unmute; });
 		self;
 	},

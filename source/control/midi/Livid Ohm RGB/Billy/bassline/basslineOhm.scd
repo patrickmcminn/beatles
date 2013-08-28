@@ -1,37 +1,34 @@
 /*
-Tuesday, August 27th 2013
-triangleOhm.scd
+Wednesday, August 28th 2013
+basslineOhm.scd
 prm
 */
 
-~henryOhm.triangle = (
+~billyOhm.bassline = (
 
 	main: 6,
-	toggle: 14,
+	play: 14,
 
 	vol: 14,
 
 	makeOSC: { | self |
-		OSCdef(\henryTriangleOhm, { | msg |
+		OSCdef(\billyBasslineOhm, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-			{ id == \triangleTop } { self.spawn(val); }
-			{ id == \triangleToggle } { self.toggleOhm(val); }
-		}, \henryControl, ~scLang);
+			{ id == \basslineTop } { self.spawn(val); }
+			{ id == \basslinePlay } { self.playOhm(val); }
+		}, \billyControl, ~scLang);
 
-		OSCdef(\henryTriangleOhmRestore, { | msg |
+		OSCdef(\billyBasslineOhmRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-
-			{ id == \triangleVol } { if ( val == 1, { self.makeVol; }) }
-			{ id == \triangleToggle} { if ( val == 1, { self.makeToggleMIDI; } ) }
-
-		}, \restoreOhmHenry, ~scLang);
-
+			{ id == \basslineVol } { if ( val == 1, { self.makeVol; }) }
+			{ id == \basslinePlay } { if( val == 1, { self.makePlayMIDI; }) }
+		}, \restoreOhmBilly, ~scLang);
 		self;
 	},
 
@@ -56,13 +53,13 @@ prm
 
 	makeButtons: { | self |
 		self.topOhm(1);
-		self.makeToggle;
+		self.makePlay;
 		self;
 	},
 
 	killButtons: { | self |
 		self.topOhm(0);
-		self.killToggle;
+		self.killPlay;
 		self;
 	},
 
@@ -79,74 +76,72 @@ prm
 	topOhm: { | self, val |
 		if( val == 1,
 			{
-				~ohm.turnYellow(self.main);
-				~restoreOhm.henry.page.put(self.main, \yellow);
+				~ohm.turnWhite(self.main);
+				~restoreOhm.billy.page.put(self.purple, \white);
 			},
 			{
 				~ohm.turnRed(self.main);
-				~restoreOhm.henry.page.put(self.main, \red);
+				~restoreOhm.billy.page.put(self.main, \red);
 			}
 		);
 		self;
 	},
 
-	makeToggle: { | self |
-		~ohm.turnCyan(self.toggle);
-		~restoreOhm.henry.page.put(self.toggle, \cyan);
-		self.makeToggleMIDI;
-		~restoreOhm.henry.triangleToggle = 1;
+	makePlay: { | self |
+		~ohm.turnYellow(self.play);
+		~restoreOhm.billy.page.put(self.play, \yellow);
+		self.makePlayMIDI;
+		~restoreOhm.billy.basslinePlay = 1;
 		self;
 	},
 
-	killToggle: { | self |
-		~ohm.turnOff(self.toggle);
-		~restoreOhm.henry.page.put(self.toggle, \off);
-		self.killToggleMIDI;
-		~restoreOhm.henry.triangleToggle = 0;
+	killPlay: { | self |
+		~ohm.turnOff(self.play);
+		~restoreOhm.billy.page.put(self.play, \off);
+		self.killPlayMIDI;
+		~restoreOhm.billy.basslinePlay = 0;
 		self;
 	},
 
-	makeToggleMIDI: { | self |
-		MIDIdef.noteOn(\triangleToggle, {
-			~henry.triangle.muteToggle;
-			~scLang.sendMsg(\henryControl, \triangleToggle, ~henry.triangle.muteState);
-		}, self.toggle);
+	makePlayMIDI: { | self |
+		MIDIdef.noteOn(\basslinePlay, {
+			~billy.bassline.togglePattern;
+			~scLang.sendMsg(\billyControl, \basslineplay, ~billy.bassline.playState);
+		}, self.play);
 		self;
 	},
 
-	killToggleMIDI: { | self |
-		MIDIdef(\triangleToggle).free;
+	killPlayMIDI: { | self |
+		MIDIdef(\basslinePlay).free;
 		self;
 	},
 
-	toggleOhm: { | self, val |
-		if ( val == 1,
+	playOhm: { | self, val |
+		if( val == 1,
 			{
-				~ohm.turnPurple(self.toggle);
-				~restoreOhm.henry.page.put(self.toggle, \purple);
+				~ohm.turnGreen(self.play);
+				~restoreOhm.billy.page.put(self.play, \green);
 			},
 			{
-				~ohm.turnRed(self.toggle);
-				~restoreOhm.henry.page.put(self.toggle, \red);
+				~ohm.turnRed(self.play);
+				~restoreOhm.billy.page.put(self.play, \red);
 			}
 		);
 		self;
 	},
 
-
 	makeVol: { | self |
-		MIDIdef.cc(\triangleVol, { | val |
-			var amp = val.linlin(0, 127, 0, 6.dbamp);
-			~henry.triangle.fader.set(\amp, amp);
+		MIDIdef.cc(\basslineVol, { | val |
+			var amp = val.linlin(0, 127, 0, -12.dbamp);
+			~billy.bassline.fader.set(\amp, amp);
 		}, self.vol);
-		~restoreOhm.henry.triangleVol = 1;
+		~restoreOhm.billy.basslineVol = 1;
 		self;
-
 	},
 
 	killVol: { | self |
-		MIDIdef(\triangleVol).free;
-		~restoreOhm.henry.triangleVol = 0;
+		MIDIdef(\basslineVol).free;
+		~restoreOhm.billy.basslineVol = 0;
 		self;
 	},
 
@@ -157,7 +152,5 @@ prm
 	killDials: { | self |
 		self;
 	},
-
-);
 
 );

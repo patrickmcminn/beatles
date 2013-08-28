@@ -1,36 +1,42 @@
 /*
-Tuesday, August 27th 2013
-triangleOhm.scd
+Wednesday, August 28th 2013
+trumpetChordsOhm.scd
 prm
 */
 
-~henryOhm.triangle = (
+~billyOhm.trumpetChords = (
 
-	main: 6,
-	toggle: 14,
+	main: 3,
+	toggle: 11,
+	play: 19,
 
-	vol: 14,
+	record: [4, 12, 20, 5, 13, 21],
+
+	vol: 15,
 
 	makeOSC: { | self |
-		OSCdef(\henryTriangleOhm, { | msg |
+		OSCdef(\billyTrumpetChordsOhm, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-			{ id == \triangleTop } { self.spawn(val); }
-			{ id == \triangleToggle } { self.toggleOhm(val); }
-		}, \henryControl, ~scLang);
+			{ id == \trumpetChordsTop } { self.spawn(val); }
+			{ id == \trumpetChordsToggle } { self.toggleOhm(val); }
+			{ id == \trumpetChordsPlay } { self.playOhm(val); }
+		}, \billyControl, ~scLang);
 
-		OSCdef(\henryTriangleOhmRestore, { | msg |
+		OSCdef(\billyTrumpetChordsOhmRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
 
-			{ id == \triangleVol } { if ( val == 1, { self.makeVol; }) }
-			{ id == \triangleToggle} { if ( val == 1, { self.makeToggleMIDI; } ) }
+			{ id == \trumpetChordsVol } { if ( val == 1, { self.makeVol; }) }
+			{ id == \trumpetChordsToggle } { if ( val == 1, { self.makeToggleMIDI; }) }
+			{ id == \trumpetChordsPlay } { if( val == 1, { self.makePlayMIDI; }) }
+			{ id == \trumpetChordsRecord } { if( val == 1, { self.makeRecordMIDI; }) }
 
-		}, \restoreOhmHenry, ~scLang);
+		}, \restoreOhmBilly, ~scLang);
 
 		self;
 	},
@@ -57,12 +63,16 @@ prm
 	makeButtons: { | self |
 		self.topOhm(1);
 		self.makeToggle;
+		self.makePlay;
+		self.makeRecord;
 		self;
 	},
 
 	killButtons: { | self |
 		self.topOhm(0);
 		self.killToggle;
+		self.killPlay;
+		self.killRecord;
 		self;
 	},
 
@@ -79,74 +89,149 @@ prm
 	topOhm: { | self, val |
 		if( val == 1,
 			{
-				~ohm.turnYellow(self.main);
-				~restoreOhm.henry.page.put(self.main, \yellow);
+				~ohm.turnPurple(self.main);
+				~restoreOhm.billy.page.put(self.purple, \cyan);
 			},
 			{
 				~ohm.turnRed(self.main);
-				~restoreOhm.henry.page.put(self.main, \red);
+				~restoreOhm.billy.page.put(self.main, \red);
 			}
 		);
 		self;
 	},
 
 	makeToggle: { | self |
-		~ohm.turnCyan(self.toggle);
-		~restoreOhm.henry.page.put(self.toggle, \cyan);
+		~ohm.turnGreen(self.toggle);
+		~restoreOhm.billy.page.put(self.toggle, \green);
 		self.makeToggleMIDI;
-		~restoreOhm.henry.triangleToggle = 1;
+		~restoreOhm.billy.trumpetChordsToggle = 1;
 		self;
 	},
 
 	killToggle: { | self |
 		~ohm.turnOff(self.toggle);
-		~restoreOhm.henry.page.put(self.toggle, \off);
+		~restoreOhm.billy.page.put(self.toggle, \off);
 		self.killToggleMIDI;
-		~restoreOhm.henry.triangleToggle = 0;
+		~restoreOhm.billy.trumpetChordsToggle = 0;
 		self;
 	},
 
 	makeToggleMIDI: { | self |
-		MIDIdef.noteOn(\triangleToggle, {
-			~henry.triangle.muteToggle;
-			~scLang.sendMsg(\henryControl, \triangleToggle, ~henry.triangle.muteState);
-		}, self.toggle);
+		MIDIdef.noteOn(\trumpetChordsToggle, {
+			~billy.trumpetChords.toggleMute;
+			~scLang.sendMsg(\billyControl, \trumpetChordsToggle,  ~billy.trumpetChords.muteState);
+		}, self.record);
 		self;
 	},
 
 	killToggleMIDI: { | self |
-		MIDIdef(\triangleToggle).free;
+		MIDIdef(\trumpetChordsToggle).free;
 		self;
 	},
 
 	toggleOhm: { | self, val |
-		if ( val == 1,
+		if( val == 1,
 			{
-				~ohm.turnPurple(self.toggle);
-				~restoreOhm.henry.page.put(self.toggle, \purple);
+				~ohm.turnGreen(self.toggle);
+				~restoreOhm.billy.page.put(self.toggle, \green);
 			},
 			{
 				~ohm.turnRed(self.toggle);
-				~restoreOhm.henry.page.put(self.toggle, \red);
+				~restoreOhm.billy.page.put(self.toggle, \red);
 			}
 		);
 		self;
 	},
 
+	makeRecord: { | self |
+		self.record.do({ | led |
+			~ohm.turnPurple(led);
+			~restoreOhm.billy.page.put(led, \purple);
+		});
+		self.makeRecordMIDI;
+		~restoreOhm.billy.trumpetChordsRecord = 1;
+		self;
+	},
+
+	killRecord: { | self |
+		self.record.do({ | led |
+			~ohm.turnOff(led);
+			~restoreOhm.billy.page.put(led, \off);
+		});
+		self.killRecordMIDI;
+		~restoreOhm.billy.trumpetChordsRecord = 0;
+		self;
+	},
+
+	makeRecordMIDI: { | self |
+		self.record.do({ | led, i |
+			MIDIdef.noteOn("record" ++ i, { ~billy.trumpetChords.recordTpt(i); }, led);
+		});
+		self;
+	},
+
+	killRecordMIDI: { | self |
+		self.record.do({ | led, i |
+			MIDIdef("record" ++ i).free;
+		});
+		self;
+	},
+
+	makePlay: { | self |
+		~ohm.turnBlue(self.play);
+		~restoreOhm.billy.page.put(self.play, \blue);
+		self.makePlayMIDI;
+		~restoreOhm.billy.trumpetChordsPlay = 1;
+		self;
+	},
+
+	killPlay: { | self |
+		~ohm.turnOff(self.play);
+		~restoreOhm.billy.page.put(self.play, \off);
+		self.killPlayMIDI;
+		~restoreOhm.billy.trumpetChordsPlay = 0;
+		self;
+	},
+
+	makePlayMIDI: { | self |
+		MIDIdef.noteOn(\trumpetChordsPlay, {
+			~billy.trumpetChords.togglePattern;
+			~scLang.sendMsg(\billyControl, \trumpetChordsPlay, ~billy.trumpetChords.playState);
+		}, self.play);
+		self;
+	},
+
+	killPlayMIDI: { | self |
+		MIDIdef(\trumpetChordsPlay).free;
+		self;
+	},
+
+	playOhm: { | self, val |
+		if( val == 1,
+			{
+				~ohm.turnCyan(self.play);
+				~restoreOhm.billy.page.put(self.play, \cyan);
+			},
+			{
+				~ohm.turnRed(self.play);
+				~restoreOhm.billy.page.put(self.play, \red);
+			}
+		);
+		self;
+	},
 
 	makeVol: { | self |
-		MIDIdef.cc(\triangleVol, { | val |
-			var amp = val.linlin(0, 127, 0, 6.dbamp);
-			~henry.triangle.fader.set(\amp, amp);
+		MIDIdef.cc(\trumpetChordsVol, { | val |
+			var amp = val.linlin(0, 127, 0, 1);
+			~billy.trumpetChords.fader.set(\amp, amp);
 		}, self.vol);
-		~restoreOhm.henry.triangleVol = 1;
+		~restoreOhm.billy.trumpetChordsVol = 1;
 		self;
-
 	},
 
 	killVol: { | self |
-		MIDIdef(\triangleVol).free;
-		~restoreOhm.henry.triangleVol = 0;
+		MIDIdef(\trumpetChordsVol).free;
+		~restoreOhm.billy.trumpetChordsVol = 0;
 		self;
 	},
 
@@ -157,7 +242,5 @@ prm
 	killDials: { | self |
 		self;
 	},
-
-);
 
 );
