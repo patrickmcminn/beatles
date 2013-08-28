@@ -8,7 +8,7 @@ prm
 
 	main: 3,
 	toggle: 11,
-	play: 19,
+	playChords: 19,
 
 	record: [4, 12, 20, 5, 13, 21],
 
@@ -90,7 +90,7 @@ prm
 		if( val == 1,
 			{
 				~ohm.turnPurple(self.main);
-				~restoreOhm.billy.page.put(self.purple, \cyan);
+				~restoreOhm.billy.page.put(self.main, \purple);
 			},
 			{
 				~ohm.turnRed(self.main);
@@ -120,7 +120,7 @@ prm
 		MIDIdef.noteOn(\trumpetChordsToggle, {
 			~billy.trumpetChords.toggleMute;
 			~scLang.sendMsg(\billyControl, \trumpetChordsToggle,  ~billy.trumpetChords.muteState);
-		}, self.record);
+		}, self.toggle);
 		self;
 	},
 
@@ -145,8 +145,8 @@ prm
 
 	makeRecord: { | self |
 		self.record.do({ | led |
-			~ohm.turnPurple(led);
-			~restoreOhm.billy.page.put(led, \purple);
+			~ohm.turnCyan(led);
+			~restoreOhm.billy.page.put(led, \cyan);
 		});
 		self.makeRecordMIDI;
 		~restoreOhm.billy.trumpetChordsRecord = 1;
@@ -178,16 +178,16 @@ prm
 	},
 
 	makePlay: { | self |
-		~ohm.turnBlue(self.play);
-		~restoreOhm.billy.page.put(self.play, \blue);
+		~ohm.turnBlue(self.playChords);
+		~restoreOhm.billy.page.put(self.playChords, \blue);
 		self.makePlayMIDI;
 		~restoreOhm.billy.trumpetChordsPlay = 1;
 		self;
 	},
 
 	killPlay: { | self |
-		~ohm.turnOff(self.play);
-		~restoreOhm.billy.page.put(self.play, \off);
+		~ohm.turnOff(self.playChords);
+		~restoreOhm.billy.page.put(self.playChords, \off);
 		self.killPlayMIDI;
 		~restoreOhm.billy.trumpetChordsPlay = 0;
 		self;
@@ -197,7 +197,7 @@ prm
 		MIDIdef.noteOn(\trumpetChordsPlay, {
 			~billy.trumpetChords.togglePattern;
 			~scLang.sendMsg(\billyControl, \trumpetChordsPlay, ~billy.trumpetChords.playState);
-		}, self.play);
+		}, self.playChords);
 		self;
 	},
 
@@ -209,12 +209,12 @@ prm
 	playOhm: { | self, val |
 		if( val == 1,
 			{
-				~ohm.turnCyan(self.play);
-				~restoreOhm.billy.page.put(self.play, \cyan);
+				~ohm.turnGreen(self.playChords);
+				~restoreOhm.billy.page.put(self.playChords, \green);
 			},
 			{
-				~ohm.turnRed(self.play);
-				~restoreOhm.billy.page.put(self.play, \red);
+				~ohm.turnRed(self.playChords);
+				~restoreOhm.billy.page.put(self.playChords, \red);
 			}
 		);
 		self;

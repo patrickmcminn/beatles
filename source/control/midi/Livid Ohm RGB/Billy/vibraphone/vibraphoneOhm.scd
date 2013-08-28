@@ -9,7 +9,7 @@ prm
 	main: 1,
 	record: 9,
 	recordFake: 63,
-	play: 17,
+	playChords: 17,
 	granOrig: 2,
 	gran1: 10,
 	gran2: 18,
@@ -162,7 +162,7 @@ prm
 	killRecordFake: { | self |
 		~ohm.turnOff(self.recordFake);
 		~restoreOhm.billy.page.put(self.recordFake, \off);
-		self.killRecordFake;
+		self.killRecordFakeMIDI;
 		~restoreOhm.billy.vibraphoneRecordFake = 0;
 		self;
 	},
@@ -196,16 +196,16 @@ prm
 	},
 
 	makePlay: { | self |
-		~ohm.turnBlue(self.play);
-		~restoreOhm.billy.page.put(self.play, \blue);
+		~ohm.turnBlue(self.playChords);
+		~restoreOhm.billy.page.put(self.playChords, \blue);
 		self.makePlayMIDI;
 		~restoreOhm.billy.vibraphonePlay = 1;
 		self;
 	},
 
 	killPlay: { | self |
-		~ohm.turnOff(self.play);
-		~restoreOhm.billy.page.put(self.play, \off);
+		~ohm.turnOff(self.playChords);
+		~restoreOhm.billy.page.put(self.playChords, \off);
 		self.killPlayMIDI;
 		~restoreOhm.billy.vibraphonePlay = 0;
 		self;
@@ -215,7 +215,7 @@ prm
 		MIDIdef.noteOn(\vibraphonePlay, {
 			~billy.vibraphone.togglePattern;
 			~scLang.sendMsg(\billyControl, \vibraphonePlay, ~billy.vibraphone.playState);
-		}, self.play);
+		}, self.playChords);
 		self;
 	},
 
@@ -227,12 +227,12 @@ prm
 	playOhm: { | self, val |
 		if( val == 1,
 			{
-				~ohm.turnGreen(self.play);
-				~restoreOhm.billy.page.put(self.play, \green);
+				~ohm.turnGreen(self.playChords);
+				~restoreOhm.billy.page.put(self.playChords, \green);
 			},
 			{
-				~ohm.turnRed(self.play);
-				~restoreOhm.billy.page.put(self.play, \red);
+				~ohm.turnRed(self.playChords);
+				~restoreOhm.billy.page.put(self.playChords, \red);
 			}
 		);
 		self;
@@ -426,7 +426,7 @@ prm
 	makePlayVol: { | self |
 		MIDIdef.cc(\vibraphonePlayVol, { | val |
 			var amp = val.linlin(0, 127, 0, 1);
-			~billy.vibraphone.playFader.set(\amp, amp);
+			~billy.vibraphone.patternFader.set(\amp, amp);
 		}, self.playVol);
 		self;
 	},
