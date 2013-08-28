@@ -6,7 +6,8 @@ prm
 
 ~henry.harmonica = (
 	state: 0,
-	playState: 0,
+	melodyState: 0,
+	gestureState: 0,
 	muteState: 0,
 	input: ~inst.mic,
 	output: ~mixer.s1,
@@ -39,7 +40,7 @@ prm
 	},
 
 	makeClock: { | self |
-		self.tempoClock = TempoClock.new(140/60);
+		self.tempoClock = TempoClock.new(110/60);
 		self;
 	},
 
@@ -49,7 +50,8 @@ prm
 	},
 
 	makeGroups: { | self |
-		self.playGroup = Group.new(self.fader, \addBefore);
+		self.melodyGroup = Group.new(self.fader1, \addBefore);
+		self.gestureGroup = Group.new(self.verb, \addBefore);
 		self;
 	},
 
@@ -69,38 +71,94 @@ prm
 	},
 
 	makeBusses: { | self |
-		self.faderBus = Bus.audio(s, 2);
+		self.verbBus = Bus.audio(s, 2);
+		self.fader1Bus = Bus.audio(s, 2);
+		self.fader2Bus = Bus.audio(s, 2);
 		self;
 	},
 
 	killBusses: { | self |
-		self.faderBus.free;
+		self.verbBus.free;
+		self.fader1Bus.free;
+		self.fader2Bus.free;
 		self;
 	},
 
 	makeSynths: { | self |
-		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -4.dbamp]);
+		self.fader1 = Synth.tail(~group.fx, \stereoFader, [\in, self.fader1Bus, \out, self.output, \amp, -6.dbamp]);
+		self.verb = Synth.tail(~group.fx, \reverb2, [\in, self.verbBus, \out, self.fader2Bus,
+			\mix, 0.6, \room, 0.8, \damp, 0.8]);
+		self.fader2 = Synth.tail(~group.fx, \stereoFader, [\in, self.fader2Bus, \out, self.output, \amp, -2.dbamp]);
 		self;
 	},
 
 	killSynths: { | self |
-		self.fader.free;
+		self.fader1.free;
+		self.fader2.free;
 		self;
 	},
 
 	makePatterns: { | self |
-		Pbindef(\harmonica,
+		Pbindef(\harmonicaMelody,
 			\instrument, \freezePlayer,
-			\group, self.playGroup,
+			\group, self.melodyGroup,
 			\addAction, \addToTail,
-			\out, self.faderBus,
-			\buffer, Prand([self.buffer[0], self.buffer[1], self.buffer[2], self.buffer[3]], inf),
+			\out, self.fader1Bus,
+			\buffer, Pfunc({ self.buffer[0] }),
 			\atk, 0.05,
-			\sus, Pseq([1/4, 1/4, 1/4, 1/4, 1/4, 1/4, 1/4, 1/4, 1/4, 2/3, 2/3, 2/3], inf),
 			\rel, 0.05,
-			\rate, Pbrown(0.5, 0.75, 0.1, inf),
-			\dur, Pseq([1/3, 1/3, 1/3, 1/3, 1/3, 1/3, 1/3, 1/3, 1/3, 1, 1, 1], inf),
-			\legato, 1,
+			\rate, (Pseq([5/4, 9/8, 1, 9/8, 5/4, 1, 15/16, 1, 9/8, 15/16], 1))/2,
+			\dur, Pseq([2, 2, 0.75, 0.25, 0.5, 0.5, 0.75, 0.25, 0.5, 0.5], 1),
+			\sus, Pseq([2, 2, 0.75, 0.25, 0.5, 0.5, 0.75, 0.25, 0.5, 0.5], 1) - 0.1,
+			//\note, Pseq([\r, 1], inf),
+			\pan, Pbrown(-0.5, 0.5, 0.05, inf),
+			\legato, 0,
+			\amp, 1
+		);
+		Pbindef(\harmonicaGesture1,
+			\instrument, \freezePlayer,
+			\group, self.gestureGroup,
+			\addAction, \addToTail,
+			\out, self.verbBus,
+			\buffer, Pfunc({ self.buffer[1] }),
+			\atk, 0.05,
+			\rel, 0.05,
+			\rate, Pseq([2, 1.8751, 1.758, 1.648, 1.545, 1.448, 1.358, 1.273, 1.1934, 1.112, 1.045, 1, 1.045, 1.112,
+				1.1934, 1.273, 1.5, 1.75], inf),
+			\dur, Pseq([Pseq([1/3], 16), 1, 0.5], inf),
+			\sus, Pseq([Pseq([0.23], 16), 0.9, 0.4], inf),
+			\pan, Pbrown(-1, 1, 0.2, inf),
+			\amp, Pwhite(-12.dbamp, -9.dbamp, inf)
+		);
+		Pbindef(\harmonicaGesture2,
+			\instrument, \freezePlayer,
+			\group, self.gestureGroup,
+			\addAction, \addToTail,
+			\out, self.verbBus,
+			\buffer, Pfunc({ self.buffer[1] }),
+			\atk, 0.05,
+			\rel, 0.05,
+			\rate, Pseq([1, 1.045, 1.112, 1.1934, 1.273, 1.358, 1.448, 1.545, 1.648, 1.758, 1.8751,  2, 1.112,
+				1.1934, 1.273, 1.5, 1.75], inf),
+			\dur, Pseq([Pseq([1/3], 16), 1, 0.5,], inf) + Pwhite(-0.05, 0.05),
+			\sus, Pseq([Pseq([0.23], 16), 0.9, 0.4], inf),
+			\pan, Pbrown(-1, 1, 0.2, inf),
+			\amp, Pwhite(-12.dbamp, -9.dbamp, inf)
+		);
+		Pbindef(\harmonicaGesture3,
+			\instrument, \freezePlayer,
+			\group, self.gestureGroup,
+			\addAction, \addToTail,
+			\out, self.verbBus,
+			\buffer, Pfunc({ self.buffer[1] }),
+			\atk, 0.05,
+			\rel, 0.05,
+			\rate, Pseq([2, 1.8751, 1.758, 1.648, 1.545, 1.448, 1.358, 1.273, 1.1934, 1.112, 1.045, 1, 1.045, 1.112,
+				1.1934, 1.273, 1.5, 1.75], inf),
+			\dur, Pseq([Pseq([1/3], 16), 1, 0.5], inf) + Pwhite(-0.1, 0.1),
+			\sus, Pseq([Pseq([0.23], 16), 0.9, 0.4], inf),
+			\pan, Pbrown(-1, 1, 0.2, inf),
+			\amp, Pwhite(-12.dbamp, -9.dbamp, inf)
 		);
 		self;
 	},
@@ -115,20 +173,41 @@ prm
 		self;
 	},
 
-	toggleHarmonica: { | self |
-		if( self.playState == 0, { self.playHarmonica; }, { self.stopHarmonica; });
+	toggleMelody: { | self |
+		if( self.melodyState == 0, { self.playMelody; }, { self.stopMelody; });
 		self;
 	},
 
-	playHarmonica: { | self |
-		Pbindef(\harmonica).play(self.tempoClock);
-		self.playState = 1;
+	playMelody: { | self |
+		Pbindef(\harmonicaMelody).play(self.tempoClock);
+		self.melodyState = 1;
 		self;
 	},
 
-	stopHarmonica: { | self |
-		Pbindef(\harmonica).stop;
-		self.playState = 0;
+	stopMelody: { | self |
+		Pbindef(\harmonicaMelody).stop;
+		self.melodyState = 0;
+		self;
+	},
+
+	toggleGestures: { | self |
+		if( self.gestureState == 0, { self.playGestures; }, { self.stopGestures; });
+		self;
+	},
+
+	playGestures: { | self |
+		Pbindef(\harmonicaGesture1).play(self.tempoClock);
+		Pbindef(\harmonicaGesture2).play(self.tempoClock);
+		Pbindef(\harmonicaGesture3).play(self.tempoClock);
+		self.gestureState = 1;
+		self;
+	},
+
+	stopGestures: { | self |
+		Pbindef(\harmonicaGesture1).stop;
+		Pbindef(\harmonicaGesture2).stop;
+		Pbindef(\harmonicaGesture3).stop;
+		self.gestureState = 0;
 		self;
 	},
 

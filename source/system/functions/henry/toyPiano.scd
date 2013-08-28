@@ -74,7 +74,7 @@ prm
 		self.compressor = Synth.tail(~group.fx, \compressor, [\in, self.compressorBus, \out, self.shiftBus,
 			\atk, 0.1, \rel, 0.48, \thresh, -21.8.dbamp, \ratio, 3, \makeup, 6.dbamp, \amp, 1]);
 		self.multiShift = Synth.tail(~group.fx, \multiShift, [\in, self.shiftBus, \out, self.faderBus, \amp, 1,
-			\shiftArray1, #[0, -5, 7, 2], \shiftArray2, #[0, 12, -12, 7], \shiftArray3, #[0, 2, -2, 5],
+			\shiftArray1, #[0, -0.95, 1.3, 1], \shiftArray2, #[0, -0.1, 0.1, 0.05], \shiftArray3, #[2, 1, -1, -2],
 			\shiftArray4, #[0, -0.9, 1.1, 1.5], \shiftFreq, 12, \shiftKind, 1]);
 		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
 		self;

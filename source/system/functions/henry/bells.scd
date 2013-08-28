@@ -113,7 +113,7 @@ prm
 			\shiftFreq, 8, \shiftKind, 1,
 			\shiftArray1, #[0, 0, 7, 9], \shiftArray2, #[0, 0, 7, 9], \shiftArray3, #[0, 0, -2, -3],
 			\shiftArray4, #[0, 0, -4, -5]]);
-		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
+		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, 1]);
 		self;
 	},
 
@@ -139,7 +139,7 @@ prm
 		self.bells1 = Synth.tail(self.playGroup, \playBufStereoSus,
 			[
 				\buffer, self.buffer, \out, self.shiftBus1, \startPos, 0, \rate, 0.75,
-				\atk, 0.5, \dec, 0, \susLvl, 1, \rel, 4
+				\atk, 0.5, \dec, 0, \susLvl, 1, \rel, 4, \amp, 2
 			]
 		);
 		self;
@@ -154,7 +154,7 @@ prm
 		self.bells2 = Synth.tail(self.playGroup, \playBufStereoSus,
 			[
 				\buffer, self.buffer, \out, self.shiftBus2, \startPos, self.buffer.numFrames * 0.3, \rate, 1.5,
-				\atk, 0.01, \dec, 0.5, \susLvl, 0.6, \rel, 0.2
+				\atk, 0.01, \dec, 0.5, \susLvl, 0.6, \rel, 0.2, \amp, 2
 			]
 		);
 		self;
@@ -168,8 +168,8 @@ prm
 	play3: { | self |
 		self.bells3 = Synth.tail(self.playGroup, \playBufStereoSus,
 			[
-				\buffer, self.buffer, \out, self.shiftBus3, \startPos, self.buffer.numFrames * 0.5, \rate, 0.5,
-				\atk, 5, \dec, 0, \susLvl, 1, \rel, 7
+				\buffer, self.buffer, \out, self.shiftBus3, \startPos, self.buffer.numFrames * 0.5, \rate, 0.25,
+				\atk, 5, \dec, 0, \susLvl, 1, \rel, 7, \amp, 2
 			]
 		);
 		self;
@@ -183,8 +183,8 @@ prm
 	play4: { | self |
 		self.bells4 = Synth.tail(self.playGroup, \playBufStereoSus,
 			[
-				\buffer, self.buffer, \out, self.shiftBus4, \startPos, 0, \rate, 12,
-				\atk, 0.05, \dec, 0.25, \susLvl, 0.5, \rel, 1
+				\buffer, self.buffer, \out, self.shiftBus4, \startPos, 0, \rate, 0.2,
+				\atk, 0.05, \dec, 0.25, \susLvl, 0.5, \rel, 1, \amp, 2
 			]
 		);
 		self;
@@ -200,7 +200,8 @@ prm
 			\out, self.shiftBus5, \buffer, self.buffer,
 			\posLo, 0.2, \posHi, 0.3, \rateLo, 0.75, \rateHi, 0.85,
 			\panLo, -0.1, \panHi, 0.1,
-			\cutoff, 4000, \atk, 0.5, \rel, 2,
+			\cutoff, 4000, \atk, 0.5, \rel, 2, \trigRate, 12,
+			\amp, 2
 			]
 		);
 		self;
@@ -215,8 +216,9 @@ prm
 		self.bells6 = Synth.tail(self.playGroup, \freezePlayerSus2, [
 			\out, self.shiftBus6, \buffer, self.buffer,
 			\posLo, 0.6, \posHi, 0.65, \rateLo, 1.1, \rateHi, 1.5,
-			\panLo, 0, \panHi, 0,
-			\cutoff, 4000, \atk, 0.05, \dec, 1, \sus, 0.6, \rel, 2
+			\panLo, 0, \panHi, 0, \trigRate, 10,
+			\cutoff, 4000, \atk, 0.05, \dec, 1, \sus, 0.6, \rel, 2,
+			\amp, 2
 			]
 		);
 		self;
@@ -230,10 +232,10 @@ prm
 	play7: { | self |
 		self.bells7 = Synth.tail(self.playGroup, \freezePlayerSus2, [
 			\out, self.shiftBus7, \buffer, self.buffer,
-			\posLo, 0, \posHi, 1, \rateLo, 0.5, \rateHi, 0.7,
+			\posLo, 0, \posHi, 1, \rateLo, 0.2, \rateHi, 0.6,
 			\trigRate, 7, \grainDurLo, 0.5, \grainDurHi, 1.5,
-			\panLo, -0.5, \panHi, 0.5,
-			\cutoff, 4000, \atk, 4, \rel, 6
+			\panLo, -0.5, \panHi, 0.5, \trigRate, 2,
+			\cutoff, 2000, \atk, 4, \rel, 6, \amp, 2
 			]
 		);
 		self;
@@ -247,9 +249,10 @@ prm
 	play8: { | self |
 		self.bells8 = Synth.tail(self.playGroup, \freezePlayerSus2, [
 			\out, self.shiftBus8, \buffer, self.buffer,
-			\posLo, 0.2, \posHi, 0.3, \rateLo, 12, \rateHi, 15,
-			\panLo, 0, \panHi, 0,
+			\posLo, 0.2, \posHi, 0.3, \rateLo, 0.05, \rateHi, 1,
+			\panLo, 0, \panHi, 0, \trigRate, 9,
 			\cutoff, 2500, \atk, 0.05, \dec, 0.5, \sus, 0.5, \rel, 0.05,
+			\amp, 2
 			]
 		);
 		self;

@@ -69,9 +69,9 @@ prm
 	makeSynths: { | self |
 		self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.granBus, \amp, 1]);
 		self.gran = Synth.tail(~group.fx, \granulator, [\in, self.granBus, \out, self.faderBus, \amp, 1,
-			\env, ~grainBufs.rexpodec, \mix, 0.7, \bufLength, 1.5, \panOffset, 0.1,
-			\rate, 1, \rateOffset, 0.1, \grainDur, 0.05, \grainDurOffset, 0.03, \trigRate, 32]);
-		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
+			\env, ~grainBufs.percRev, \mix, 0.3, \bufLength, 1.5, \panOffset, 0.1,
+			\rate, 1, \rateOffset, 0.1, \grainDur, 0.1, \grainDurOffset, 0.05, \trigRate, 65, \amp, 2]);
+		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, 1]);
 		self;
 	},
 
