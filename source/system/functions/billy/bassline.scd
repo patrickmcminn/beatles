@@ -86,7 +86,7 @@ prm
 			\rel, 0.05,
 			\legato, 1,
 			\freq, Pseq([24, 26, 28], inf).midicps,
-			\dur, Pseq([4, (4 * (8/9)), (8 * (4/5))], inf)
+			\dur, Pseq([4, (4 * (8/9)), (16 * (4/5))], inf)
 		);
 		self;
 	},

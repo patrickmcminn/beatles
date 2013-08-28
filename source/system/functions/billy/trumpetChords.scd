@@ -9,7 +9,7 @@ prm
 	state: 0,
 	muteState: 1,
 	playState: 0,
-	input: ~inst.mic,
+	input: ~inst.mute,
 	output: ~mixer.s1,
 
 	spawn: { | self |
@@ -96,7 +96,7 @@ prm
 			\trigRate, 25,
 			\legato, 1,
 			\amp, 0.15,
-			\dur, Pseq([4, 4*(8/9), 8*(4/5)], inf),
+			\dur, Pseq([4, 4*(8/9), 16*(4/5)], inf),
 			\rateLo, Pseq([0.5, 9/16, 5/8], inf),
 			\rateHi, Pkey(\rateLo),
 			\cutoff, 1000,
