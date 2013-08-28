@@ -16,11 +16,13 @@ prm
 
 	init: { | self |
 		self.tempoClock = TempoClock.new(self.tempo);
+		self.state = 1;
 		self;
 	},
 
 	kill: { | self |
 		self.tempoClock.clear;
+		self.state = 0;
 		self;
 	},
 
