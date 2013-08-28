@@ -30,7 +30,7 @@ never = 13;
 	MIDIdef.noteOn(\introPage, { ~page.intro.top; }, intro);
 
 	// 2. Billy Shears:
-	~ohm.turnRed(billy);
+	~ohm.turnPurple(billy);
 	MIDIdef.noteOn(\billyPage, { ~page.billy.top; }, billy);
 
 	// 3. Lucy:
