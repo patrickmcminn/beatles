@@ -62,7 +62,7 @@ never = 13;
 	MIDIdef.noteOn(\spacePage, { ~page.space.top; }, space);
 
 	// 10. Rita:
-	~ohm.turnRed(rita);
+	~ohm.turnWhite(rita);
 	MIDIdef.noteOn(\ritaPage, { ~page.rita.top; }, rita);
 
 	// 11. Nothing to Say:

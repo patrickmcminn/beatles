@@ -17,6 +17,7 @@ try
 	"/Livid Ohm RGB/Load BillyOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load LucyOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load noWorseOhm.scd".loadRelative;
+	"/Livid Ohm RGB/Load RitaOhm.scd".loadRelative;
 
 
 	"/Livid Ohm RGB/ohmStartup.scd".loadRelative;
