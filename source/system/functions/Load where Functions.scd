@@ -7,3 +7,4 @@ prm
 ~where = ( );
 
 "/Where/endChords.scd".loadRelative;
+"/Where/pianoChords.scd".loadRelative;
