@@ -62,7 +62,7 @@ prm
 
 	makeButtons: { | self |
 		self.topOhm(1);
-		self.makeToggle;
+		//self.makeToggle;
 		self.makePlay;
 		self.makeRecord;
 		self;
@@ -70,7 +70,7 @@ prm
 
 	killButtons: { | self |
 		self.topOhm(0);
-		self.killToggle;
+		//self.killToggle;
 		self.killPlay;
 		self.killRecord;
 		self;
@@ -100,6 +100,7 @@ prm
 		self;
 	},
 
+	/*
 	makeToggle: { | self |
 		~ohm.turnGreen(self.toggle);
 		~restoreOhm.billy.page.put(self.toggle, \green);
@@ -142,6 +143,7 @@ prm
 		);
 		self;
 	},
+	*/
 
 	makeRecord: { | self |
 		self.record.do({ | led |

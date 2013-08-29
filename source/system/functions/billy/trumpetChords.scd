@@ -70,7 +70,7 @@ prm
 	},
 
 	makeSynths: { | self |
-		self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.verbBus, \amp, 1]);
+		//self.inFader = Synth.tail(~group.fx, \fader, [\in, self.input, \out, self.verbBus, \amp, 1]);
 		self.verb = Synth.tail(~group.fx, \convReverb, [\in, self.verbBus, \out, self.faderBus,
 			\buffer, ~impulse[\cathedral1], \mix, 0.3]);
 		self.fader = Synth.tail(~group.fx, \pan, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
