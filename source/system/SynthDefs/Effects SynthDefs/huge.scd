@@ -93,14 +93,15 @@ SynthDef(\huge2, {
 	cutoffLo = 500, cutoffHi = 7000, cutoffChangeRate = 16, res = 1,
 	maxDelay = 4, delayTime = 0.4, decayTime = 4
 	bassBoost = 4,
-	shiftArray = #[1.5, 2, 0.75, 1.33333, 1.5, 1.5, 2]
+	shiftArray = #[1.5, 2, 0.75, 1.33333, 1.5, 1.5, 2],
+	cutoff = 1000
 	|
 
 	var input, shift, freq, hasFreq, amplitude;
 	var sine, verb1, distortion, verb2;
 	var buffer, playhead, record, rate, trigMod, trigger, panner, granulation;
 	var shifter1, shifter2, shifter3, shift1, shift2, shift3, shiftSum;
-	var cutoffShift, filter, sum, delayLag, delay, eq, sig;
+	var cutoffShift, filter, sum, delayLag, delay, eq, endFilter, sig;
 
 
 	//input:
@@ -110,7 +111,6 @@ SynthDef(\huge2, {
 
 	// analysis:
 	# freq, hasFreq = Pitch.kr(input, ampThreshold: 0.02, median: 7);
-	freq.poll;
 	amplitude = Amplitude.ar(input, 0.01, 0.07);
 
 	// sub Oscillator
@@ -158,7 +158,8 @@ SynthDef(\huge2, {
 	delay = CombC.ar(sum, maxDelay, delayLag, decayTime);
 	delay = (delay * 0.5) + sum;
 	eq = BLowShelf.ar(delay, freq/2, 1, bassBoost);
-	sig = eq * amp;
+	endFilter = LPF.ar(eq, Lag2.kr(cutoff, 0.1));
+	sig = endFilter * amp;
 	sig = Out.ar(out, sig);
 
 }).add;
