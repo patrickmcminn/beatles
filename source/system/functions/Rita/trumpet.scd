@@ -84,7 +84,7 @@ prm
 		self;
 	},
 
-	muteToggle: { | self |
+	toggleMute: { | self |
 		if( self.muteState == 1, { self.mute; }, { self.unmute; });
 		self;
 	},

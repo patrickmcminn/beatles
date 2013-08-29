@@ -1,15 +1,16 @@
 /*
 Wednesday, August 28th 2013
-trumpetChordsOhm.scd
+trumpetOhm.scd
 prm
 */
 
-~billyOhm.trumpetChords = (
+~ritaOhm.trumpet = (
 
 	main: 0,
 	toggle: 8,
 
 	vol: 14,
+	cutoff: 17,
 
 	makeOSC: { | self |
 		OSCdef(\ritaTrumpetOhm, { | msg |
