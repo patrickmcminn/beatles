@@ -42,7 +42,7 @@ never = 13;
 	MIDIdef.noteOn(\worsePage, { ~page.worse.top; }, worse);
 
 	// 5. Where it Will Go:
-	~ohm.turnRed(where);
+	~ohm.turnGreen(where);
 	MIDIdef.noteOn(\wherePage, { ~page.where.top; }, where);
 
 	// 6. Top of the Stairs:

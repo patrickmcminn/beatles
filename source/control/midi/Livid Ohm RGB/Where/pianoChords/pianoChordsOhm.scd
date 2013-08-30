@@ -165,7 +165,7 @@ prm
 		~ohm.turnOff(self.fake);
 		~restoreOhm.where.page.put(self.fake, \off);
 		self.killFakeBuffersMIDI;
-		~restoreOhm.where.pianoChords.fakeBuffer = 0;
+		~restoreOhm.where.pianoChordsfakeBuffer = 0;
 		self;
 	},
 
@@ -214,7 +214,7 @@ prm
 		self.killChord13;
 		self.killChord21;
 		self.killChord22;
-		self.killChorrd23;
+		self.killChord23;
 		self;
 	},
 
@@ -453,17 +453,17 @@ prm
 	},
 
 	makeVol: { | self |
-		MIDIdef.cc(\trumpetChordsVol, { | val |
+		MIDIdef.cc(\pianoChordsVol, { | val |
 			var amp = val.linlin(0, 127, 0, 1);
-			~billy.trumpetChords.fader.set(\amp, amp);
+			~where.pianoChords.fader.set(\amp, amp);
 		}, self.vol);
-		~restoreOhm.billy.trumpetChordsVol = 1;
+		~restoreOhm.where.pianoChordsVol = 1;
 		self;
 	},
 
 	killVol: { | self |
-		MIDIdef(\trumpetChordsVol).free;
-		~restoreOhm.billy.trumpetChordsVol = 0;
+		MIDIdef(\pianoChordsVol).free;
+		~restoreOhm.where.pianoChordsVol = 0;
 		self;
 	},
 
