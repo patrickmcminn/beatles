@@ -74,7 +74,7 @@ never = 13;
 	MIDIdef.noteOn(\reprisePage, { ~page.reprise.top; }, reprise);
 
 	// 13. Oh Boy:
-	~ohm.turnRed(boy);
+	~ohm.turnWhite(boy);
 	MIDIdef.noteOn(\boyPage, { ~page.boy.top; }, boy);
 
 	// 14. Never Could See Any Other Way:

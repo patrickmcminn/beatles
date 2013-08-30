@@ -34,7 +34,7 @@ prm
 	},
 
 	makeGroups: { | self |
-		self.playGroup = Group.new(self.fader, \addBefore);
+		self.playGroup = Group.new(self.filter, \addBefore);
 		self;
 	},
 
@@ -222,12 +222,195 @@ prm
 	},
 
 	makeSynths: { | self |
-		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, 0.dbamp]);
+		self.filter = Synth.tail(~group.fx, \lowPassFilterS, [\in, self.faderBus, \out, self.faderBus, \cutoff, 1000]);
+		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -12.dbamp]);
 		self;
 	},
 
 	killSynths: { | self |
 		self.fader.free;
+		self;
+	},
+
+	play1: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer1.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play2: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer2.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play3: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer3.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play4: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer4.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play5: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer5.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play6: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer6.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play7: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer7.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play8: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer8.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play9: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer9.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play10: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer10.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play11: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer11.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play12: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer12.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play13: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer13.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play14: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer14.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play15: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer15.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play16: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer16.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play17: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer17.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play18: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer18.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play19: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer19.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play20: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer20.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play21: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer21.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play22: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer22.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play23: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer23.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play24: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer24.choose, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play540: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer540, \rate, rrand(0.95, 1.05), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 3, \release, 0.01]);
+		self;
+	},
+
+	play6959: { | self |
+		Synth.tail(self.playGroup, \playBufStereo, [\out, self.faderBus,
+			\bufName, self.buffer6959, \rate, rrand(0.9, 1.1), \pan, rrand(-0.7, 0.7),
+			\attack, 0.01, \sustain, 7, \release, 0.01]);
 		self;
 	},
 

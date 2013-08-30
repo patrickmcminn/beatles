@@ -5,3 +5,6 @@ prm
 */
 
 ~boy = ( );
+
+"/boy/noiseBed.scd".loadRelative;
+"/boy/numbers.scd".loadRelative;
