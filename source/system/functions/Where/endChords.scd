@@ -10,6 +10,8 @@ prm
 	playState: 0,
 	output: ~mixer.s2,
 
+	fadeTime: 10,
+
 	spawn: { | self |
 		if( self.state == 0, { self.init; }, { self.kill; });
 		self;
@@ -72,7 +74,7 @@ prm
 	makeSynths: { | self |
 		self.broken = Synth.tail(~group.fx, \brokenAntenna, [\in, self.brokenBus, \out, self.faderBus,
 			\lowOutputGain, 0.3,\lowInputGain, 0.6]);
-		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
+		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, 0.dbamp]);
 		self;
 	},
 
@@ -133,7 +135,7 @@ prm
 	},
 
 	fadeIn: { | self |
-		Synth.tail(~group.control, \ctlLinLine, [\out, self.fadeBus, \start, 0, \end, 1, \dur, 10]);
+		Synth.tail(~group.control, \ctlLinLine, [\out, self.fadeBus, \start, 0, \end, 1, \dur, self.fadeTime]);
 		self.fader.set(\amp, self.fadeBus.asMap);
 		self;
 	},
