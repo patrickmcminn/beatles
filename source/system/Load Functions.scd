@@ -12,4 +12,5 @@ prm
 "/functions/Load where Functions.scd".loadRelative;
 "/functions/Load henry Functions.scd".loadRelative;
 "/functions/Load rita Functions.scd".loadRelative;
+"/functions/Load Boy Functions.scd".loadRelative;
 "/functions/Load never Functions.scd".loadRelative;
