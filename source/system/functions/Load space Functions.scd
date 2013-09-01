@@ -5,3 +5,5 @@ prm
 */
 
 ~space = ( );
+
+"/Space/tanpura.scd".loadRelative;
