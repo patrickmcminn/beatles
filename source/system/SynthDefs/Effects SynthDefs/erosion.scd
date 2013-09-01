@@ -16,5 +16,19 @@ SynthDef(\erosion, {
 	sig = ReplaceOut.ar(out, sig);
 }).add;
 
+SynthDef(\erosionStereo, {
+	| in, out, freq = 100, rangeLo = 0.002, rangeHi = 0.1, decayTime = 1.5, amp = 1, mix = 1, cutoff = 20000 |
+	var input, dry, noise, delay, filter, sig;
+	input = In.ar(in, 2);
+	dry = input * (1-mix);
+	noise = LFNoise1.ar(freq).range(rangeLo, rangeHi);
+	delay = CombN.ar(input, 1, noise, decayTime);
+	filter = LPF.ar(delay, cutoff);
+	delay = filter*mix;
+	sig = (dry + delay) * amp;
+	sig = ReplaceOut.ar(out, sig);
+}).add;
+
+
 "erosion SynthDef Added".postln;
 "     args: in, out, freq = 100, rangeLo = 0.002, rangeHi = 0.1, decayTime = 1.5, amp = 1, mix = 1".postln;
