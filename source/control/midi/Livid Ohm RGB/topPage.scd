@@ -78,6 +78,6 @@ never = 13;
 	MIDIdef.noteOn(\boyPage, { ~page.boy.top; }, boy);
 
 	// 14. Never Could See Any Other Way:
-	~ohm.turnRed(never);
+	~ohm.turnWhite(never);
 	MIDIdef.noteOn(\neverPage, { ~page.never.top; }, never);
 };

@@ -90,7 +90,7 @@ prm
 
 	makePatterns: { | self |
 		Pbindef(\neverTpt,
-			\instrument, \freezePlayerSus2,
+			\instrument, \playBufStereoSus,
 			\group, self.playGroup,
 			\addAction, \addToTail,
 			\out, self.faderBus,
@@ -103,7 +103,17 @@ prm
 				self.buffer[4], self.buffer[5], self.buffer[6], self.buffer[7],
 				self.buffer[8]], inf),
 			\dur, Pseq([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.2, 1.2], inf) + Pwhite(-0.001, 0.001),
-			\legato, 1
+			\legato, 1,
+			\msg, Prout({
+				var tempArray = #[0, 1, 2, 3, 4, 5, 6, 7, 8];
+				loop {
+					tempArray.do({ |item, index|
+						~scLang.sendMsg(\neverControl, \tptAccompNum , item);
+						"hi".yield;
+
+					});
+				}
+			}),
 		);
 		self;
 	},
@@ -146,7 +156,7 @@ prm
 	},
 
 	stopAccomp: { | self |
-		Pbindef(\neverTpt).stop(self.tempoClock, quant: 0);
+		Pbindef(\neverTpt).stop(self.tempoClock);
 		self.playState = 0;
 		self;
 	},
