@@ -8,6 +8,7 @@ prm
 
 	state: 0,
 	muteState: 0,
+	playState: 0,
 	output: ~mixer.s2,
 
 	spawn: { | self |
@@ -19,9 +20,9 @@ prm
 		self.makeClock;
 		self.makeBuffers;
 		self.makeBusses;
-		self.makePatterns;
 		self.makeSynths;
 		self.makeGroups;
+		self.makePatterns;
 		self.state = 1;
 		self;
 	},
@@ -38,7 +39,7 @@ prm
 	},
 
 	makeClock: { | self |
-		self.tempoClock = TempoClock.new(140/60);
+		self.tempoClock = TempoClock.new(145/60);
 		self;
 	},
 
@@ -102,6 +103,7 @@ prm
 				self.buffer[4], self.buffer[5], self.buffer[6], self.buffer[7],
 				self.buffer[8]], inf),
 			\dur, Pseq([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.2, 1.2], inf) + Pwhite(-0.001, 0.001),
+			\legato, 1
 		);
 		self;
 	},
@@ -115,7 +117,7 @@ prm
 	},
 
 	resetPatterns: { | self |
-		Pbindef(\nevertpt,
+		Pbindef(\neverTpt,
 			\rateLo, 1,
 			\rateHi, 1
 		);
@@ -132,13 +134,20 @@ prm
 		self;
 	},
 
-	playPatterns: { | self |
-		Pbindef(\neverTpt).play(self.tempoClock, quant: 0);
+	toggleAccomp: { | self |
+		if( self.playState == 0, { self.playAccomp; }, { self.stopAccomp; });
 		self;
 	},
 
-	stopPatterns: { | self |
+	playAccomp: { | self |
+		Pbindef(\neverTpt).play(self.tempoClock, quant: 0);
+		self.playState = 1;
+		self;
+	},
+
+	stopAccomp: { | self |
 		Pbindef(\neverTpt).stop(self.tempoClock, quant: 0);
+		self.playState = 0;
 		self;
 	},
 
