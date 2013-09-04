@@ -76,7 +76,7 @@ prm
 	makeSynths: { | self |
 		self.posLo = Synth.tail(~group.control, \lfSaw, [\out, self.posLoBus, \freq, 0.05, \rangeLo, 0.2, \rangeHi, 0.8]);
 		self.posHi = Synth.tail(~group.control, \lfSaw, [\out, self.posHiBus, \freq, 0.05, \rangeLo, 0.25, \rangeHi, 0.85]);
-		self.dur = Synth.tail(~group.control, \noiseControl0, [\out, self.durBus, \freq, 0.2, \rangeLo, 0.15, \rangeHi, 0.35]);
+		self.dur = Synth.tail(~group.control, \noiseControl0, [\out, self.durBus, \freq, 0.2, \rangeLo, 0.15, \rangeHi, 0.55]);
 		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -4.dbamp]);
 		self;
 	},

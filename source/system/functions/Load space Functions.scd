@@ -7,3 +7,4 @@ prm
 ~space = ( );
 
 "/Space/tanpura.scd".loadRelative;
+"/Space/drone.scd".loadRelative;
