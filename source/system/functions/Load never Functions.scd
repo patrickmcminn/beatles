@@ -6,5 +6,7 @@ prm
 
 ~never = ( );
 
+
+"/never/router.scd".loadRelative;
 "/never/chord.scd".loadRelative;
 "/never/tptAccomp.scd".loadRelative;
