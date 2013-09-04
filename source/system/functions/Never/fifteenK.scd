@@ -1,14 +1,18 @@
 /*
 Wednesday, September 4th 2013
-router.scd
+fifteenK.scd
 prm
 */
 
-~never.router = (
+~never.fifteenK = (
 
 	state: 0,
-	output: ~mixer.s1,
-	currentIn: 1,
+
+	iter1: 1,
+	iter2: 1,
+	iter3: 1,
+
+	output: ~mixer.s3,
 
 	spawn: { | self |
 		if( self.state == 0, { self.init; }, { self.kill; });
@@ -34,12 +38,12 @@ prm
 	},
 
 	makeGroups: { | self |
-		self.inGroup = Group.new(self.fader, \addBefore);
+		self.playGroup = Group.new(self.fader, \addBefore);
 		self;
 	},
 
 	killGroups: { | self |
-		self.inGroup.free;
+		self.playGroup.free;
 		self;
 	},
 
@@ -54,24 +58,17 @@ prm
 	},
 
 	makeBusses: { | self |
-		self.in1 = Bus.audio(s, 2);
-		self.in2 = Bus.audio(s, 2);
-		self.in3 = Bus.audio(s, 2);
-		self.in4 = Bus.audio(s, 2);
+		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
 	killBusses: { | self |
-		self.in1.free;
-		self.in2.free;
-		self.in3.free;
-		self.in4.free;
+		self.faderBus.free;
 		self;
 	},
 
 	makeSynths: { | self |
-		self.fader = Synth.tail(~group.fx, \audioRouter, [\in1, self.in1, \in2, self.in2, \in3, self.in3, \in4, self.in4, \out, self.output,
-			\amp, -4.dbamp]);
+		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
 		self;
 	},
 
@@ -80,27 +77,29 @@ prm
 		self;
 	},
 
-	setIn1: { | self |
-		self.fader.set(\inSel, 0);
-		self.currentIn = 1;
+	play1: {  | self |
+		Synth.tail(self.playGroup, \sine, [\out, self.faderBus, \amp, 0.01, \freq, 15000/self.iter1, \pan, rrand(-1, 1)]);
+		self.iter1 = self.iter1 + 1;
 		self;
 	},
 
-	setIn2: { | self |
-		self.fader.set(\inSel, 1);
-		self.currentIn = 2;
+	play2: {  | self |
+		Synth.tail(self.playGroup, \sine, [\out, self.faderBus, \amp, 0.01, \freq, 15000/self.iter2, \pan, rrand(-1, 1)]);
+		self.iter2 = self.iter2 + 0.7;
 		self;
 	},
 
-	setIn3: { | self |
-		self.fader.set(\inSel, 2);
-		self.currentIn = 3;
+	play3: {  | self |
+		Synth.tail(self.playGroup, \sine, [\out, self.faderBus, \amp, 0.01, \freq, 15000/self.iter3, \pan, rrand(-1, 1)]);
+		self.iter3 = self.iter3 + 0.6;
 		self;
 	},
 
-	setIn4: { | self |
-		self.fader.set(\inSel, 3);
-		self.currentIn = 4;
+	stopAll: { | self |
+		self.playGroup.set(\gate, 0);
+		self.iter1 = 1;
+		self.iter2 = 1;
+		self.iter3 = 1;
 		self;
 	},
 
@@ -130,3 +129,4 @@ prm
 	},
 
 );
+

@@ -10,10 +10,10 @@ prm
 	muteState: 0,
 	output: ~mixer.s1,
 	playState: 0,
-	granAmp: -4.dbamp,
+	granAmp: -2.dbamp,
 
 	spawn: { | self |
-		if( self.state == 0, { self.init; }, { self.kill; });
+		if( self.state == 0, { if( ~never.router.state == 1) { self.init; } }, { self.kill; });
 		self;
 	},
 
@@ -36,7 +36,7 @@ prm
 	},
 
 	makeGroups: { | self |
-		self.pianoGroup = Group.new(self.fader, \addBefore);
+		self.pianoGroup = Group.new(self.granFader, \addBefore);
 		self;
 	},
 
@@ -63,32 +63,32 @@ prm
 	},
 
 	makeBusses: { | self |
-		self.panBus = Bus.audio;
-		self.faderBus = Bus.audio(s, 2);
+		self.granFaderBus = Bus.audio(s, 2);
+		self.faderBus = Bus.audio;
 		self;
 	},
 
 	killBusses: { | self |
-		self.panBus.free;
+		self.granFaderBus.free;
 		self.faderBus.free;
 		self;
 	},
 
 	makeSynths: { | self |
-		self.pan = Synth(\pan, [\in, self.panBus, \out, self.faderBus], ~group.fx, \addToTail);
-		self.fader = Synth(\stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp], ~group.fx, \addToTail);
+		self.granFader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.granFaderBus, \out, ~never.router.in4, \amp, 1]);
+		self.fader = Synth(\pan, [\in, self.faderBus, \out, self.ouput], ~group.fx, \addToTail);
 		self;
 	},
 
 	killSynths: { | self |
-		self.pan.free;
+		self.granFader.free;
 		self.fader.free;
 		self;
 	},
 
 	playChord: { | self |
 		self.chord = Synth(\playBuf,
-			[\out, self.panBus, \bufName, self.fullChordBuf, \sustain, self.fullChordBuf.numFrames/s.sampleRate],
+			[\out, self.faderBus, \bufName, self.fullChordBuf, \sustain, self.fullChordBuf.numFrames/s.sampleRate],
 			self.pan, \addBefore);
 		self;
 	},
@@ -101,12 +101,12 @@ prm
 	granulateChord: { | self |
 		self.chordGran = Array.fill(8, { | i |
 			Synth.tail(self.pianoGroup, \freezePlayerSus2,
-				[\buffer, self.chordBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0, \posHi, 0.7,
+				[\out, self.granFaderBus, \buffer, self.chordBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0, \posHi, 0.7,
 					\grainDurLo, 0.1, \grainDurHi, 0.5, \trigRate, 12]);
 		});
 		self.shiftChordGran = Array.fill(8, { | i |
 			Synth.tail(self.pianoGroup, \freezePlayerSus2,
-				[\buffer, self.chordShiftBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0, \posHi, 0.7,
+				[\out, self.granFaderBus, \buffer, self.chordShiftBuf[i], \amp, self.granAmp, \cutoff, 15000, \posLo, 0, \posHi, 0.7,
 					\grainDurLo, 0.1, \grainDurHi, 0.5, \trigRate, 12]);
 		});
 		self.playState = 1;

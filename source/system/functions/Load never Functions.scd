@@ -8,5 +8,8 @@ prm
 
 
 "/never/router.scd".loadRelative;
-"/never/chord.scd".loadRelative;
 "/never/tptAccomp.scd".loadRelative;
+"/never/mainLoop.scd".loadRelative;
+"/never/beatlesGran.scd".loadRelative;
+"/never/rewind.scd".loadRelative;
+"/never/chord.scd".loadRelative;

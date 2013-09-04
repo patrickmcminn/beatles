@@ -8,3 +8,4 @@ prm
 "Synth SynthDefs/hammond.scd".loadRelative;
 "Synth SynthDefs/pianoFade.scd".loadRelative;
 "Synth SynthDefs/susSampler.scd".loadRelative;
+"Synth SynthDefs/sine.scd".loadRelative;

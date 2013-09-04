@@ -1,17 +1,16 @@
 /*
 Wednesday, September 4th 2013
-router.scd
+beatlesGran.scd
 prm
 */
 
-~never.router = (
+~never.beatlesGran = (
 
 	state: 0,
-	output: ~mixer.s1,
-	currentIn: 1,
+	playState: 0,
 
 	spawn: { | self |
-		if( self.state == 0, { self.init; }, { self.kill; });
+		if( self.state == 0, { if( ~never.router.state == 1) { self.init; } }, { self.kill; });
 		self;
 	},
 
@@ -34,44 +33,38 @@ prm
 	},
 
 	makeGroups: { | self |
-		self.inGroup = Group.new(self.fader, \addBefore);
+		self.playGroup = Group.new(self.fader, \addBefore);
 		self;
 	},
 
 	killGroups: { | self |
-		self.inGroup.free;
+		self.playGroup.free;
 		self;
 	},
 
 	makeBuffers: { | self |
-
+		var path = "/Users/patrickmcminn/Documents/Music/Current Work/Patrick McMinn/Great Noise Ensemble/Beatles Concert/Beatles/data/Never Could See Any Other Way/";
+		self.buffer = Buffer.read(s, path ++ "granBeatles.aif");
 		self;
 	},
 
 	killBuffers: { | self |
-
+		self.buffer.free;
 		self;
 	},
 
 	makeBusses: { | self |
-		self.in1 = Bus.audio(s, 2);
-		self.in2 = Bus.audio(s, 2);
-		self.in3 = Bus.audio(s, 2);
-		self.in4 = Bus.audio(s, 2);
+		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
 	killBusses: { | self |
-		self.in1.free;
-		self.in2.free;
-		self.in3.free;
-		self.in4.free;
+		self.faderBus.free;
 		self;
 	},
 
 	makeSynths: { | self |
-		self.fader = Synth.tail(~group.fx, \audioRouter, [\in1, self.in1, \in2, self.in2, \in3, self.in3, \in4, self.in4, \out, self.output,
-			\amp, -4.dbamp]);
+		self.fader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.faderBus, \out, ~never.router.in2, \amp, 1]);
 		self;
 	},
 
@@ -80,27 +73,22 @@ prm
 		self;
 	},
 
-	setIn1: { | self |
-		self.fader.set(\inSel, 0);
-		self.currentIn = 1;
+	toggleGran: { | self |
+		if( self.playState == 0, { self.playGran; }, { self.stopGran; });
 		self;
 	},
 
-	setIn2: { | self |
-		self.fader.set(\inSel, 1);
-		self.currentIn = 2;
+	playGran: { | self |
+		self.gran = Synth.tail(self.playGroup, \freezePlayerSus2, [
+			\buffer, self.buffer, \out, self.faderBus, \trigRate, 2, \posLo, 0, \posHi, 1,
+			\cutoff, 5000, \rel, 0.01, \grainDurLo, 1, \grainDurHi, 3]);
+		self.playState = 1;
 		self;
 	},
 
-	setIn3: { | self |
-		self.fader.set(\inSel, 2);
-		self.currentIn = 3;
-		self;
-	},
-
-	setIn4: { | self |
-		self.fader.set(\inSel, 3);
-		self.currentIn = 4;
+	stopGran: { | self |
+		self.gran.set(\gate, 0);
+		self.playState = 0;
 		self;
 	},
 
