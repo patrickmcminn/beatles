@@ -11,7 +11,7 @@ prm
 	play6959: 17,
 	numbersArray: [2, 10, 18, 26, 34, 42, 50, 58, 3, 11, 19, 27, 35, 43, 51, 59, 4, 12, 20, 28, 36, 44, 52, 60],
 
-	vol: 14,
+	vol: 15,
 
 	makeOSC: { | self |
 		OSCdef(\boyNumbersRestore, { | msg |
