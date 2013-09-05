@@ -199,7 +199,7 @@ prm
 		self;
 	},
 
-	makeGran1MIDI: { | self |
+	makeGran3MIDI: { | self |
 		MIDIdef.noteOn(\noiseBedGran3, {
 			~boy.noiseBed.toggleGran3;
 			~scLang.sendMsg(\boyControl, \noiseBedGran3, ~boy.noiseBed.gran3State);
@@ -207,12 +207,12 @@ prm
 		self;
 	},
 
-	killGran1MIDI: { | self |
+	killGran3MIDI: { | self |
 		MIDIdef(\noiseBedGran3).free;
 		self;
 	},
 
-	gran1Ohm: { | self, val |
+	gran3Ohm: { | self, val |
 		if( val == 1,
 			{
 				~ohm.turnGreen(self.gran3);
@@ -229,8 +229,8 @@ prm
 
 	makeVol: { | self |
 		MIDIdef.cc(\noiseBedVol, { | val |
-			var amp = val.linlin(0, 127, 0, 2.dbamp);
-			~boy.noiseBed.set(\amp, amp);
+			var amp = val.linlin(0, 127, 0, 10.dbamp);
+			~boy.noiseBed.fader.set(\amp, amp);
 		}, self.vol);
 		~restoreOhm.boy.noiseBedVol = 1;
 		self;

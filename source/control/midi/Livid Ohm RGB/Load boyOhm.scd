@@ -13,5 +13,5 @@ prm
 	s.sync;
 	"/Boy/Boy Page.scd".loadRelative;
 	"/Boy/Load noiseBedOhm.scd".loadRelative;
-	//"/Boy/Load numbersOhm.scd".loadRelative;
+	"/Boy/Load numbersOhm.scd".loadRelative;
 }.fork;

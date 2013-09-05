@@ -9,12 +9,12 @@ prm
 	main: 1,
 	play540: 9,
 	play6959: 17,
-	numbersArray: [2, 10, 18, 26, 34, 42, 50, 58, 3, 11, 19, 35, 43, 51, 59, 4, 12, 20, 28, 36, 44, 52, 60],
+	numbersArray: [2, 10, 18, 26, 34, 42, 50, 58, 3, 11, 19, 27, 35, 43, 51, 59, 4, 12, 20, 28, 36, 44, 52, 60],
 
-	vol: 15,
+	vol: 14,
 
 	makeOSC: { | self |
-		OSCdef(\boyNoiseBed, { | msg |
+		OSCdef(\boyNumbersRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
@@ -25,7 +25,7 @@ prm
 			{ id == \numbersPlay} { self.numbersOhm(val); }
 		}, \boyControl, ~scLang);
 
-		OSCdef(\boyNoiseBedOhmRestore, { | msg |
+		OSCdef(\boyNumbersOhmRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
@@ -126,7 +126,7 @@ prm
 		self;
 	},
 
-	play540Ohm: { | self, val, time = 2 |
+	make540Ohm: { | self, val, time = 2 |
 		if( val == 1, {
 			~ohm.blink(self.play540, \green, time);
 			{ ~ohm.turnYellow(self.play540) }.defer(time);
@@ -165,7 +165,7 @@ prm
 		self;
 	},
 
-	play6959Ohm: { | self, val, time = 2 |
+	make6959Ohm: { | self, val, time = 2 |
 		if( val == 1, {
 			~ohm.blink(self.play6959, \green, time);
 			{ ~ohm.turnBlue(self.play6959) }.defer(time);
@@ -176,7 +176,7 @@ prm
 	makeNumbers: { | self |
 		self.numbersArray.do({ | led, i |
 			~ohm.turnPurple(led);
-			~restoreOhm.boy.page.put(\purple, led);
+			~restoreOhm.boy.page.put(led, \purple);
 		});
 		self.makeNumbersMIDI;
 		~restoreOhm.boy.numbersPlay = 1;
@@ -186,7 +186,7 @@ prm
 	killNumbers: { | self |
 		self.numbersArray.do({ | led, i |
 			~ohm.turnOff(led);
-			~restoreOhm.boy.page.put(\off, led);
+			~restoreOhm.boy.page.put(led, \off);
 		});
 		self.killNumbersMIDI;
 		~restoreOhm.boy.numbersPlay = 0;
@@ -211,22 +211,23 @@ prm
 
 	numbersOhm: { | self, val, time = 0.5 |
 		~ohm.blink(val, \green, time);
+		{ ~ohm.turnPurple(val) }.defer(time);
 		self;
 	},
 
 
 	makeVol: { | self |
-		MIDIdef.cc(\noiseBedVol, { | val |
-			var amp = val.linlin(0, 127, 0, 2.dbamp);
-			~boy.noiseBed.set(\amp, amp);
+		MIDIdef.cc(\numbersVol, { | val |
+			var amp = val.linlin(0, 127, 0, 6.dbamp);
+			~boy.numbers.fader.set(\amp, amp)
 		}, self.vol);
-		~restoreOhm.boy.noiseBedVol = 1;
+		~restoreOhm.boy.numbersVol = 1;
 		self;
 	},
 
 	killVol: { | self |
-		MIDIdef(\noiseBedVol).free;
-		~restoreOhm.boy.noiseBedVol = 0;
+		MIDIdef(\numbersVol).free;
+		~restoreOhm.boy.numbersVol = 0;
 		self;
 	},
 
