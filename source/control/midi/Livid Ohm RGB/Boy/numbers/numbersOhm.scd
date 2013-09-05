@@ -1,34 +1,40 @@
 /*
-Wednesday, August 28th 2013
-basslineOhm.scd
+Thursday, September 5th 2013
+numberOhm.scd
 prm
 */
 
-~billyOhm.bassline = (
+~boyOhm.numbers = (
 
-	main: 6,
-	playBassline: 14,
+	main: 1,
+	play540: 9,
+	play6959: 17,
+	numbersArray: [2, 10, 18, 26, 34, 42, 50, 58, 3, 11, 19, 35, 43, 51, 59, 4, 12, 20, 28, 36, 44, 52, 60],
 
-	vol: 14,
+	vol: 15,
 
 	makeOSC: { | self |
-		OSCdef(\billyBasslineOhm, { | msg |
+		OSCdef(\boyNoiseBed, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-			{ id == \basslineTop } { self.spawn(val); }
-			{ id == \basslinePlay } { self.playOhm(val); }
-		}, \billyControl, ~scLang);
+			{ id == \numbersTop } { self.spawn(val); }
+			{ id == \numbers540 } { self.make540Ohm(val); }
+			{ id == \numbers6959 } { self.make6959Ohm(val); }
+			{ id == \numbersPlay} { self.numbersOhm(val); }
+		}, \boyControl, ~scLang);
 
-		OSCdef(\billyBasslineOhmRestore, { | msg |
+		OSCdef(\boyNoiseBedOhmRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-			{ id == \basslineVol } { if ( val == 1, { self.makeVol; }) }
-			{ id == \basslinePlay } { if( val == 1, { self.makePlayMIDI; }) }
-		}, \restoreOhmBilly, ~scLang);
+			{ id == \numbersVol } { if ( val == 1, { self.makeVol; }) }
+			{ id == \play540 } { if ( val == 1, { self.make540MIDI; }) }
+			{ id == \play6959 } { if ( val == 1, { self.make6959MIDI; }) }
+			{ id == \numbersPlay } { if ( val == 1, { self.makeNumbersMIDI; }) }
+		}, \restoreOhmBoy, ~scLang);
 		self;
 	},
 
@@ -53,13 +59,17 @@ prm
 
 	makeButtons: { | self |
 		self.topOhm(1);
-		self.makePlay;
+		self.make540;
+		self.make6959;
+		self.makeNumbers;
 		self;
 	},
 
 	killButtons: { | self |
 		self.topOhm(0);
-		self.killPlay;
+		self.kill540;
+		self.kill6959;
+		self.killNumbers;
 		self;
 	},
 
@@ -77,71 +87,146 @@ prm
 		if( val == 1,
 			{
 				~ohm.turnWhite(self.main);
-				~restoreOhm.billy.page.put(self.main, \white);
+				~restoreOhm.boy.page.put(self.main, \white);
 			},
 			{
 				~ohm.turnRed(self.main);
-				~restoreOhm.billy.page.put(self.main, \red);
+				~restoreOhm.boy.page.put(self.main, \red);
 			}
 		);
 		self;
 	},
 
-	makePlay: { | self |
-		~ohm.turnYellow(self.playBassline);
-		~restoreOhm.billy.page.put(self.playBassline, \yellow);
-		self.makePlayMIDI;
-		~restoreOhm.billy.basslinePlay = 1;
+	make540: { | self |
+		~ohm.turnYellow(self.play540);
+		~restoreOhm.boy.page.put(self.play540, \yellow);
+		self.make540MIDI;
+		~restoreOhm.boy.play540 = 1;
 		self;
 	},
 
-	killPlay: { | self |
-		~ohm.turnOff(self.playBassline);
-		~restoreOhm.billy.page.put(self.playBassline, \off);
-		self.killPlayMIDI;
-		~restoreOhm.billy.basslinePlay = 0;
+	kill540: { | self |
+		~ohm.turnOff(self.play540);
+		~restoreOhm.boy.page.put(self.play540, \off);
+		self.kill540MIDI;
+		~restoreOhm.boy.play540 = 0;
 		self;
 	},
 
-	makePlayMIDI: { | self |
-		MIDIdef.noteOn(\basslinePlay, {
-			~billy.bassline.togglePattern;
-			~scLang.sendMsg(\billyControl, \basslinePlay, ~billy.bassline.playState);
-		}, self.playBassline);
+	make540MIDI: { | self |
+		MIDIdef.noteOn(\boyPlay540, {
+			~boy.numbers.play540;
+			~scLang.sendMsg(\boyControl, \numbers540, 1);
+		}, self.play540);
 		self;
 	},
 
-	killPlayMIDI: { | self |
-		MIDIdef(\basslinePlay).free;
+	kill540MIDI: { | self |
+		MIDIdef(\boyPlay540).free;
 		self;
 	},
 
-	playOhm: { | self, val |
-		if( val == 1,
-			{
-				~ohm.turnGreen(self.playBassline);
-				~restoreOhm.billy.page.put(self.playBassline, \green);
-			},
-			{
-				~ohm.turnRed(self.playBassline);
-				~restoreOhm.billy.page.put(self.playBassline, \red);
-			}
-		);
+	play540Ohm: { | self, val, time = 2 |
+		if( val == 1, {
+			~ohm.blink(self.play540, \green, time);
+			{ ~ohm.turnYellow(self.play540) }.defer(time);
+		});
+
 		self;
 	},
+
+
+	make6959: { | self |
+		~ohm.turnBlue(self.play6959);
+		~restoreOhm.boy.page.put(self.play6959, \blue);
+		self.make6959MIDI;
+		~restoreOhm.boy.play6959 = 1;
+		self;
+	},
+
+	kill6959: { | self |
+		~ohm.turnOff(self.play6959);
+		~restoreOhm.boy.page.put(self.play6959, \off);
+		self.kill6959MIDI;
+		~restoreOhm.boy.play6959 = 0;
+		self;
+	},
+
+	make6959MIDI: { | self |
+		MIDIdef.noteOn(\play6959, {
+			~boy.numbers.play6959;
+
+		}, self.play6959);
+		self;
+	},
+
+	kill6959MIDI: { | self |
+		MIDIdef(\play6959).free;
+		self;
+	},
+
+	play6959Ohm: { | self, val, time = 2 |
+		if( val == 1, {
+			~ohm.blink(self.play6959, \green, time);
+			{ ~ohm.turnBlue(self.play6959) }.defer(time);
+		});
+		self;
+	},
+
+	makeNumbers: { | self |
+		self.numbersArray.do({ | led, i |
+			~ohm.turnPurple(led);
+			~restoreOhm.boy.page.put(\purple, led);
+		});
+		self.makeNumbersMIDI;
+		~restoreOhm.boy.numbersPlay = 1;
+		self;
+	},
+
+	killNumbers: { | self |
+		self.numbersArray.do({ | led, i |
+			~ohm.turnOff(led);
+			~restoreOhm.boy.page.put(\off, led);
+		});
+		self.killNumbersMIDI;
+		~restoreOhm.boy.numbersPlay = 0;
+	},
+
+	makeNumbersMIDI: { | self |
+		self.numbersArray.do({ | led, i |
+			MIDIdef.noteOn(("numbersPlay" ++ (i + 1)).asSymbol, {
+				("~boy.numbers.play" ++ (i + 1)).interpret;
+				~scLang.sendMsg(\boyControl, \numbersPlay, led);
+			}, led);
+		});
+		self;
+	},
+
+	killNumbersMIDI: { | self |
+		self.numbersArray.do({ | led, i |
+			MIDIdef((("numbersPlay" ++ (i + 1)).asSymbol)).free;
+		});
+		self;
+	},
+
+	numbersOhm: { | self, val, time = 0.5 |
+		~ohm.blink(val, \green, time);
+		self;
+	},
+
 
 	makeVol: { | self |
-		MIDIdef.cc(\basslineVol, { | val |
-			var amp = val.linlin(0, 127, 0, -2.dbamp);
-			~billy.bassline.fader.set(\amp, amp);
+		MIDIdef.cc(\noiseBedVol, { | val |
+			var amp = val.linlin(0, 127, 0, 2.dbamp);
+			~boy.noiseBed.set(\amp, amp);
 		}, self.vol);
-		~restoreOhm.billy.basslineVol = 1;
+		~restoreOhm.boy.noiseBedVol = 1;
 		self;
 	},
 
 	killVol: { | self |
-		MIDIdef(\basslineVol).free;
-		~restoreOhm.billy.basslineVol = 0;
+		MIDIdef(\noiseBedVol).free;
+		~restoreOhm.boy.noiseBedVol = 0;
 		self;
 	},
 
