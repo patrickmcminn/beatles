@@ -59,11 +59,15 @@ prm
 	},
 
 	makeBusses: { | self |
+		self.fadeLoBus = Bus.control;
+		self.fadeHiBus = Bus.control;
 		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
 	killBusses: { | self |
+		self.fadeHiBus.free;
+		self.fadeLoBus.free;
 		self.faderBus.free;
 		self;
 	},
@@ -90,6 +94,9 @@ prm
 		self[("loop" ++ (buf+1)).asSymbol].set(\gate, 0);
 		self;
 	},
+
+	fade: { | self |
+		self.
 
 
 	setOutput: { | self, output |

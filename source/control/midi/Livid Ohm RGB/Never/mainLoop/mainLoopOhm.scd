@@ -11,6 +11,7 @@ prm
 	loopArray: [5, 13, 21, 29, 37, 45, 53, 61, 38, 46],
 
 	vol: 15,
+	rate: 8,
 
 	makeOSC: { | self |
 		OSCdef(\neverMainLoopOhm, { | msg |
@@ -33,6 +34,7 @@ prm
 			{ id == \mainLoopVol } { if ( val == 1, { self.makeVol; }) }
 			{ id == \mainLoopPlay } { if ( val == 1, { self.makeLoopMIDI; }) }
 			{ id == \mainLoopFade } { if ( val == 1, { self.makeFadeMIDI; }) }
+			{ id == \mainLoopRate } { if ( val == 1, { self.makeRate; }) }
 
 		}, \restoreOhmNever, ~scLang);
 
@@ -60,14 +62,14 @@ prm
 
 	makeButtons: { | self |
 		self.topOhm(1);
-		self.makeFade;
+		//self.makeFade;
 		self.makeLoop;
 		self;
 	},
 
 	killButtons: { | self |
 		self.topOhm(0);
-		self.killFade;
+		//self.killFade;
 		self.killLoop;
 		self;
 	},
@@ -79,6 +81,16 @@ prm
 
 	killFaders: { | self |
 		self.killVol;
+		self;
+	},
+
+	makeDials: { | self |
+		self.makeRate;
+		self;
+	},
+
+	killDials: { | self |
+		self.killRate;
 		self;
 	},
 
@@ -198,12 +210,13 @@ prm
 		self;
 	},
 
-	makeDials: { | self |
-		self;
+	makeRate: { | self |
+		MIDIdef.cc(\mainLoopRate, { | val |
+			var rateLo, rateHi;
+			rateLo = val.linlin(0, 127, 0.95, 5);
+			rateHi = val.linlin(0, 127, 1.05, 25);
+			~never.mainLoop.rateLo = rateLo;
+			~never.mainLoop.rateHi = rateHi;
+		}, self.rate);
 	},
-
-	killDials: { | self |
-		self;
-	},
-
 );
