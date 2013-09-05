@@ -102,7 +102,7 @@ prm
 		~ohm.turnOff(self.playGran);
 		~restoreOhm.never.page.put(self.playGran, \off);
 		self.killPlayMIDI;
-		~resotreOhm.never.beatlesGranPlay = 0;
+		~restoreOhm.never.beatlesGranPlay = 0;
 		self;
 	},
 

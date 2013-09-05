@@ -96,7 +96,8 @@ prm
 	},
 
 	fade: { | self |
-		self.
+		self;
+	},
 
 
 	setOutput: { | self, output |

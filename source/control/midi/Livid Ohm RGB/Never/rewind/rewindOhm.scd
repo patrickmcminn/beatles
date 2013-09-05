@@ -101,7 +101,7 @@ prm
 		~ohm.turnOff(self.playRewind);
 		~restoreOhm.never.page.put(self.playRewind, \off);
 		self.killPlayMIDI;
-		~resotreOhm.never.rewindPlay = 0;
+		~restoreOhm.never.rewindPlay = 0;
 		self;
 	},
 

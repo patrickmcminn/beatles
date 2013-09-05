@@ -18,5 +18,5 @@ prm
 	"/Never/Load chordOhm.scd".loadRelative;
 	"/Never/Load mainLoopOhm.scd".loadRelative;
 	"/Never/Load beatlesGranOhm.scd".loadRelative;
-	//"/Never/Load rewindOhm.scd".loadRelative;
+	"/Never/Load rewindOhm.scd".loadRelative;
 }.fork;

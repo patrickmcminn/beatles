@@ -11,7 +11,7 @@ prm
 	loopArray: [5, 13, 21, 29, 37, 45, 53, 61, 38, 46],
 
 	vol: 15,
-	rate: 8,
+	rateNum: 8,
 
 	makeOSC: { | self |
 		OSCdef(\neverMainLoopOhm, { | msg |
@@ -215,8 +215,14 @@ prm
 			var rateLo, rateHi;
 			rateLo = val.linlin(0, 127, 0.95, 5);
 			rateHi = val.linlin(0, 127, 1.05, 25);
+			rateLo.postln;
 			~never.mainLoop.rateLo = rateLo;
 			~never.mainLoop.rateHi = rateHi;
-		}, self.rate);
+		}, self.rateNum);
+	},
+
+	killRate: { | self |
+		MIDIdef(\mainLoopRate).free;
+		self;
 	},
 );
