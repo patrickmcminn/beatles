@@ -69,7 +69,7 @@ prm
 	},
 
 	makeBusses: { | self |
-		self.faderBus = Bus.audio;
+		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 

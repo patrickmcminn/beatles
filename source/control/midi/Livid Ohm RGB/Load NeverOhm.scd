@@ -15,8 +15,8 @@ prm
 	"/Never/Load fifteenKOhm.scd".loadRelative;
 	"/Never/Load tptAccompOhm.scd".loadRelative;
 	"/Never/Load routerOhm.scd".loadRelative;
-	//"/Never/Load chordOhm.scd".loadRelative;
-	//"/Never/Load mainLoopOhm.scd".loadRelative;
-	//"/Never/Load beatlesGranOhm.scd".loadRelative;
+	"/Never/Load chordOhm.scd".loadRelative;
+	"/Never/Load mainLoopOhm.scd".loadRelative;
+	"/Never/Load beatlesGranOhm.scd".loadRelative;
 	//"/Never/Load rewindOhm.scd".loadRelative;
 }.fork;

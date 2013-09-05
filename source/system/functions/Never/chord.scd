@@ -75,8 +75,8 @@ prm
 	},
 
 	makeSynths: { | self |
-		self.granFader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.granFaderBus, \out, ~never.router.in4, \amp, 1]);
-		self.fader = Synth(\pan, [\in, self.faderBus, \out, self.ouput], ~group.fx, \addToTail);
+		self.granFader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.granFaderBus, \out, ~never.router.in4, \amp, 1.5]);
+		self.fader = Synth(\pan, [\in, self.faderBus, \out, self.output], ~group.fx, \addToTail);
 		self;
 	},
 
@@ -89,7 +89,7 @@ prm
 	playChord: { | self |
 		self.chord = Synth(\playBuf,
 			[\out, self.faderBus, \bufName, self.fullChordBuf, \sustain, self.fullChordBuf.numFrames/s.sampleRate],
-			self.pan, \addBefore);
+			self.fader, \addBefore);
 		self;
 	},
 

@@ -78,19 +78,22 @@ prm
 	},
 
 	play1: {  | self |
-		Synth.tail(self.playGroup, \sine, [\out, self.faderBus, \amp, 0.01, \freq, 15000/self.iter1, \pan, rrand(-1, 1)]);
+		Synth.tail(self.playGroup, \sine,
+			[\out, self.faderBus, \amp, 0.01, \atk, 3, \freq, 15000/self.iter1, \pan, rrand(-1, 1)]);
 		self.iter1 = self.iter1 + 1;
 		self;
 	},
 
 	play2: {  | self |
-		Synth.tail(self.playGroup, \sine, [\out, self.faderBus, \amp, 0.01, \freq, 15000/self.iter2, \pan, rrand(-1, 1)]);
+		Synth.tail(self.playGroup, \sine,
+			[\out, self.faderBus, \amp, 0.01, \atk, 3, \freq, 15000/self.iter2, \pan, rrand(-1, 1)]);
 		self.iter2 = self.iter2 + 0.7;
 		self;
 	},
 
 	play3: {  | self |
-		Synth.tail(self.playGroup, \sine, [\out, self.faderBus, \amp, 0.01, \freq, 15000/self.iter3, \pan, rrand(-1, 1)]);
+		Synth.tail(self.playGroup, \sine,
+			[\out, self.faderBus, \amp, 0.01, \atk, 3, \freq, 15000/self.iter3, \pan, rrand(-1, 1)]);
 		self.iter3 = self.iter3 + 0.6;
 		self;
 	},

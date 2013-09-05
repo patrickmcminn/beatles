@@ -1,42 +1,37 @@
 /*
 Wednesday, September 4th 2013
-fifteenKOhmscd
+chordOhm.scd
 prm
 */
 
-~neverOhm.fifteenK = (
+~neverOhm.chord = (
 
-	main: 0,
-	play1: 8,
-	play2: 16,
-	play3: 24,
-	stopAll: 32,
+	main: 47,
+	gran: 55,
+	chord: 63,
 
-	vol: 23,
+	vol: 14,
 
 	makeOSC: { | self |
-		OSCdef(\neverfifteenKOhm, { | msg |
+		OSCdef(\neverChordOhm, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-			{ id == \fifteenKTop } { self.spawn(val); }
-			{ id == \fifteenKPlay1 } { self.play1Ohm(val); }
-			{ id == \fifteenKPlay2 } { self.play2Ohm(val); }
-			{ id == \fifteenKPlay3 } { self.play3Ohm(val); }
+			{ id == \chordTop } { self.spawn(val); }
+			{ id == \chordGran } { self.granOhm(val); }
+			{ id == \chordPlay } { self.chordOhm(val); }
 		}, \neverControl, ~scLang);
 
-		OSCdef(\neverFifteenKOhmRestore, { | msg |
+		OSCdef(\neverChordOhmRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
 
-			{ id == \fifteenKVol } { if ( val == 1, { self.makeVol; }) }
-			{ id == \fifteenKPlay1 } { if ( val == 1, { self.makePlay1MIDI; }) }
-			{ id == \fifteenKPlay2 } { if ( val == 1, { self.makePlay2MIDI; }) }
-			{ id == \fifteenKPlay3 } { if ( val == 1, { self.makePlay3MIDI; }) }
-			{ id == \fifteenKStopAll } { if ( val == 1, { self.makeStopAllMIDI; }) }
+			{ id == \chordVol } { if ( val == 1, { self.makeVol; }) }
+			{ id == \chordGran} { if ( val == 1, { self.makeGranMIDI; }) }
+			{ id == \chordPlay } { if ( val == 1, { self.makeChordMIDI; }) }
 
 		}, \restoreOhmNever, ~scLang);
 
@@ -64,19 +59,15 @@ prm
 
 	makeButtons: { | self |
 		self.topOhm(1);
-		self.makePlay1;
-		self.makePlay2;
-		self.makePlay3;
-		self.makeStopAll;
+		self.makeGran;
+		self.makeChord;
 		self;
 	},
 
 	killButtons: { | self |
 		self.topOhm(0);
-		self.killPlay1;
-		self.killPlay2;
-		self.killPlay3;
-		self.killStopAll;
+		self.killGran;
+		self.killChord;
 		self;
 	},
 
@@ -93,8 +84,8 @@ prm
 	topOhm: { | self, val |
 		if( val == 1,
 			{
-				~ohm.turnYellow(self.main);
-				~restoreOhm.never.page.put(self.main, \yellow);
+				~ohm.turnGreen(self.main);
+				~restoreOhm.never.page.put(self.main, \green);
 			},
 			{
 				~ohm.turnRed(self.main);
@@ -104,161 +95,90 @@ prm
 		self;
 	},
 
-	makePlay1: { | self |
-		~ohm.turnCyan(self.play1);
-		~restoreOhm.never.page.put(self.play1, \cyan);
-		self.makePlay1MIDI;
-		~restoreOhm.never.fifteenKPlay1 = 1;
+	makeGran: { | self |
+		~ohm.turnYellow(self.gran);
+		~restoreOhm.never.page.put(self.gran, \yellow);
+		self.makeGranMIDI;
+		~restoreOhm.never.chordGran = 1;
 		self;
 	},
 
-	killPlay1: { | self |
-		~ohm.turnOff(self.play1);
-		~restoreOhm.never.page.put(self.play1, \off);
-		self.killPlay1MIDI;
-		~restoreOhm.never.fifteenKPlay1 = 0;
+	killGran: { | self |
+		~ohm.turnOff(self.gran);
+		~restoreOhm.never.page.put(self.gran, \off);
+		self.killGranMIDI;
+		~restoreOhm.never.chordGran = 0;
 		self;
 	},
 
-	makePlay1MIDI: { | self |
-		MIDIdef.noteOn(\fifteenKPlay1, {
-			~never.fifteenK.play1;
-			~scLang.sendMsg(\neverControl, \fifteenKPlay1, 1);
-		}, self.play1);
+	makeGranMIDI: { | self |
+		MIDIdef.noteOn(\neverChordGran, {
+			~never.chord.toggleChordGranulation;
+			~scLang.sendMsg(\neverControl, \chordGran, ~never.chord.playState);
+		}, self.gran);
 		self;
 	},
 
-	killPlay1MIDI: { | self |
-		MIDIdef(\fifteenKPlay1).free;
+	killGranMIDI: { | self |
+		MIDIdef(\neverChordGran).free;
 		self;
 	},
 
-	play1Ohm: { | self, val |
+	granOhm: { | self, val |
 		if( val == 1,
-			{ ~ohm.turnWhite(self.play1); ~restoreOhm.never.page.put(self.play1, \white); },
-			{ ~ohm.turnCyan(self.play1); ~restoreOhm.never.page.put(self.play1, \cyan); },
+			{ ~ohm.turnGreen(self.gran); ~restoreOhm.never.page.put(self.gran, \green); },
+			{ ~ohm.turnRed(self.gran); ~restoreOhm.never.page.put(self.gran, \red); }
 		);
 		self;
 	},
 
-	makePlay2: { | self |
-		~ohm.turnBlue(self.play2);
-		~restoreOhm.never.page.put(self.play2, \blue);
-		self.makePlay2MIDI;
-		~restoreOhm.never.fifteenKPlay2 = 1;
+	makeChord: { | self |
+		~ohm.turnWhite(self.chord);
+		~restoreOhm.never.page.put(self.chord, \white);
+		self.makeChordMIDI;
+		~restoreOhm.never.chordPlay = 1;
 		self;
 	},
 
-	killPlay2: { | self |
-		~ohm.turnOff(self.play2);
-		~restoreOhm.never.page.put(self.play2, \off);
-		self.killPlay2MIDI;
-		~restoreOhm.never.fifteenKPlay2 = 0;
+	killChord: { | self |
+		~ohm.turnOff(self.chord);
+		~restoreOhm.never.page.put(self.chord, \off);
+		self.killChordMIDI;
+		~restoreOhm.never.chordPlay = 0;
 		self;
 	},
 
-	makePlay2MIDI: { | self |
-		MIDIdef.noteOn(\fifteenKPlay2, {
-			~never.fifteenK.play2;
-			~scLang.sendMsg(\neverControl, \fifteenKPlay2, 1);
-		}, self.play2);
+	makeChordMIDI: { | self |
+		MIDIdef.noteOn(\neverPlayChord, {
+			~never.chord.playChord;
+			~scLang.sendMsg(\neverControl, \chordPlay, 1);
+		}, self.chord);
 		self;
 	},
 
-	killPlay1MIDI: { | self |
-		MIDIdef(\fifteenKPlay2).free;
+	killChordMIDI: { | self |
+		MIDIdef(\neverPlayChord).free;
 		self;
 	},
 
-	play2Ohm: { | self, val |
-		if( val == 1,
-			{ ~ohm.turnWhite(self.play2); ~restoreOhm.never.page.put(self.play2, \white); },
-			{ ~ohm.turnBlue(self.play2); ~restoreOhm.never.page.put(self.play2, \blue); },
-		);
-		self;
-	},
-
-	makePlay3: { | self |
-		~ohm.turnPurple(self.play3);
-		~restoreOhm.never.page.put(self.play3, \purple);
-		self.makePlay3MIDI;
-		~restoreOhm.never.fifteenKPlay3 = 1;
-		self;
-	},
-
-	killPlay3: { | self |
-		~ohm.turnOff(self.play3);
-		~restoreOhm.never.page.put(self.play3, \off);
-		self.killPlay3MIDI;
-		~restoreOhm.never.fifteenKPlay3 = 0;
-		self;
-	},
-
-	makePlay3MIDI: { | self |
-		MIDIdef.noteOn(\fifteenKPlay3, {
-			~never.fifteenK.play3;
-			~scLang.sendMsg(\neverControl, \fifteenKPlay3, 1);
-		}, self.play3);
-		self;
-	},
-
-	killPlay3MIDI: { | self |
-		MIDIdef(\fifteenKPlay3).free;
-		self;
-	},
-
-	play3Ohm: { | self, val |
-		if( val == 1,
-			{ ~ohm.turnWhite(self.play3); ~restoreOhm.never.page.put(self.play3, \white); },
-			{ ~ohm.turnPurple(self.play3); ~restoreOhm.never.page.put(self.play3, \purple); },
-		);
-		self;
-	},
-
-	makeStopAll: { | self |
-		~ohm.turnRed(self.stopAll);
-		~restoreOhm.never.page.put(self.stopAll, \red);
-		self.makeStopAllMIDI;
-		~restoreOhm.never.fifteenKStopAll = 1;
-		self;
-	},
-
-	killStopAll: { | self |
-		~ohm.turnOff(self.stopAll);
-		~restoreOhm.never.page.put(self.stopAll, \off);
-		self.killStopAllMIDI;
-		~restoreOhm.never.fifteenKStopAll = 0;
-		self;
-	},
-
-	makeStopAllMIDI: { | self |
-		MIDIdef.noteOn(\fifteenKStopAll, {
-			~never.fifteenK.stopAll;
-			~scLang.sendMsg(\neverControl, \fifteenKPlay1, 0);
-			~scLang.sendMsg(\neverControl, \fifteenKPlay2, 0);
-			~scLang.sendMsg(\neverControl, \fifteenKPlay3, 0);
-		}, self.stopAll;);
-		self;
-	},
-
-	killStopAllMIDI: { | self |
-		MIDIdef(\fifteenKStopAll).free;
+	chordOhm: { | self, val |
+		if( val == 1, { ~ohm.turnGreen(self.chord) });
 		self;
 	},
 
 	makeVol: { | self |
-		MIDIdef.cc(\fifteenKVol, { | val |
-			var amp = val.linlin(0, 127, 0, 1);
-			~never.fifteenK.fader.set(\amp, amp);
+		MIDIdef.cc(\chordVol, { | val |
+			var amp = val.linlin(0, 127, 0, 1.5);
+			~never.chord.fader.set(\amp, amp);
 		}, self.vol);
-		~restoreOhm.never.fifteenKVol = 1;
+		~restoreOhm.never.chordVol = 1;
 		self;
 
 	},
 
 	killVol: { | self |
-		MIDIdef(\fifteenKVol).free;
-		~restoreOhm.never.fifteenKVol = 0;
+		MIDIdef(\chordVol).free;
+		~restoreOhm.never.chordVol = 0;
 		self;
 	},
 

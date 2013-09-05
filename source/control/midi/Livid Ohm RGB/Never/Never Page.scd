@@ -11,7 +11,8 @@ tptAccomp = 1;
 router = 64;
 mainLoop = 4;
 beatlesGran = 7;
-rewind = 39;
+rewind = 23;
+chord = 47;
 
 ~page.never = ( );
 
@@ -60,6 +61,12 @@ rewind = 39;
 		~never.rewind.spawn;
 		~scLang.sendMsg(\neverControl, \rewindTop, ~never.rewind.state);
 	}, rewind);
+
+	~ohm.turnBlue(chord);
+	MIDIdef.noteOn(\chord, {
+		~never.chord.spawn;
+		~scLang.sendMsg(\neverControl, \chordTop, ~never.chord.state);
+	}, chord);
 
 	~restoreOhm.never.keysValuesDo({ | name, state |  ~scLang.sendMsg(\restoreOhmNever, name, state); });
 
