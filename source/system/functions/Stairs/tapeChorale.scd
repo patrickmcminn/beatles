@@ -92,11 +92,25 @@ prm
 		self;
 	},
 
+	toggleChorale: { | self |
+		if( self.playState == 0, { self.playChorale; }, { self.stopChorale; });
+		self;
+	},
+
 	playChorale: { | self |
 		self.playState = 1;
 		self.chorale = Synth.tail(self.playGroup, \playBufStereo, [\bufName, self.buffer[0], \out, self.erosionBus,
 			\sustain, self.buffer[0].numFrames/s.sampleRate]);
-		{ self.playState = 0; }.defer(self.buffer[0].numFrames/s.sampleRate);
+		{
+			self.playState = 0;
+			~scLang.sendMsg(\stairsControl, \tapeChoralePlay, self.playState);
+		}.defer(self.buffer[0].numFrames/s.sampleRate);
+		self;
+	},
+
+	stopChorale: { | self |
+		self.playState = 0;
+		self.chorale.free;
 		self;
 	},
 
