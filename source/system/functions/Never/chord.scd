@@ -8,9 +8,9 @@ prm
 
 	state: 0,
 	muteState: 0,
-	output: ~mixer.s1,
+	output: ~mixer.s2,
 	playState: 0,
-	granAmp: -2.dbamp,
+	granAmp: 4.dbamp,
 
 	spawn: { | self |
 		if( self.state == 0, { if( ~never.router.state == 1) { self.init; } }, { self.kill; });
@@ -64,7 +64,7 @@ prm
 
 	makeBusses: { | self |
 		self.granFaderBus = Bus.audio(s, 2);
-		self.faderBus = Bus.audio;
+		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
@@ -76,7 +76,7 @@ prm
 
 	makeSynths: { | self |
 		self.granFader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.granFaderBus, \out, ~never.router.in4, \amp, 1.5]);
-		self.fader = Synth(\pan, [\in, self.faderBus, \out, self.output], ~group.fx, \addToTail);
+		self.fader = Synth(\stereoFader, [\in, self.faderBus, \out, self.output, \amp, 1], ~group.fx, \addToTail);
 		self;
 	},
 
@@ -87,7 +87,7 @@ prm
 	},
 
 	playChord: { | self |
-		self.chord = Synth(\playBuf,
+		self.chord = Synth(\playBufStereo,
 			[\out, self.faderBus, \bufName, self.fullChordBuf, \sustain, self.fullChordBuf.numFrames/s.sampleRate],
 			self.fader, \addBefore);
 		self;

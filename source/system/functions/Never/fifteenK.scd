@@ -12,10 +12,9 @@ prm
 	iter2: 1,
 	iter3: 1,
 
-	output: ~mixer.s3,
 
 	spawn: { | self |
-		if( self.state == 0, { self.init; }, { self.kill; });
+		if( self.state == 0, { if( ~never.router.state == 1) { self.init; } }, { self.kill; });
 		self;
 	},
 
@@ -68,7 +67,7 @@ prm
 	},
 
 	makeSynths: { | self |
-		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
+		self.fader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.faderBus, \out, ~never.router.in1, \amp, 1]);
 		self;
 	},
 
@@ -106,30 +105,6 @@ prm
 		self;
 	},
 
-	setOutput: { | self, output |
-		case
-		{ output == 1 } { self.set1; }
-		{ output == 2 } { self.set2; }
-		{ output == 3 } { self.set3; }
-	},
-
-	set1: { | self |
-		self.output = ~mixer.s1;
-		self.fader.set(\out, self.output);
-		self;
-	},
-
-	set2: { | self |
-		self.output = ~mixer.s2;
-		self.fader.set(\out, self.output);
-		self;
-	},
-
-	set3: { | self |
-		self.output = ~mixer.s3;
-		self.fader.set(\out, self.output);
-		self;
-	},
 
 );
 

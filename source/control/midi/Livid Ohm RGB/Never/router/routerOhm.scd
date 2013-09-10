@@ -144,15 +144,20 @@ prm
 	},
 
 	makeInput2MIDI: { | self |
-		MIDIdef.noteOn(\routerInput2, {
+		MIDIdef.noteOn(\routerInput2On, {
 			~never.router.setIn2;
+			~scLang.sendMsg(\neverControl, \routerInput, ~never.router.currentIn);
+		}, self.input2);
+		MIDIdef.noteOff(\routerInput2Off, {
+			~never.router.setIn1;
 			~scLang.sendMsg(\neverControl, \routerInput, ~never.router.currentIn);
 		}, self.input2);
 		self;
 	},
 
 	killInput2MIDI: { | self |
-		MIDIdef(\routerInput2).free;
+		MIDIdef(\routerInput2On).free;
+		MIDIdef(\routerInput2Off).free;
 		self;
 	},
 
@@ -173,15 +178,20 @@ prm
 	},
 
 	makeInput3MIDI: { | self |
-		MIDIdef.noteOn(\routerInput3, {
+		MIDIdef.noteOn(\routerInput3On, {
 			~never.router.setIn3;
+			~scLang.sendMsg(\neverControl, \routerInput, ~never.router.currentIn);
+		}, self.input3);
+		MIDIdef.noteOff(\routerInput3Off, {
+			~never.router.setIn1;
 			~scLang.sendMsg(\neverControl, \routerInput, ~never.router.currentIn);
 		}, self.input3);
 		self;
 	},
 
 	killInput3MIDI: { | self |
-		MIDIdef(\routerInput3).free;
+		MIDIdef(\routerInput3On).free;
+		MIDIdef(\routerInput3Off).free;
 		self;
 	},
 
@@ -202,10 +212,20 @@ prm
 	},
 
 	makeInput4MIDI: { | self |
-		MIDIdef.noteOn(\routerInput4, {
+		MIDIdef.noteOn(\routerInput4On, {
 			~never.router.setIn4;
 			~scLang.sendMsg(\neverControl, \routerInput, ~never.router.currentIn);
 		}, self.input4);
+		MIDIdef.noteOff(\routerInput4Off, {
+			~never.router.setIn1;
+			~scLang.sendMsg(\neverControl, \routerInput, ~never.router.currentIn);
+		}, self.input4);
+		self;
+	},
+
+	killInput4MIDI: { | self |
+		MIDIdef(\routerInput4On).free;
+		MIDIdef(\routerInput4Off).free;
 		self;
 	},
 
