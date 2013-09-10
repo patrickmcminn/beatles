@@ -15,6 +15,10 @@ prm
 	radioNoise1State: 0,
 	radioNoise2State: 0,
 
+	radioNoise1Vol: 1,
+	radioNoise2Vol: 1,
+	tapeNoiseVol: 1,
+
 	output: ~mixer.s1,
 
 	spawn: { | self |
@@ -137,7 +141,8 @@ prm
 	},
 
 	playTapeNoise: { | self |
-		self.tapeNoise = Synth.tail(self.playGroup, \playBufStereoSus, [\buffer, self.buffer[1], \out, self.erosionBus, \amp, 1]);
+		self.tapeNoise = Synth.tail(self.playGroup, \playBufStereoSus, [\buffer, self.buffer[1], \out, self.erosionBus,
+			\amp, self.tapeNoiseVol]);
 		self.tapeNoiseState = 1;
 		self;
 	},
@@ -154,7 +159,8 @@ prm
 	},
 
 	playRadioNoise1: { | self |
-		self.radioNoise1 = Synth.tail(self.playGroup, \playBufStereoSus, [\buffer, self.buffer[2], \out, self.erosionBus, \amp, 1]);
+		self.radioNoise1 = Synth.tail(self.playGroup, \playBufStereoSus, [\buffer, self.buffer[2], \out, self.erosionBus,
+			\amp, self.radioNoise1Vol ]);
 		self.radioNoise1State = 1;
 		self;
 	},
@@ -171,7 +177,8 @@ prm
 	},
 
 	playRadioNoise2: { | self |
-		self.radioNoise2 = Synth.tail(self.playGroup, \playBufStereoSus, [\buffer, self.buffer[3], \out, self.erosionBus, \amp, 1]);
+		self.radioNoise2 = Synth.tail(self.playGroup, \playBufStereoSus, [\buffer, self.buffer[3], \out, self.erosionBus,
+			\amp, self.radioNoise2Vol]);
 		self.radioNoise2State = 1;
 		self;
 	},

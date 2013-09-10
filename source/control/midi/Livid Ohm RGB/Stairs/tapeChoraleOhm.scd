@@ -332,6 +332,7 @@ prm
 	makeRadio1Vol: { | self |
 		MIDIdef.cc(\radio1Vol, { | val |
 			var amp = val.linlin(0, 127, 0, 6.dbamp);
+			~stairs.tapeChorale.radioNoise1Vol = amp;
 			if( ~stairs.tapeChorale.radioNoise1State == 1, {
 				~stairs.tapeChorale.radioNoise1.set(\amp, amp);
 			});
@@ -347,6 +348,7 @@ prm
 	makeRadio2Vol: { | self |
 		MIDIdef.cc(\radio2Vol, { | val |
 			var amp = val.linlin(0, 127, 0, 6.dbamp);
+			~stairs.tapeChorale.radioNoise2Vol = amp;
 			if( ~stairs.tapeChorale.radioNoise2State == 1, {
 				~stairs.tapeChorale.radioNoise2.set(\amp, amp);
 			});
@@ -362,6 +364,7 @@ prm
 	makeTapeVol: { | self |
 		MIDIdef.cc(\tapeVol, { | val |
 			var amp = val.linlin(0, 127, 0, 6.dbamp);
+			~stairs.tapeChorale.tapeNoiseVol = amp;
 			if( ~stairs.tapeChorale.tapeNoiseState == 1, {
 				~stairs.tapeChorale.tapeNoise.set(\amp, amp);
 			});
