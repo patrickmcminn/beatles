@@ -17,8 +17,8 @@ prm
 
 	vol: 14,
 
-	radio2Vol: 23,
-	radio1Vol: 22,
+	radio2Vol: 22,
+	radio1Vol: 23,
 	tapeVol: 15,
 
 	makeOSC: { | self |
