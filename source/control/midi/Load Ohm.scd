@@ -14,8 +14,14 @@ try
 	"/Livid Ohm RGB/loadStructural.scd".loadRelative;
 	"/Livid Ohm RGB/loadStructural.scd".loadRelative;
 	"/Livid Ohm RGB/topPage.scd".loadRelative;
+	"/Livid Ohm RGB/Load BillyOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load LucyOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load noWorseOhm.scd".loadRelative;
+	"/Livid Ohm RGB/Load whereOhm.scd".loadRelative;
+	"/Livid Ohm RGB/Load stairsOhm.scd".loadRelative;
+	"/Livid Ohm RGB/Load RitaOhm.scd".loadRelative;
+	"/Livid Ohm RGB/Load boyOhm.scd".loadRelative;
+	"/Livid Ohm RGB/Load NeverOhm.scd".loadRelative;
 
 
 	"/Livid Ohm RGB/ohmStartup.scd".loadRelative;

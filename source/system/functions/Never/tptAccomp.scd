@@ -8,10 +8,10 @@ prm
 
 	state: 0,
 	muteState: 0,
-	output: ~mixer.s2,
+	playState: 0,
 
 	spawn: { | self |
-		if( self.state == 0, { self.init; }, { self.kill; });
+		if( self.state == 0, { if( ~never.router.state == 1) { self.init; } }, { self.kill; });
 		self;
 	},
 
@@ -19,9 +19,9 @@ prm
 		self.makeClock;
 		self.makeBuffers;
 		self.makeBusses;
-		self.makePatterns;
 		self.makeSynths;
 		self.makeGroups;
+		self.makePatterns;
 		self.state = 1;
 		self;
 	},
@@ -38,7 +38,7 @@ prm
 	},
 
 	makeClock: { | self |
-		self.tempoClock = TempoClock.new(140/60);
+		self.tempoClock = TempoClock.new(145/60);
 		self;
 	},
 
@@ -68,7 +68,7 @@ prm
 	},
 
 	makeBusses: { | self |
-		self.faderBus = Bus.audio;
+		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
 
@@ -78,7 +78,7 @@ prm
 	},
 
 	makeSynths: { | self |
-		self.fader = Synth.tail(~group.fx, \pan, [\in, self.faderBus, \out, self.output, \amp, -6.dbamp]);
+		self.fader = Synth.tail(~never.router.inGroup, \pan, [\in, self.faderBus, \out, ~never.router.in1, \amp, -6.dbamp]);
 		self;
 	},
 
@@ -89,7 +89,7 @@ prm
 
 	makePatterns: { | self |
 		Pbindef(\neverTpt,
-			\instrument, \freezePlayerSus2,
+			\instrument, \playBufStereoSus,
 			\group, self.playGroup,
 			\addAction, \addToTail,
 			\out, self.faderBus,
@@ -102,6 +102,17 @@ prm
 				self.buffer[4], self.buffer[5], self.buffer[6], self.buffer[7],
 				self.buffer[8]], inf),
 			\dur, Pseq([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.2, 1.2], inf) + Pwhite(-0.001, 0.001),
+			\legato, 1,
+			\msg, Prout({
+				var tempArray = #[0, 1, 2, 3, 4, 5, 6, 7, 8];
+				loop {
+					tempArray.do({ |item, index|
+						~scLang.sendMsg(\neverControl, \tptAccompNum , item);
+						"hi".yield;
+
+					});
+				}
+			}),
 		);
 		self;
 	},
@@ -115,7 +126,7 @@ prm
 	},
 
 	resetPatterns: { | self |
-		Pbindef(\nevertpt,
+		Pbindef(\neverTpt,
 			\rateLo, 1,
 			\rateHi, 1
 		);
@@ -132,13 +143,20 @@ prm
 		self;
 	},
 
-	playPatterns: { | self |
-		Pbindef(\neverTpt).play(self.tempoClock, quant: 0);
+	toggleAccomp: { | self |
+		if( self.playState == 0, { self.playAccomp; }, { self.stopAccomp; });
 		self;
 	},
 
-	stopPatterns: { | self |
-		Pbindef(\neverTpt).stop(self.tempoClock, quant: 0);
+	playAccomp: { | self |
+		Pbindef(\neverTpt).play(self.tempoClock, quant: 0);
+		self.playState = 1;
+		self;
+	},
+
+	stopAccomp: { | self |
+		Pbindef(\neverTpt).stop(self.tempoClock);
+		self.playState = 0;
 		self;
 	},
 
@@ -159,29 +177,6 @@ prm
 		self;
 	},
 
-	setOutput: { | self, output |
-		case
-		{ output == 1 } { self.set1; }
-		{ output == 2 } { self.set2; }
-		{ output == 3 } { self.set3; }
-	},
 
-	set1: { | self |
-		self.output = ~mixer.s1;
-		self.fader.set(\out, self.output);
-		self;
-	},
-
-	set2: { | self |
-		self.output = ~mixer.s2;
-		self.fader.set(\out, self.output);
-		self;
-	},
-
-	set3: { | self |
-		self.output = ~mixer.s3;
-		self.fader.set(\out, self.output);
-		self;
-	},
 
 );

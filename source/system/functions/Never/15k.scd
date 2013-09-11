@@ -14,6 +14,7 @@ SynthDef(\sine, {
 }).add;
 
 
+loop
 
 
 b = Array.fill(10, { | i |

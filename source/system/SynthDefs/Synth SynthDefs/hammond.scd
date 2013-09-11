@@ -25,10 +25,39 @@ SynthDef(\hammond, {
 	threeOct = SinOsc.ar(freq * 8) * partial8Amp;
 
 	sum = Mix.new([ subOctave, bass, fund, octave, octaveFifth, twoOct, twoOctThird, twoOctFifth, threeOct]);
-	filter = DFM1.ar(sum, cutoff, res, dist, 0, noise); 
+	filter = DFM1.ar(sum, cutoff, res, dist, 0, noise);
 	env = EnvGen.kr(Env.linen(atk, sus, rel), doneAction: 2);
 	sig = filter * env;
 	sig = sig * amp;
+	sig = Out.ar(out, sig);
+}).add;
+
+
+SynthDef(\hammondSus, {
+	| out = 0, freq = 220, amp = 0.5,
+	subAmp = 0.1, bassAmp = 0.1, fundAmp = 1,
+	partial2Amp = 0.25, partial3Amp = 0.125, partial4Amp = 0.1, partial5Amp = 0.09, partial6Amp = 0.08, partial8Amp = 0.05,
+	cutoff = 20000, res = 0.1, dist = 1.5, noise = 0.0003, atk = 0.01, dec = 0, susLvl = 1, rel = 0.01, gate = 1, pan = 0 |
+
+	var subOctave, bass, fund, octave, octaveFifth, twoOct, twoOctThird, twoOctFifth, threeOct;
+	var sum, env, filter, sig;
+
+	subOctave = SinOsc.ar(freq/2) * subAmp;
+	bass = SinOsc.ar(freq * (3/4)) * bassAmp;
+	fund = SinOsc.ar(freq) * fundAmp;
+	octave = SinOsc.ar(freq * 2) * partial2Amp;
+	octaveFifth = SinOsc.ar(freq * 3) * partial3Amp;
+	twoOct = SinOsc.ar(freq * 4) * partial4Amp;
+	twoOctThird = SinOsc.ar(freq * 5) * partial5Amp;
+	twoOctFifth = SinOsc.ar(freq * 6) * partial6Amp;
+	threeOct = SinOsc.ar(freq * 8) * partial8Amp;
+
+	sum = Mix.new([ subOctave, bass, fund, octave, octaveFifth, twoOct, twoOctThird, twoOctFifth, threeOct]);
+	filter = DFM1.ar(sum, cutoff, res, dist, 0, noise);
+	env = EnvGen.kr(Env.adsr(atk, dec, susLvl, rel), gate, doneAction: 2);
+	sig = filter * env;
+	sig = sig * amp;
+	sig = Pan2.ar(sig, pan);
 	sig = Out.ar(out, sig);
 }).add;
 
@@ -58,7 +87,7 @@ SynthDef(\hammond, {
 
 
 /*
-Pbindef(\test, 
+Pbindef(\test,
 	\instrument, \hammond,
 	\dur, 4,
 	\note, Pseq([
@@ -73,7 +102,7 @@ Pbindef(\test,
 	\subAmp, 0.7,
 	\bassAmp, 0.1,
 	\partial2Amp, 0.1,
-	\partial3Amp, 0.09, 
+	\partial3Amp, 0.09,
 	\partial4Amp, 0.08,
 	\partial5Amp, 0.07,
 	\partial6Amp, 0.06,

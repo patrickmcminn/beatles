@@ -9,6 +9,7 @@ prm
 "/Control SynthDefs/ctlExpLine.scd".loadRelative;
 "/Control SynthDefs/ctlLinLine.scd".loadRelative;
 "/Control SynthDefs/demandRand7.scd".loadRelative;
+"/Control SynthDefs/lfSaw.scd".loadRelative;
 "/Control SynthDefs/lfSin.scd".loadRelative;
 "/Control SynthDefs/noiseControl0.scd".loadRelative;
 "/Control SynthDefs/noiseControl2.scd".loadRelative;

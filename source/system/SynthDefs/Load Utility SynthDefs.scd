@@ -23,3 +23,4 @@ prm
 "/Utility SynthDefs/sidechainCompressor.scd".loadRelative;
 "/Utility SynthDefs/channelStrip.scd".loadRelative;
 "/Utility SynthDefs/compressor.scd".loadRelative;
+"/Utility SynthDefs/audioRouter.scd".loadRelative;

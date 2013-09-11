@@ -30,7 +30,7 @@ never = 13;
 	MIDIdef.noteOn(\introPage, { ~page.intro.top; }, intro);
 
 	// 2. Billy Shears:
-	~ohm.turnRed(billy);
+	~ohm.turnPurple(billy);
 	MIDIdef.noteOn(\billyPage, { ~page.billy.top; }, billy);
 
 	// 3. Lucy:
@@ -42,11 +42,11 @@ never = 13;
 	MIDIdef.noteOn(\worsePage, { ~page.worse.top; }, worse);
 
 	// 5. Where it Will Go:
-	~ohm.turnRed(where);
+	~ohm.turnGreen(where);
 	MIDIdef.noteOn(\wherePage, { ~page.where.top; }, where);
 
 	// 6. Top of the Stairs:
-	~ohm.turnRed(stairs);
+	~ohm.turnBlue(stairs);
 	MIDIdef.noteOn(\stairsPage, { ~page.stairs.top; }, stairs);
 
 	// 7. Henry the Horse:
@@ -62,7 +62,7 @@ never = 13;
 	MIDIdef.noteOn(\spacePage, { ~page.space.top; }, space);
 
 	// 10. Rita:
-	~ohm.turnRed(rita);
+	~ohm.turnBlue(rita);
 	MIDIdef.noteOn(\ritaPage, { ~page.rita.top; }, rita);
 
 	// 11. Nothing to Say:
@@ -74,10 +74,10 @@ never = 13;
 	MIDIdef.noteOn(\reprisePage, { ~page.reprise.top; }, reprise);
 
 	// 13. Oh Boy:
-	~ohm.turnRed(boy);
+	~ohm.turnPurple(boy);
 	MIDIdef.noteOn(\boyPage, { ~page.boy.top; }, boy);
 
 	// 14. Never Could See Any Other Way:
-	~ohm.turnRed(never);
+	~ohm.turnWhite(never);
 	MIDIdef.noteOn(\neverPage, { ~page.never.top; }, never);
 };
