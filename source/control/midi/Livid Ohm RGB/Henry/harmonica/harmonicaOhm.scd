@@ -1,16 +1,14 @@
 /*
 Wednesday, September 11th 2013
-bellsOhm.scd
+harmonicaOhm.scd
 prm
 */
 
-~henryOhm.bells = (
+~henryOhm.harmonica = (
 
-	main: 0,
-	record: 8,
-	playArray: [1, 9, 17, 25, 2, 10, 18, 26],
+	main: 3,
 
-	vol: 15,
+	vol: 22,
 
 	makeOSC: { | self |
 		OSCdef(\henryBellsOhm, { | msg |

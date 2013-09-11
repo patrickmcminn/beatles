@@ -8,6 +8,8 @@ prm
 
 	state: 0,
 	muteState: 0,
+
+  playState: Array.fill(8, 0),
 	input: ~inst.mic,
 	output: ~mixer.s2,
 
@@ -134,6 +136,46 @@ prm
 		Synth.tail(~group.fx, \recordBuf, [\in, self.input, \bufName, self.buffer]);
 		self;
 	},
+
+  toggle1: { | self |
+    if( self.playState[0] == 0, { self.play1; }, { self.stop1; });
+    self;
+  },
+
+  toggle2: { | self |
+    if( self.playState[1] == 0, { self.play2; }, { self.stop2; });
+    self;
+  },
+
+  toggle3: { | self |
+    if( self.playState[2] == 0, { self.play3; }, { self.stop3; });
+    self;
+  },
+
+  toggle4: { | self |
+    if( self.playState[3] == 0, { self.play4; }, { self.stop4; });
+    self;
+  },
+
+  toggle5: { | self |
+    if( self.playState[4] == 0, { self.play5; }, { self.stop5; });
+    self;
+  },
+
+  toggle6: { | self |
+    if( self.playState[5] == 0, { self.play6; }, { self.stop6; });
+    self;
+  },
+
+  toggle7: { | self |
+    if( self.playState[6] == 0, { self.play7; }, { self.stop7; });
+    self;
+  },
+
+  toggle8: { | self |
+    if( self.playState[7] == 0, { self.play8; }, { self.stop8; });
+    self;
+  },
 
 	play1: { | self |
 		self.bells1 = Synth.tail(self.playGroup, \playBufStereoSus,
