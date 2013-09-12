@@ -120,7 +120,7 @@ prm
 	},
 
 	toggleOhm: { | self, val |
-		if ( val == 1,
+		if ( val == 0,
 			{
 				~ohm.turnPurple(self.toggle);
 				~restoreOhm.henry.page.put(self.toggle, \purple);
@@ -157,7 +157,5 @@ prm
 	killDials: { | self |
 		self;
 	},
-
-);
 
 );

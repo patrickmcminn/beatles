@@ -184,11 +184,13 @@ prm
 				\atk, 0.5, \dec, 0, \susLvl, 1, \rel, 4, \amp, 2
 			]
 		);
+    self.playState[0] = 1;
 		self;
 	},
 
 	stop1: { | self |
 		self.bells1.set(\gate, 0);
+    self.playState[0] = 0;
 		self;
 	},
 
@@ -199,11 +201,13 @@ prm
 				\atk, 0.01, \dec, 0.5, \susLvl, 0.6, \rel, 0.2, \amp, 2
 			]
 		);
+    self.playState[1] = 1;
 		self;
 	},
 
 	stop2: { | self |
 		self.bells2.set(\gate, 0);
+    self.playState[1] = 0;
 		self;
 	},
 
@@ -214,11 +218,13 @@ prm
 				\atk, 5, \dec, 0, \susLvl, 1, \rel, 7, \amp, 2
 			]
 		);
+    self.playState[2] = 1;
 		self;
 	},
 
 	stop3: { | self |
 		self.bells3.set(\gate, 0);
+    self.playState[2] = 0;
 		self;
 	},
 
@@ -229,11 +235,13 @@ prm
 				\atk, 0.05, \dec, 0.25, \susLvl, 0.5, \rel, 1, \amp, 2
 			]
 		);
+    self.playState[3] = 1;
 		self;
 	},
 
 	stop4: { | self |
 		self.bells4.set(\gate, 0);
+    self.playState[3] = 0;
 		self;
 	},
 
@@ -247,10 +255,12 @@ prm
 			]
 		);
 		self;
+    self.playState[4] = 1;
 	},
 
 	stop5: { | self |
 		self.bells5.set(\gate, 0);
+    self.playState[4] = 0;
 		self;
 	},
 
@@ -263,11 +273,13 @@ prm
 			\amp, 2
 			]
 		);
+    self.playState[5] = 1;
 		self;
 	},
 
 	stop6: { | self |
 		self.bells6.set(\gate, 0);
+    self.playState[5] = 0;
 		self;
 	},
 
@@ -280,11 +292,13 @@ prm
 			\cutoff, 2000, \atk, 4, \rel, 6, \amp, 2
 			]
 		);
+    self.playState[6] =1;
 		self;
 	},
 
 	stop7: { | self |
 		self.bells7.set(\gate, 0);
+    self.playState[6] = 0;
 		self;
 	},
 
@@ -297,11 +311,13 @@ prm
 			\amp, 2
 			]
 		);
+    self.playState[7] = 1;
 		self;
 	},
 
 	stop8: { | self |
 		self.bells8.set(\gate, 0);
+    self.playState[7] = 0;
 		self;
 	},
 

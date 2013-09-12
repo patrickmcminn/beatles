@@ -6,8 +6,8 @@ prm
 
 {
 	s.sync;
-	"/bells/bellsOhm.scd".loadRelative;
+	"/triangle/triangleOhm.scd".loadRelative;
 
 	s.sync;
-	~henryOhm.bells.makeOSC;
+	~henryOhm.triangle.makeOSC;
 }.fork;

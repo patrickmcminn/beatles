@@ -83,19 +83,19 @@ prm
 	},
 
 	muteToggle: { | self |
-		if( self.muteState == 1, { self.mute; }, { self.unmute; });
+		if( self.muteState == 0, { self.mute; }, { self.unmute; });
 		self;
 	},
 
 	mute: { | self |
 		self.inFader.set(\mute, 0);
-		self.muteState = 0;
+		self.muteState = 1;
 		self;
 	},
 
 	unmute: { | self |
 		self.inFader.set(\mute, 1);
-		self.muteState = 1;
+		self.muteState = 0;
 		self;
 	},
 

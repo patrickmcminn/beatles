@@ -145,7 +145,7 @@ prm
   makePlayMIDI: { | self |
     self.playArray.do({ | led, i |
       MIDIdef.noteOn(("bellsPlay" ++ (i + 1)).asSymbol, {
-        ("henry.bells.toggle" ++ (i + 1)).interpret;
+        ("~henry.bells.toggle" ++ (i + 1)).interpret;
         ~scLang.sendMsg(\henryControl, \bellsPlay, i);
       }, led);
     });

@@ -8,9 +8,11 @@ prm
 
 	main: 3,
   recordArray: [11, 19, 27, 35],
-  playArray: [4, 12],
+  playGestures: 4,
+  playMelody: 12,
 
-	vol: 22,
+	melodyVol: 22,
+  gestureVol: 23,
 
 	makeOSC: { | self |
 		OSCdef(\henryHarmonicaOhm, { | msg |
@@ -30,7 +32,8 @@ prm
 			val = msg.at(2);
 			case
 
-			{ id == \harmonicaVol } { if ( val == 1, { self.makeVol; }) }
+			{ id == \harmonicaMelodyVol } { if ( val == 1, { self.makeMelodyVol; }) }
+      { id == \harmonicaMelodyVol } { if ( val == 1, { self.makeGestureVol; }) }
 			{ id == \harmonicaRecord } { if ( val == 1, { self.makeRecordMIDI; } ) }
 			{ id == \harmonicaPlay } { if ( val == 1, { self.makePlayMIDI; } ) }
       { id == \harmonicaMelody } { if (val == 1, { self.makeMelodyMIDI; } ) }
@@ -69,17 +72,20 @@ prm
 	killButtons: { | self |
 		self.topOhm(0);
 		self.killRecord;
+    self.killPlay;
     self.killMelody;
 		self;
 	},
 
 	makeFaders: { | self |
-		self.makeVol;
+		self.makeMelodyVol;
+    self.makeGestureVol;
 		self;
 	},
 
 	killFaders: { | self |
-		self.killVol;
+		self.killMelodyVol;
+    self.killGestureVol;
 		self;
 	},
 
@@ -120,8 +126,8 @@ prm
   makeRecordMIDI: { | self |
     self.recordArray.do({ | led, i |
       MIDIdef.noteOn(("harmonicaRecord" ++ (i + 1)).asSymbol, {
-        ~henry.harmonica.recordHarmonica(i + 1);
-      });
+        ~henry.harmonica.recordHarmonica(i);
+      }, led);
     });
     self;
   },
@@ -135,65 +141,102 @@ prm
   },
 
   makePlay: { | self |
-    self.playArray.do({ | led, i |
-      ~ohm.turnCyan(led);
-      ~restoreOhm.henry.page.put(led, \cyan);
-    });
+    ~ohm.turnPurple(self.playGestures);
+    ~restoreOhm.henry.page.put(self.playGestures, \purple);
     self.makePlayMIDI;
-    ~restoreOhm.henry.bellsPlay = 1;
+    ~restoreOhm.henry.harmonicaPlay = 1;
     self;
   },
 
   killPlay: { | self |
-    self.playArray.do({ | led, i |
-      ~ohm.turnOff(led);
-      ~restoreOhm.henry.page.put(led, \off);
-    });
+    ~ohm.turnOff(self.playGestures);
+    ~restoreOhm.henry.page.put(self.playGestures, \off);
     self.killPlayMIDI;
-    ~restoreOhm.henry.bellsPlay = 0;
+    ~restoreOhm.henry.harmonicaPlay = 0;
     self;
   },
 
   makePlayMIDI: { | self |
-    self.playArray.do({ | led, i |
-      MIDIdef.noteOn(("bellsPlay" ++ (i + 1)).asSymbol, {
-        ("henry.bells.toggle" ++ (i + 1)).interpret;
-        ~scLang.sendMsg(\henryControl, \bellsPlay, i);
-      }, led);
-    });
+    MIDIdef.noteOn(\harmonicaGestures, {
+      ~henry.harmonica.toggleGestures;
+      ~scLang.sendMsg(\henryControl, \harmonicaPlay, ~henry.harmonica.gestureState);
+    }, self.playGestures);
     self;
   },
 
   killPlayMIDI: { | self |
-    self.playArray.do({ | led, i |
-      MIDIdef(("bellsPlay" ++ (i + 1)).asSymbol).free;
-    });
+    MIDIdef(\harmonicaGestures).free;
     self;
   },
 
   playOhm: { | self, val |
-    if( ~henry.bells.playState[val] == 1,
-      { ~ohm.turnGreen(self.playArray[val]); ~restoreOhm.henry.page.put(self.playArray[val], \green); },
-      { ~ohm.turnCyan(self.playArray[val]); ~restoreOhm.henry.page.put(self.playArray[val], \cyan); }
+    if( val == 1,
+      { ~ohm.turnGreen(self.playGestures); ~restoreOhm.henry.page.put(self.playGestures, \green); },
+      { ~ohm.turnPurple(self.playGestures); ~restoreOhm.henry.page.put(self.playGestures, \purple); }
     );
     self;
   },
 
-	makeVol: { | self |
-		MIDIdef.cc(\bellsVol, { | val |
+  makeMelody: { | self |
+    ~ohm.turnYellow(self.playMelody);
+    ~restoreOhm.henry.page.put(self.playMelody, \yellow);
+    self.makeMelodyMIDI;
+    ~restoreOhm.henry.harmonicaMelody = 1;
+    self;
+  },
+
+  killMelody: { | self |
+    ~ohm.turnOff(self.playMelody);
+    ~restoreOhm.henry.page.put(self.playMelody, \off);
+    self.killMelodyMIDI;
+    ~restoreOhm.henry.harmonicaMelody = 0;
+    self;
+  },
+
+  makeMelodyMIDI: { | self |
+    MIDIdef.noteOn(\harmonicaMelody, {
+      ~henry.harmonica.playMelody;
+      ~ohm.blink(self.playMelody, \green, 3);
+      { ~ohm.turnYellow(self.playMelody) }.defer(3);
+    }, self.playMelody);
+    self;
+  },
+
+  killMelodyMIDI: { | self |
+    MIDIdef(\harmonicaMelody).free;
+    self;
+  },
+
+	makeMelodyVol: { | self |
+		MIDIdef.cc(\harmonicaMelodyVol, { | val |
 			var amp = val.linlin(0, 127, 0, 6.dbamp);
-			~henry.bells.fader.set(\amp, amp);
-		}, self.vol);
-		~restoreOhm.henry.bellsVol = 1;
+			~henry.harmonica.fader1.set(\amp, amp);
+		}, self.melodyVol);
+		~restoreOhm.henry.harmonicaMelodyVol = 1;
 		self;
 
 	},
 
-	killVol: { | self |
-		MIDIdef(\bellsVol).free;
-		~restoreOhm.henry.bellsVol = 0;
+	killMelodyVol: { | self |
+		MIDIdef(\harmonicaMelodyVol).free;
+		~restoreOhm.henry.harmonicaMelodyVol = 0;
 		self;
 	},
+
+  makeGestureVol: { | self |
+    MIDIdef.cc(\harmonicaGestureVol, { | val |
+      var amp = val.linlin(0, 127, 0, 6.dbamp);
+      ~henry.harmonica.fader2.set(\amp, amp);
+    }, self.gestureVol);
+    ~restoreOhm.henry.harmonicaGestureVol = 1;
+    self;
+  },
+
+  killGestureVol: { | self |
+    MIDIdef(\harmonicaGestureVol).free;
+    ~restoreOhm.henry.harmonicaGestureVol = 0;
+    self;
+  },
 
 	makeDials: { | self |
 		self;

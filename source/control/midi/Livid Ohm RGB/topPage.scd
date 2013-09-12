@@ -50,7 +50,7 @@ never = 13;
 	MIDIdef.noteOn(\stairsPage, { ~page.stairs.top; }, stairs);
 
 	// 7. Henry the Horse:
-	~ohm.turnRed(henry);
+	~ohm.turnCyan(henry);
 	MIDIdef.noteOn(\henryPage, { ~page.henry.top; }, henry);
 
 	// 8. interlude:

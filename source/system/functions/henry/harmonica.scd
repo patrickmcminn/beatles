@@ -134,7 +134,7 @@ prm
 			\group, self.gestureGroup,
 			\addAction, \addToTail,
 			\out, self.verbBus,
-			\buffer, Pfunc({ self.buffer[1] }),
+			\buffer, Pfunc({ self.buffer[2] }),
 			\atk, 0.05,
 			\rel, 0.05,
 			\rate, Pseq([1, 1.045, 1.112, 1.1934, 1.273, 1.358, 1.448, 1.545, 1.648, 1.758, 1.8751,  2, 1.112,
@@ -149,7 +149,7 @@ prm
 			\group, self.gestureGroup,
 			\addAction, \addToTail,
 			\out, self.verbBus,
-			\buffer, Pfunc({ self.buffer[1] }),
+			\buffer, Pfunc({ self.buffer[3] }),
 			\atk, 0.05,
 			\rel, 0.05,
 			\rate, Pseq([2, 1.8751, 1.758, 1.648, 1.545, 1.448, 1.358, 1.273, 1.1934, 1.112, 1.045, 1, 1.045, 1.112,
@@ -163,7 +163,10 @@ prm
 	},
 
 	killPatterns: { | self |
-		Pbindef(\harmonica).clear;
+		Pbindef(\harmonicaMelody).clear;
+    Pbindef(\harmonicaGesture1).clear;
+    Pbindef(\harmonicaGesture2).clear;
+    Pbindef(\harmonicaGesture3).clear;
 		self;
 	},
 
