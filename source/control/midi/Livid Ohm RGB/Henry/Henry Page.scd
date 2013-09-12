@@ -7,8 +7,7 @@ prm
 var bells, harmonica, toyPiano, triangle;
 bells = 0;
 harmonica = 3;
-toyPiano = 5;
-triangle = 6;
+triangle = 5;
 
 
 ~page.henry = ( );
@@ -28,12 +27,6 @@ triangle = 6;
 		~henry.harmonica.spawn;
 		~scLang.sendMsg(\henryControl, \harmonicaTop, ~henry.harmonica.state);
 	}, harmonica);
-
-	~ohm.turnPurple(toyPiano);
-	MIDIdef.noteOn(\henryToyPiano, {
-		~henry.toyPiano.spawn;
-		~scLang.sendMsg(\henryControl, \toyPianoTop, ~henry.toyPiano.state);
-	}, toyPiano);
 
 	~ohm.turnWhite(triangle);
 	MIDIdef.noteOn(\henryTriangle, {

@@ -6,8 +6,8 @@ prm
 
 ~henryOhm.triangle = (
 
-	main: 6,
-	toggle: 14,
+	main: 5,
+	toggle: 13,
 
 	vol: 14,
 
@@ -120,7 +120,7 @@ prm
 	},
 
 	toggleOhm: { | self, val |
-		if ( val == 1,
+		if ( val == 0,
 			{
 				~ohm.turnPurple(self.toggle);
 				~restoreOhm.henry.page.put(self.toggle, \purple);
@@ -157,7 +157,5 @@ prm
 	killDials: { | self |
 		self;
 	},
-
-);
 
 );
