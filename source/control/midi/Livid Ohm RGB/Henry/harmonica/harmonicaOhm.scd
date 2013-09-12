@@ -7,29 +7,33 @@ prm
 ~henryOhm.harmonica = (
 
 	main: 3,
+  recordArray: [11, 19, 27, 35],
+  playArray: [4, 12],
 
 	vol: 22,
 
 	makeOSC: { | self |
-		OSCdef(\henryBellsOhm, { | msg |
+		OSCdef(\henryHarmonicaOhm, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
-			{ id == \bellsTop } { self.spawn(val); }
-			{ id == \bellsRecord } { self.recordOhm(val); }
-      { id == \bellsPlay } { self.playOhm(val); }
+			{ id == \harmonicaTop } { self.spawn(val); }
+			{ id == \harmonicaRecord } { self.recordOhm(val); }
+      { id == \harmonicaPlay } { self.playOhm(val); }
+      { id == \harmonicaMelody } { self.melodyOhm(val); }
 		}, \henryControl, ~scLang);
 
-		OSCdef(\henryBellsOhmRestore, { | msg |
+		OSCdef(\henryHarmonicaOhmRestore, { | msg |
 			var id, val;
 			id = msg.at(1);
 			val = msg.at(2);
 			case
 
-			{ id == \bellsVol } { if ( val == 1, { self.makeVol; }) }
-			{ id == \bellsRecord } { if ( val == 1, { self.makeRecordMIDI; } ) }
-			{ id == \bellsPlay } { if ( val == 1, { self.makePlayMIDI; } ) }
+			{ id == \harmonicaVol } { if ( val == 1, { self.makeVol; }) }
+			{ id == \harmonicaRecord } { if ( val == 1, { self.makeRecordMIDI; } ) }
+			{ id == \harmonicaPlay } { if ( val == 1, { self.makePlayMIDI; } ) }
+      { id == \harmonicaMelody } { if (val == 1, { self.makeMelodyMIDI; } ) }
 
 		}, \restoreOhmHenry, ~scLang);
 
@@ -59,12 +63,13 @@ prm
 		self.topOhm(1);
 		self.makeRecord;
 		self.makePlay;
+    self.makeMelody;
 	},
 
 	killButtons: { | self |
 		self.topOhm(0);
 		self.killRecord;
-    self.killPlay;
+    self.killMelody;
 		self;
 	},
 
@@ -81,8 +86,8 @@ prm
 	topOhm: { | self, val |
 		if( val == 1,
 			{
-				~ohm.turnWhite(self.main);
-				~restoreOhm.henry.page.put(self.main, \white);
+				~ohm.turnPurple(self.main);
+				~restoreOhm.henry.page.put(self.main, \purple);
 			},
 			{
 				~ohm.turnRed(self.main);
@@ -93,30 +98,39 @@ prm
 	},
 
   makeRecord: { | self |
-    ~ohm.turnRed(self.record);
-    ~restoreOhm.henry.page.put(self.record, \red);
+    self.recordArray.do({ | led, i |
+      ~ohm.turnRed(led);
+      ~restoreOhm.henry.page.put(led, \red);
+    });
     self.makeRecordMIDI;
-    ~restoreOhm.henry.bellsRecord = 1;
+    ~restoreOhm.henry.harmonicaRecord = 1;
     self;
   },
 
   killRecord: { | self |
-    ~ohm.turnOff(self.record);
-    ~restoreOhm.henry.page.put(self.record, \off);
+    self.recordArray.do({ | led, i |
+      ~ohm.turnOff(led);
+      ~restoreOhm.henry.page.put(led, \off);
+    });
     self.killRecordMIDI;
-    ~restoreOhm.henry.bellsRecord = 0;
+    ~restoreOhm.henry.harmonicaRecord = 0;
     self;
   },
 
   makeRecordMIDI: { | self |
-    MIDIdef.noteOn(\bellsRecord, {
-      ~henry.bells.recordBells;
-    }, self.record);
+    self.recordArray.do({ | led, i |
+      MIDIdef.noteOn(("harmonicaRecord" ++ (i + 1)).asSymbol, {
+        ~henry.harmonica.recordHarmonica(i + 1);
+      });
+    });
     self;
   },
 
   killRecordMIDI: { | self |
-    MIDIdef(\bellsRecord).free;
+    self.recordArray.do({ | led, i |
+      MIDIdef(("harmonicaRecord" ++ (i + 1)).asSymbol).free;
+      self;
+    });
     self;
   },
 
