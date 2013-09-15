@@ -53,7 +53,7 @@ never = 12;
 	MIDIdef.noteOn(\henryPage, { ~page.henry.top; }, henry);
 
 	// 8. The Space Between Us All:
-	~ohm.turnRed(space);
+	~ohm.turnPurple(space);
 	MIDIdef.noteOn(\spacePage, { ~page.space.top; }, space);
 
 	// 9. Rita:

@@ -20,6 +20,7 @@ try
 	"/Livid Ohm RGB/Load whereOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load stairsOhm.scd".loadRelative;
   "/Livid Ohm RGB/Load henryOhm.scd".loadRelative;
+  "/Livid Ohm RGB/Load spaceOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load RitaOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load boyOhm.scd".loadRelative;
 	"/Livid Ohm RGB/Load NeverOhm.scd".loadRelative;

@@ -9,10 +9,7 @@ prm
 	state: 0,
 	bufferState: 0,
 
-	gran1State: 0,
-	gran2State: 0,
-	gran3State: 0,
-	gran4State: 0,
+  granState: [0, 0, 0, 0],
 
 	input: ~inst.extMic3,
 	output: ~mixer.s1,
@@ -114,74 +111,74 @@ prm
 	},
 
 	toggleGran1: { | self |
-		if( self.gran1State == 0, { self.playGran1; }, { self.stopGran1; });
+    if( self.granState[0] == 0, { self.playGran1; }, { self.stopGran1; });
 		self;
 	},
 
 	playGran1: { | self |
 		self.gran1 = Synth.tail(self.playGroup, \freezePlayerSus2, [\buffer, self.buffer[0], \out, self.faderBus,
-			\posLo, 0.1, \posHi, 0.8, \trigRate, 7, \grainDurLo, 0.1, \grainDurHi, 0.3, \cutoff, 5000]);
-		self.gran1State = 1;
+			\posLo, 0.1, \posHi, 0.8, \trigRate, 7, \grainDurLo, 0.1, \grainDurHi, 0.4, \cutoff, 5000]);
+    self.granState[0] = 1;
 		self;
 	},
 
 	stopGran1: {  | self |
 		self.gran1.set(\gate, 0);
-		self.gran1State = 0;
+    self.granState[0] = 0;
 		self;
 	},
 
 	toggleGran2: { | self |
-		if( self.gran2State == 0, { self.playGran2; }, { self.stopGran2; });
+    if( self.granState[1] == 0, { self.playGran2; }, { self.stopGran2; });
 		self;
 	},
 
 	playGran2: { | self |
 		self.gran2 = Synth.tail(self.playGroup, \freezePlayerSus2, [\buffer, self.buffer[1], \out, self.faderBus,
-			\trigRate, 7, \grainDurLo, 0.1, \grainDurHi, 0.3, \cutoff, 2500, \amp, 0.5]);
-		self.gran2State = 1;
+			\trigRate, 7, \grainDurLo, 0.1, \grainDurHi, 0.4, \cutoff, 2500, \amp, 0.5]);
+    self.granState[1] = 1;
 		self;
 	},
 
 	stopGran2: {  | self |
 		self.gran2.set(\gate, 0);
-		self.gran2State = 0;
+    self.granState[1] = 0;
 		self;
 	},
 
 	toggleGran3: { | self |
-		if( self.gran3State == 0, { self.playGran3; }, { self.stopGran3; });
+    if( self.granState[2] == 0, { self.playGran3; }, { self.stopGran3; });
 		self;
 	},
 
 	playGran3: { | self |
 		self.gran3 = Synth.tail(self.playGroup, \freezePlayerSus2, [\buffer, self.buffer[2], \out, self.faderBus,
-			\trigRate, 7, \grainDurLo, 0.1, \grainDurHi, 0.3, \cutoff, 5000]);
-		self.gran3State = 1;
+			\trigRate, 7, \grainDurLo, 0.1, \grainDurHi, 0.4, \cutoff, 5000]);
+    self.granState[2] = 1;
 		self;
 	},
 
 	stopGran3: {  | self |
 		self.gran3.set(\gate, 0);
-		self.gran3State = 0;
+    self.granState[2] = 0;
 		self;
 	},
 
 	toggleGran4: { | self |
-		if( self.gran4State == 0, { self.playGran4; }, { self.stopGran4; });
+    if( self.granState[3] == 0, { self.playGran4; }, { self.stopGran4; });
 		self;
 	},
 
 	playGran4: { | self |
 		self.gran4 = Synth.tail(self.playGroup, \freezePlayerSus2, [\buffer, self.buffer[3], \out, self.faderBus,
-			\trigRate, 100, \grainDurLo, 0.1, \grainDurHi, 0.3, \cutoff, self.cutoffBus.asMap]);
-		self.gran4State = 1;
+			\trigRate, 100, \grainDurLo, 0.1, \grainDurHi, 0.4, \cutoff, self.cutoffBus.asMap]);
+    self.granState[3] = 1;
 		self;
 	},
 
 	stopGran4: {  | self |
 		self.gran4.set(\gate, 0);
-		self.gran4State = 0;
+    self.granState[3] = 0;
 		self;
 	},
 
