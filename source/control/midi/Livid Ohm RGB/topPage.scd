@@ -5,7 +5,7 @@ prm
 defines function for making the top layer of the tree
 */
 
-var intro, billy, lucy, worse, where, stairs, henry, interlude, space, rita, nothing, reprise, boy, never;
+var intro, billy, lucy, worse, where, stairs, henry, space, rita, nothing, reprise, boy, never;
 intro = 0;
 billy = 1;
 lucy = 2;
@@ -13,13 +13,12 @@ worse = 3;
 where = 4;
 stairs = 5;
 henry = 6;
-interlude = 7;
-space = 8;
-rita = 9;
-nothing = 10;
-reprise = 11;
-boy = 12;
-never = 13;
+space = 7;
+rita = 8;
+nothing = 9;
+reprise = 10;
+boy = 11;
+never = 12;
 
 ~page[\top] = {
 	~ohm.clearAll;
@@ -53,31 +52,27 @@ never = 13;
 	~ohm.turnCyan(henry);
 	MIDIdef.noteOn(\henryPage, { ~page.henry.top; }, henry);
 
-	// 8. interlude:
-	~ohm.turnRed(interlude);
-	MIDIdef.noteOn(\interludePage, { ~page.interlude.top; }, interlude);
-
-	// 9. The Space Between Us All:
+	// 8. The Space Between Us All:
 	~ohm.turnRed(space);
 	MIDIdef.noteOn(\spacePage, { ~page.space.top; }, space);
 
-	// 10. Rita:
+	// 9. Rita:
 	~ohm.turnBlue(rita);
 	MIDIdef.noteOn(\ritaPage, { ~page.rita.top; }, rita);
 
-	// 11. Nothing to Say:
+	// 10. Nothing to Say:
 	~ohm.turnRed(nothing);
 	MIDIdef.noteOn(\nothingPage, { ~page.nothing.top; }, nothing);
 
-	// 12. Reprise:
+	// 11. Reprise:
 	~ohm.turnRed(reprise);
 	MIDIdef.noteOn(\reprisePage, { ~page.reprise.top; }, reprise);
 
-	// 13. Oh Boy:
+	// 12. Oh Boy:
 	~ohm.turnPurple(boy);
 	MIDIdef.noteOn(\boyPage, { ~page.boy.top; }, boy);
 
-	// 14. Never Could See Any Other Way:
+	// 13. Never Could See Any Other Way:
 	~ohm.turnWhite(never);
 	MIDIdef.noteOn(\neverPage, { ~page.never.top; }, never);
 };
