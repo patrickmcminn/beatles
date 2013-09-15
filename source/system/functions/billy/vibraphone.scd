@@ -7,7 +7,7 @@ prm
 ~billy.vibraphone = (
 
 	state: 0,
-	input: ~inst.mic,
+	input: ~inst.extMic1,
 	output: ~mixer.s2,
 	bufferState: 0,
 

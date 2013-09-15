@@ -14,7 +14,7 @@ prm
 	gran3State: 0,
 	gran4State: 0,
 
-	input: ~inst.mic,
+	input: ~inst.extMic3,
 	output: ~mixer.s1,
 
 	spawn: { | self |

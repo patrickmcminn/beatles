@@ -8,7 +8,7 @@ prm
 
 	state: 0,
 	output: ~mixer.s1,
-	//input: ~inst.
+	input: ~inst.extMic2
 	bufferState: 0,
 
 	chord11State: 0,
