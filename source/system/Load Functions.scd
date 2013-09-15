@@ -6,6 +6,7 @@ prm
 
 "/functions/Load Impulse Responses.scd".loadRelative;
 "/functions/grainBufs.scd".loadRelative;
+"/functions/Load Intro Functions.scd".loadRelative;
 "/functions/Load billy Functions.scd".loadRelative;
 "/functions/Load lucy Functions.scd".loadRelative;
 "/functions/Load worse Functions.scd".loadRelative;
