@@ -26,7 +26,7 @@ never = 13;
 	~ohm.addEssential;
 
 	// 1. Intro ( Audience Noise ):
-	~ohm.turnRed(intro);
+	~ohm.turnGreen(intro);
 	MIDIdef.noteOn(\introPage, { ~page.intro.top; }, intro);
 
 	// 2. Billy Shears:
