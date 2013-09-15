@@ -6,3 +6,4 @@ prm
 
 ~intro = ( );
 
+"/Intro/texture.scd".loadRelative;
