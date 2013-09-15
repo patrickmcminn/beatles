@@ -49,11 +49,13 @@ prm
 	makeBuffers: { | self |
     var path = "/Users/patrickmcminn/Documents/Music/Current Work/Patrick McMinn/Great Noise Ensemble/Beatles Concert/Beatles/data/reprise/";
     self.buffer = Buffer.read(s, path ++ "tuneUp-PLACEHOLDER.aif");
+    self.crowdBuf = Buffer.read(s, path ++ "crowdNoise-PLACEHOLDER.aif");
 		self;
 	},
 
 	killBuffers: { | self |
     self.buffer.free;
+    self.crowdBuf.free;
 		self;
 	},
 
@@ -95,11 +97,29 @@ prm
       \amp, Prand([0, 0, 0, 0.1, 0.15, 0.17], inf)
     );
 
+    Pbindef(\repriseCrowd,
+      \instrument, \playBufStereoSus,
+      \group, self.playGroup,
+      \addAction, \addToTail,
+      \out, self.faderBus,
+      \buffer, self.crowdBuf,
+      \atk, Pwhite(0.05, 3, inf),
+      \rel, Pwhite(0.05, 9),
+      \rate, Pwhite(0.8, 1.2),
+      \frameConvert, Pfunc({ self.crowdBuf.numFrames }),
+      \startPos, Pwhite(0, 0.7 * Pkey(\frameConvert)),
+      \dur, Pwhite(0.1, 4),
+      \legato, 1,
+      \pan, Pwhite(-1, 1, inf),
+      \amp, Prand([0.1, 0.3, 0.2, 0.15, 0.125, 0.1], inf)
+    );
+
     self;
   },
 
   killPatterns: { | self |
     Pbindef(\repriseWarmUp).remove;
+    Pbindef(\repriseCrowd).remove;
     self;
   },
 
@@ -110,12 +130,14 @@ prm
 
   playPattern: { | self |
     Pbindef(\repriseWarmUp).play;
+    Pbindef(\repriseCrowd).play;
     self.playState = 1;
     self;
   },
 
   stopPattern: { | self |
     Pbindef(\repriseWarmUp).stop;
+    Pbindef(\repriseCrowd).stop;
     self.playState = 0;
     self;
   },
