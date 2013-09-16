@@ -11,6 +11,7 @@ prm
 	input2: 73,
 	input3: 66,
 	input4: 74,
+  dist: 59,
 
 	makeOSC: { | self |
 		OSCdef(\neverRouterOhm, { | msg |
@@ -20,6 +21,7 @@ prm
 			case
 			{ id == \routerTop } { self.spawn(val); }
 			{ id == \routerInput } { self.inputOhm(val) }
+      { id == \routerDist } { self.distOhm(val) }
 
 		}, \neverControl, ~scLang);
 
@@ -32,6 +34,7 @@ prm
 			{ id == \routerInput2 } { if ( val == 1, { self.makeInput2MIDI; }); }
 			{ id == \routerInput3 } { if ( val == 1, { self.makeInput3MIDI; }); }
 			{ id == \routerInput4 } { if ( val == 1, { self.makeInput4MIDI; }); }
+      { id == \routerDist } { if( val == 1, { self.makeDistMIDI; }); }
 		}, \restoreOhmNever, ~scLang);
 
 		self;
@@ -62,6 +65,7 @@ prm
 		self.makeInput2;
 		self.makeInput3;
 		self.makeInput4;
+    self.makeDist;
 		self;
 	},
 
@@ -71,6 +75,7 @@ prm
 		self.killInput2;
 		self.killInput3;
 		self.killInput4;
+    self.killDist;
 		self;
 	},
 
@@ -277,11 +282,43 @@ prm
 		}
 	},
 
+  makeDist: { | self |
+    ~ohm.turnYellow(self.dist);
+    ~restoreOhm.never.page.put(self.dist, \yellow);
+    self.makeDistMIDI;
+    ~restoreOhm.never.routerDist = 1;
+    self;
+  },
 
-	killInput2MIDI: { | self |
-		MIDIdef(\routerInput2).free;
-		self;
-	},
+  killDist: { | self |
+    ~ohm.turnOff(self.dist);
+    ~restoreOhm.never.page.put(self.dist, \off);
+    self.killDistMIDI;
+    ~restoreOhm.never.routerDist = 0;
+    self;
+  },
+
+  makeDistMIDI: { | self |
+    MIDIdef.noteOn(\routerDistOn, {
+      ~never.router.distToggle;
+      ~scLang.sendMsg(\neverControl, \routerDist, ~never.router.distState);
+    }, self.dist);
+
+  },
+
+  killDistMIDI: { | self |
+    MIDIdef(\routerDistOn).free;
+    self;
+  },
+
+  distOhm: { | self, val |
+    if( val == 1,
+      { ~ohm.turnWhite(self.dist); },
+      { ~ohm.turnYellow(self.dist); }
+    );
+    self;
+  },
+
 
 	makeDials: { | self |
 		self;

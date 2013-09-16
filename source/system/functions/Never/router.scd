@@ -10,6 +10,8 @@ prm
 	output: ~mixer.s1,
 	currentIn: 1,
 
+  distState: 0,
+
 	spawn: { | self |
 		if( self.state == 0, { self.init; }, { self.kill; });
 		self;
@@ -103,6 +105,23 @@ prm
 		self.currentIn = 4;
 		self;
 	},
+
+  distToggle: { | self |
+    if( self.distState == 0, { self.distOn; }, { self.distOff });
+    self;
+  },
+
+  distOn: { | self |
+    self.fader.set(\dist, 1000, \cutoff, 6000, \amp, -20.dbamp);
+    self.distState = 1;
+    self;
+  },
+
+  distOff: { | self |
+    self.fader.set(\dist, 1, \cutoff, 20000, \amp, 1);
+    self.distState = 0;
+    self;
+  },
 
 	setOutput: { | self, output |
 		case

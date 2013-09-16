@@ -7,6 +7,7 @@ prm
 ~never.fifteenK = (
 
 	state: 0,
+  output: ~mixer.s3,
 
 	iter1: 1,
 	iter2: 1,
@@ -67,7 +68,8 @@ prm
 	},
 
 	makeSynths: { | self |
-		self.fader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.faderBus, \out, ~never.router.in1, \amp, 1]);
+    self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, 1]);
+		//self.fader = Synth.tail(~never.router.inGroup, \stereoFader, [\in, self.faderBus, \out, ~never.router.in1, \amp, 1]);
 		self;
 	},
 

@@ -7,7 +7,7 @@ prm
 SynthDef(\audioRouter, {
 	|
 	in1, in2, in3, in4,
-	out, amp = 1, inSel = 0,
+	out, amp = 1, dist = 1, inSel = 0, cutoff = 20000,
 	pan = 0
 	|
 	var input1, input2, input3, input4;
@@ -17,7 +17,10 @@ SynthDef(\audioRouter, {
 	input3 = In.ar(in3, 2);
 	input4 = In.ar(in4, 2);
 	selectInput = SelectX.ar(inSel, [input1, input2, input3, input4]);
-	sig = selectInput * amp;
+	sig = selectInput * dist;
+  sig = sig.distort;
+  sig = LPF.ar(sig, cutoff);
+  sig = sig * amp;
 	sig = Pan2.ar(sig, pan);
 	sig = Out.ar(out, sig);
 }).add;

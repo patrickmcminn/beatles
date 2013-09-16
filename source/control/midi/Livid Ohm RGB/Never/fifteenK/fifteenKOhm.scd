@@ -7,9 +7,9 @@ prm
 ~neverOhm.fifteenK = (
 
 	main: 0,
-	play1: 8,
-	play2: 16,
-	play3: 24,
+	play1: 36,
+	play2: 44,
+	play3: 52,
 	stopAll: 32,
 
 	vol: 23,
