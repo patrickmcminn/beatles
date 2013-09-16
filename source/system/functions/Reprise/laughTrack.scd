@@ -7,10 +7,7 @@ prm
 ~reprise.laughTrack = (
 
   state: 0,
-  laugh1State: 0,
-  laugh2State: 0,
-  laugh3State: 0,
-  laugh4State: 0,
+  laughState: [0, 0, 0, 0],
   applauseState: 0,
 	output: ~mixer.s2,
 
@@ -85,74 +82,74 @@ prm
 	},
 
   toggleLaugh1: { | self |
-    if( self.laugh1State == 0, { self.playLaugh1 }, { self.stopLaugh1 });
+    if( self.laughState[0] == 0, { self.playLaugh1 }, { self.stopLaugh1 });
     self;
   },
 
   playLaugh1: { | self |
     self.laugh1 = Synth.tail(self.playGroup, \playBufStereoSus, [\out, self.faderBus, \buffer, self.buffer[0],
       \rate, rrand(-0.6, -1), \amp, -6.dbamp, \startPos, self.buffer[0].numFrames.rand ]);
-    self.laugh1State = 1;
+    self.laughState[0] = 1;
     self;
   },
 
   stopLaugh1: { | self |
     self.laugh1.set(\gate, 0);
-    self.laugh1State = 0;
+    self.laughState[0] = 0;
     self;
   },
 
   toggleLaugh2: { | self |
-    if( self.laugh2State == 0, { self.playLaugh2 }, { self.stopLaugh2 });
+    if( self.laughState[1] == 0, { self.playLaugh2 }, { self.stopLaugh2 });
     self;
   },
 
   playLaugh2: { | self |
     self.laugh2 = Synth.tail(self.playGroup, \playBufStereoSus, [\out, self.faderBus, \buffer, self.buffer[1],
       \rate, rrand(-0.6, -1), \amp, -6.dbamp, \startPos, self.buffer[1].numFrames.rand]);
-    self.laugh2State = 1;
+    self.laughState[1] = 1;
     self;
   },
 
   stopLaugh2: { | self |
     self.laugh2.set(\gate, 0);
-    self.laugh2State = 0;
+    self.laughState[1] = 0;
     self;
   },
 
   toggleLaugh3: { | self |
-    if( self.laugh3State == 0, { self.playLaugh3 }, { self.stopLaugh3 });
+    if( self.laughState[2] == 0, { self.playLaugh3 }, { self.stopLaugh3 });
     self;
   },
 
   playLaugh3: { | self |
     self.laugh3 = Synth.tail(self.playGroup, \playBufStereoSus, [\out, self.faderBus, \buffer, self.buffer[2],
       \rate, rrand(-0.6, -1), \amp, -6.dbamp, \startPos, self.buffer[2].numFrames.rand]);
-    self.laugh3State = 1;
+    self.laughState[2] = 1;
     self;
   },
 
   stopLaugh3: { | self |
     self.laugh3.set(\gate, 0);
-    self.laugh3State = 0;
+    self.laughState[2] = 0;
     self;
   },
 
   toggleLaugh4: { | self |
-    if( self.laugh4State == 0, { self.playLaugh4 }, { self.stopLaugh4 });
+    if( self.laughState[3] == 0, { self.playLaugh4 }, { self.stopLaugh4 });
     self;
   },
 
   playLaugh4: { | self |
     self.laugh4 = Synth.tail(self.playGroup, \playBufStereoSus, [\out, self.faderBus, \buffer, self.buffer[3],
       \rate, rrand(-0.6, -1), \amp, -6.dbamp, \startPos, self.buffer[3].numFrames.rand]);
-    self.laugh4State = 1;
+    self.laughState[3] = 1;
     self;
   },
 
   stopLaugh4: { | self |
     self.laugh4.set(\gate, 0);
-    self.laugh4State = 0;
+    self.laughState[3] = 0;
     self;
   },
 

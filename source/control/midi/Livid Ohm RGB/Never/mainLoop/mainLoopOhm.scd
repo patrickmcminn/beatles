@@ -213,8 +213,8 @@ prm
 	makeRate: { | self |
 		MIDIdef.cc(\mainLoopRate, { | val |
 			var rateLo, rateHi;
-			rateLo = val.linlin(0, 127, 0.95, 5);
-			rateHi = val.linlin(0, 127, 1.05, 25);
+			rateLo = val.linlin(0, 127, 0.95, 3);
+			rateHi = val.linlin(0, 127, 1.05, 4);
 			rateLo.postln;
 			~never.mainLoop.rateLo = rateLo;
 			~never.mainLoop.rateHi = rateHi;

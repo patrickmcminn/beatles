@@ -41,7 +41,7 @@ never = 12;
 	MIDIdef.noteOn(\worsePage, { ~page.worse.top; }, worse);
 
 	// 5. Where it Will Go:
-	~ohm.turnGreen(where);
+	~ohm.turnYellow(where);
 	MIDIdef.noteOn(\wherePage, { ~page.where.top; }, where);
 
 	// 6. Top of the Stairs:
@@ -65,7 +65,7 @@ never = 12;
 	MIDIdef.noteOn(\nothingPage, { ~page.nothing.top; }, nothing);
 
 	// 11. Reprise:
-	~ohm.turnRed(reprise);
+	~ohm.turnGreen(reprise);
 	MIDIdef.noteOn(\reprisePage, { ~page.reprise.top; }, reprise);
 
 	// 12. Oh Boy:
