@@ -61,7 +61,7 @@ never = 12;
 	MIDIdef.noteOn(\ritaPage, { ~page.rita.top; }, rita);
 
 	// 10. Nothing to Say:
-	~ohm.turnRed(nothing);
+	~ohm.turnYellow(nothing);
 	MIDIdef.noteOn(\nothingPage, { ~page.nothing.top; }, nothing);
 
 	// 11. Reprise:
