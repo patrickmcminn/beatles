@@ -136,7 +136,7 @@ prm
 
 	makeVol: { | self |
 		MIDIdef.cc(\triangleVol, { | val |
-			var amp = val.linlin(0, 127, 0, 6.dbamp);
+			var amp = val.linlin(0, 127, 0, 9.dbamp);
 			~henry.triangle.fader.set(\amp, amp);
 		}, self.vol);
 		~restoreOhm.henry.triangleVol = 1;

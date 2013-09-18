@@ -9,6 +9,7 @@ prm
 	state: 0,
 	muteState: 0,
 	playState: 0,
+  input: ~inst.mute,
 
 	spawn: { | self |
 		if( self.state == 0, { if( ~never.router.state == 1) { self.init; } }, { self.kill; });
@@ -68,6 +69,7 @@ prm
 	},
 
 	makeBusses: { | self |
+    self.recordBus = Bus.audio(s, 2);
 		self.faderBus = Bus.audio(s, 2);
 		self;
 	},
@@ -78,11 +80,13 @@ prm
 	},
 
 	makeSynths: { | self |
+    self.nebular = Synth.tail(~never.router.inGroup, \nebular, [\in, self.input, \out, self.recordBus, \delTime, 0, \cutoff, 1000]);
 		self.fader = Synth.tail(~never.router.inGroup, \pan, [\in, self.faderBus, \out, ~never.router.in1, \amp, -6.dbamp]);
 		self;
 	},
 
 	killSynths: { | self |
+    self.nebular.free;
 		self.fader.free;
 		self;
 	},
@@ -94,9 +98,9 @@ prm
 			\addAction, \addToTail,
 			\out, self.faderBus,
 			\amp, 1,
-			\atk, 0.01,
-			\rel, 0.01,
-			\cutoff, 4000,
+			\atk, 0.05,
+			\rel, 0.05,
+			\cutoff, 2000,
 			\buffer, Pseq([
 				self.buffer[0], self.buffer[1], self.buffer[2], self.buffer[3],
 				self.buffer[4], self.buffer[5], self.buffer[6], self.buffer[7],
@@ -139,7 +143,7 @@ prm
 	},
 
 	recordTpt: { | self, num |
-		Synth.tail(~group.fx, \recordBuf, [\in, ~inst.mute, \bufName, self.buffer[num]]);
+		Synth.tail(~never.router.inGroup, \recordBuf, [\in, self.recordBus, \bufName, self.buffer[num]]);
 		self;
 	},
 

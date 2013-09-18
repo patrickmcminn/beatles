@@ -135,7 +135,7 @@ prm
 	},
 
 	fadeIn: { | self |
-		Synth.tail(~group.control, \ctlLinLine, [\out, self.fadeBus, \start, 0, \end, 1, \dur, self.fadeTime]);
+		Synth.tail(~group.control, \ctlLinLine, [\out, self.fadeBus, \start, 0, \end, -9.dbamp, \dur, self.fadeTime]);
 		self.fader.set(\amp, self.fadeBus.asMap);
 		self;
 	},

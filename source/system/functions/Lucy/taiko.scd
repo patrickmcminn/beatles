@@ -75,7 +75,7 @@ prm
 	makeSynths: { | self |
 		self.phaser = Synth.tail(~group.fx, \variPhaserStereo, [\in, self.phaserBus, \out, self.faderBus, \amp, 1,
 			\delTime1, 0.01, \delTime2Lo, -0.00955, \delTime2Hi, 0.0005, \del2RateLo, 0.3, \del2RateHi, 1.3,
-			\del2RateFreq, 3, \mix, 0.5]);
+			\del2RateFreq, 3, \mix, 0.25]);
 		self.fader = Synth.tail(~group.fx, \stereoFader, [\in, self.faderBus, \out, self.output, \amp, -2.dbamp]);
 		self;
 	},

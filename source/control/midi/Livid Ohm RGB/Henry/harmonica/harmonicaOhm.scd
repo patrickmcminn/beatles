@@ -209,7 +209,7 @@ prm
 
 	makeMelodyVol: { | self |
 		MIDIdef.cc(\harmonicaMelodyVol, { | val |
-			var amp = val.linlin(0, 127, 0, 6.dbamp);
+			var amp = val.linlin(0, 127, 0, 0.dbamp);
 			~henry.harmonica.fader1.set(\amp, amp);
 		}, self.melodyVol);
 		~restoreOhm.henry.harmonicaMelodyVol = 1;

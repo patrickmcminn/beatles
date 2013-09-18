@@ -169,7 +169,7 @@ prm
 
 	makeVol: { | self |
 		MIDIdef.cc(\bellsVol, { | val |
-			var amp = val.linlin(0, 127, 0, 6.dbamp);
+			var amp = val.linlin(0, 127, 0, 9.dbamp);
 			~henry.bells.fader.set(\amp, amp);
 		}, self.vol);
 		~restoreOhm.henry.bellsVol = 1;

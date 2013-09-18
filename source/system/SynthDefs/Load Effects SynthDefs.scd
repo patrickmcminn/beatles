@@ -36,3 +36,4 @@ prm
 "/Effects SynthDefs/bufferGranEnv.scd".loadRelative;
 "/Effects SynthDefs/variPhaserStereo.scd".loadRelative;
 "/Effects SynthDefs/multiShift.scd".loadRelative;
+"/Effects SynthDefs/nebular.scd".loadRelative;
