@@ -29,7 +29,7 @@ prm
 			case
 			{ id == \trumpetVol } { if ( val == 1, { self.makeVol; }) }
 			{ id == \trumpetToggle } { if ( val == 1, { self.makeToggleMIDI; }) }
-			{ id == \trumpetCutoff } { if ( val == 1, { self.makeCutoffMIDI; }) }
+			{ id == \trumpetCutoff } { if ( val == 1, { self.makeCutoff; }) }
 		}, \restoreOhmRita, ~scLang);
 		self;
 	},
@@ -147,13 +147,13 @@ prm
 			var amp = val.linlin(0, 127, 0, 4.dbamp);
 			~rita.trumpet.fader.set(\amp, amp);
 		}, self.vol);
-		~restoreOhm.rita.trumpetChordsVol = 1;
+		~restoreOhm.rita.trumpetVol = 1;
 		self;
 	},
 
 	killVol: { | self |
 		MIDIdef(\trumpetVol).free;
-		~restoreOhm.rita.trumpetChordsVol = 0;
+		~restoreOhm.rita.trumpetVol = 0;
 		self;
 	},
 

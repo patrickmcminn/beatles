@@ -33,7 +33,7 @@ prm
 			case
 
 			{ id == \harmonicaMelodyVol } { if ( val == 1, { self.makeMelodyVol; }) }
-      { id == \harmonicaMelodyVol } { if ( val == 1, { self.makeGestureVol; }) }
+      { id == \harmonicaGestureVol } { if ( val == 1, { self.makeGestureVol; }) }
 			{ id == \harmonicaRecord } { if ( val == 1, { self.makeRecordMIDI; } ) }
 			{ id == \harmonicaPlay } { if ( val == 1, { self.makePlayMIDI; } ) }
       { id == \harmonicaMelody } { if (val == 1, { self.makeMelodyMIDI; } ) }
