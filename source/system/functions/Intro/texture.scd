@@ -51,7 +51,7 @@ prm
 	makeBuffers: { | self |
     var path = "/Users/patrickmcminn/Documents/Music/Current Work/Patrick McMinn/Great Noise Ensemble/Beatles Concert/Beatles/data/Intro/";
     self.vinylBuf = Buffer.read(s, path ++ "vinyl.aif");
-    self.warmUpBuf = Buffer.read(s, path ++ "tuneUp-PLACEHOLDER.aif");
+    self.warmUpBuf = Buffer.read(s, path ++ "tuning up.aif");
     self.crowdBuf = Buffer.read(s, path ++ "crowdNoise-PLACEHOLDER.aif");
 		self;
 	},
@@ -111,7 +111,7 @@ prm
       \rel, Pwhite(0.05, 9),
       \rate, Pwhite(0.8, 1.2),
       \frameConvert, Pfunc({ self.warmUpBuf.numFrames }),
-      \startPos, Pwhite(0, 0.7 * Pkey(\frameConvert)),
+      \startPos, Pwhite(0, 0.9 * Pkey(\frameConvert)),
       \dur, Pwhite(0.1, 4),
       \legato, 1,
       \pan, Pwhite(-1, 1, inf),
