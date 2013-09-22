@@ -232,7 +232,7 @@ prm
 
 	makeVol: { | self |
 		MIDIdef.cc(\tptAccompVol, { | val |
-			var amp = val.linlin(0, 127, 0, 1);
+			var amp = val.linlin(0, 127, 0, 6.dbamp);
 			~never.tptAccomp.fader.set(\amp, amp);
 		}, self.vol);
 		~restoreOhm.never.tptAccompVol = 1;
